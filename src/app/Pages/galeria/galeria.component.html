@@ -1,0 +1,66 @@
+
+
+
+<div class="botones">
+  <button mat-icon-button routerLink="/perfil">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button mat-icon-button routerLink="/favoritos">
+    <mat-icon>favorite</mat-icon>
+  </button>
+</div>
+
+
+<div class="buscador">
+  <input class="input_buscador" type="text" [(ngModel)]="textoBusqueda"  (input)="buscar(textoBusqueda)" placeholder="Busca tu Animal...">
+</div>
+
+<div class="estadoA" routerLink="/adopcion">
+  <h1 >Estado de Adopción</h1>
+</div>
+
+
+<div class="tituloF">
+  <div>
+    <h1>Animales en Adopción</h1>
+  </div>
+    <div>
+      <button mat-icon-button (click)="abrirModal()" class="modalAbrir">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+  </div>
+</div>
+
+
+
+@if (resultados.length > 0) {
+  <div class="image-container">
+
+      @for (animal of resultados; track $index) {
+        <div class="animal">
+
+          <div class="imagen-container">
+            <img class="imagen" src="{{ animal.foto }}" alt="foto" routerLink="/gallery/{{animal._id}}" />
+            <button mat-icon-button class="favorito-button" (click)="marcarFavorito(animal)">
+              <mat-icon>{{ animal.favorito ? 'favorite' : 'favorite_border' }}</mat-icon>
+            </button>
+            <h1>{{ animal.nombre }}</h1>
+          </div>
+
+        </div>
+      }
+
+  </div>
+}
+
+
+
+
+ @if (resultados.length === 0) {
+  <div>
+    <p>No se encontraron resultados.</p>
+  </div>
+  }
+
+<!-- <app-nav-bar></app-nav-bar> -->
+

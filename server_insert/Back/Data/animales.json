@@ -1,0 +1,412 @@
+[
+  {
+    "id": 0,
+    "especie": "Pez",
+    "edad": 3,
+    "genero": "Macho",
+    "ciudad": "Barcelona",
+    "tamaño": "Pequeño",
+    "nombre": "Bubbles",
+    "foto": "https://loremflickr.com/150/150/fish"
+  },
+  {
+    "id": 1,
+    "especie": "Pez",
+    "edad": 2,
+    "genero": "Hembra",
+    "ciudad": "Madrid",
+    "tamaño": "Mediano",
+    "nombre": "Coral",
+    "foto": "https://loremflickr.com/150/150/fish"
+  },
+  {
+    "id": 2,
+    "especie": "Pez",
+    "edad": 1,
+    "genero": "Macho",
+    "ciudad": "Sevilla",
+    "tamaño": "Grande",
+    "nombre": "Neptuno",
+    "foto": "https://loremflickr.com/150/150/fish"
+  },
+  {
+    "id": 3,
+    "especie": "Pez",
+    "edad": 2,
+    "genero": "Hembra",
+    "ciudad": "Valencia",
+    "tamaño": "Pequeño",
+    "nombre": "Aurora",
+    "foto": "https://loremflickr.com/150/150/fish"
+  },
+  {
+    "id": 4,
+    "especie": "Pez",
+    "edad": 4,
+    "genero": "Macho",
+    "ciudad": "Málaga",
+    "tamaño": "Mediano",
+    "nombre": "Tridente",
+    "foto": "https://loremflickr.com/150/150/fish"
+  },
+  {
+    "id": 5,
+    "especie": "Gato",
+    "edad": 5,
+    "genero": "Hembra",
+    "ciudad": "Barcelona",
+    "tamaño": "Pequeño",
+    "nombre": "Luna",
+    "foto": "https://loremflickr.com/150/150/cat"
+  },
+  {
+    "id": 6,
+    "especie": "Gato",
+    "edad": 3,
+    "genero": "Macho",
+    "ciudad": "Madrid",
+    "tamaño": "Mediano",
+    "nombre": "Simba",
+    "foto": "https://loremflickr.com/150/150/cat"
+  },
+  {
+    "id": 7,
+    "especie": "Gato",
+    "edad": 2,
+    "genero": "Hembra",
+    "ciudad": "Sevilla",
+    "tamaño": "Grande",
+    "nombre": "Nina",
+    "foto": "https://loremflickr.com/150/150/cat"
+  },
+  {
+    "id": 8,
+    "especie": "Gato",
+    "edad": 4,
+    "genero": "Macho",
+    "ciudad": "Valencia",
+    "tamaño": "Pequeño",
+    "nombre": "Tom",
+    "foto": "https://loremflickr.com/150/150/cat"
+  },
+  {
+    "id": 9,
+    "especie": "Gato",
+    "edad": 1,
+    "genero": "Hembra",
+    "ciudad": "Málaga",
+    "tamaño": "Mediano",
+    "nombre": "Whiskers",
+    "foto": "https://loremflickr.com/150/150/cat"
+  },
+  {
+    "id": 10,
+    "especie": "Perro",
+    "edad": 7,
+    "genero": "Macho",
+    "ciudad": "Barcelona",
+    "tamaño": "Grande",
+    "nombre": "Rex",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 11,
+    "especie": "Perro",
+    "edad": 2,
+    "genero": "Hembra",
+    "ciudad": "Madrid",
+    "tamaño": "Mediano",
+    "nombre": "Luna",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 12,
+    "especie": "Perro",
+    "edad": 4,
+    "genero": "Macho",
+    "ciudad": "Sevilla",
+    "tamaño": "Pequeño",
+    "nombre": "Max",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 13,
+    "especie": "Perro",
+    "edad": 3,
+    "genero": "Hembra",
+    "ciudad": "Valencia",
+    "tamaño": "Grande",
+    "nombre": "Bella",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 14,
+    "especie": "Perro",
+    "edad": 5,
+    "genero": "Macho",
+    "ciudad": "Málaga",
+    "tamaño": "Mediano",
+    "nombre": "Bruno",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 15,
+    "especie": "Tortuga",
+    "edad": 10,
+    "genero": "Macho",
+    "ciudad": "Barcelona",
+    "tamaño": "Pequeño",
+    "nombre": "Donatello",
+    "foto": "https://loremflickr.com/150/150/turtle"
+  },
+  {
+    "id": 16,
+    "especie": "Tortuga",
+    "edad": 7,
+    "genero": "Hembra",
+    "ciudad": "Madrid",
+    "tamaño": "Mediano",
+    "nombre": "Michelangelo",
+    "foto": "https://loremflickr.com/150/150/turtle"
+  },
+  {
+    "id": 17,
+    "especie": "Tortuga",
+    "edad": 15,
+    "genero": "Macho",
+    "ciudad": "Sevilla",
+    "tamaño": "Grande",
+    "nombre": "Raphael",
+    "foto": "https://loremflickr.com/150/150/turtle"
+  },
+  {
+    "id": 18,
+    "especie": "Tortuga",
+    "edad": 20,
+    "genero": "Hembra",
+    "ciudad": "Valencia",
+    "tamaño": "Pequeño",
+    "nombre": "Leonardo",
+    "foto": "https://loremflickr.com/150/150/turtle"
+  },
+  {
+    "id": 19,
+    "especie": "Conejo",
+    "edad": 3,
+    "genero": "Macho",
+    "ciudad": "Málaga",
+    "tamaño": "Grande",
+    "nombre": "Bugs",
+    "foto": "https://loremflickr.com/150/150/rabbit"
+  },
+  {
+    "id": 20,
+    "especie": "Conejo",
+    "edad": 2,
+    "genero": "Hembra",
+    "ciudad": "Barcelona",
+    "tamaño": "Pequeño",
+    "nombre": "Lola",
+    "foto": "https://loremflickr.com/150/150/rabbit"
+  },
+  {
+    "id": 21,
+    "especie": "Conejo",
+    "edad": 4,
+    "genero": "Macho",
+    "ciudad": "Madrid",
+    "tamaño": "Mediano",
+    "nombre": "Thumper",
+    "foto": "https://loremflickr.com/150/150/rabbit"
+  },
+  {
+    "id": 22,
+    "especie": "Conejo",
+    "edad": 1,
+    "genero": "Hembra",
+    "ciudad": "Sevilla",
+    "tamaño": "Grande",
+    "nombre": "Bunny",
+    "foto": "https://loremflickr.com/150/150/rabbit"
+  },
+  {
+    "id": 23,
+    "especie": "Conejo",
+    "edad": 5,
+    "genero": "Macho",
+    "ciudad": "Valencia",
+    "tamaño": "Pequeño",
+    "nombre": "Roger",
+    "foto": "https://loremflickr.com/150/150/rabbit"
+  },
+  {
+    "id": 24,
+    "especie": "Pájaro",
+    "edad": 7,
+    "genero": "Hembra",
+    "ciudad": "Málaga",
+    "tamaño": "Mediano",
+    "nombre": "Tweetie",
+    "foto": "https://loremflickr.com/150/150/bird"
+  },
+  {
+    "id": 25,
+    "especie": "Pájaro",
+    "edad": 2,
+    "genero": "Macho",
+    "ciudad": "Barcelona",
+    "tamaño": "Pequeño",
+    "nombre": "Blue",
+    "foto": "https://loremflickr.com/150/150/bird"
+  },
+  {
+    "id": 26,
+    "especie": "Pájaro",
+    "edad": 4,
+    "genero": "Hembra",
+    "ciudad": "Madrid",
+    "tamaño": "Mediano",
+    "nombre": "Feathers",
+    "foto": "https://loremflickr.com/150/150/bird"
+  },
+  {
+    "id": 27,
+    "especie": "Pájaro",
+    "edad": 5,
+    "genero": "Macho",
+    "ciudad": "Sevilla",
+    "tamaño": "Grande",
+    "nombre": "Red",
+    "foto": "https://loremflickr.com/150/150/bird"
+  },
+  {
+    "id": 28,
+    "especie": "Pájaro",
+    "edad": 1,
+    "genero": "Hembra",
+    "ciudad": "Valencia",
+    "tamaño": "Pequeño",
+    "nombre": "Sunny",
+    "foto": "https://loremflickr.com/150/150/bird"
+  },
+  {
+    "id": 29,
+    "especie": "Pájaro",
+    "edad": 3,
+    "genero": "Macho",
+    "ciudad": "Barcelona",
+    "tamaño": "Mediano",
+    "nombre": "Sky",
+    "foto": "https://loremflickr.com/150/150/bird"
+  },
+  {
+    "id": 30,
+    "especie": "Pájaro",
+    "edad": 6,
+    "genero": "Hembra",
+    "ciudad": "Málaga",
+    "tamaño": "Grande",
+    "nombre": "Rainbow",
+    "foto": "https://loremflickr.com/150/150/bird"
+  },
+  {
+    "id": 31,
+    "especie": "Perro",
+    "edad": 2,
+    "genero": "Macho",
+    "ciudad": "Barcelona",
+    "tamaño": "Mediano",
+    "nombre": "Rocky",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 32,
+    "especie": "Gato",
+    "edad": 3,
+    "genero": "Hembra",
+    "ciudad": "Madrid",
+    "tamaño": "Pequeño",
+    "nombre": "Luna",
+    "foto": "https://loremflickr.com/150/150/cat"
+  },
+  {
+    "id": 33,
+    "especie": "Conejo",
+    "edad": 1,
+    "genero": "Macho",
+    "ciudad": "Sevilla",
+    "tamaño": "Grande",
+    "nombre": "Rufus",
+    "foto": "https://loremflickr.com/150/150/rabbit"
+  },
+  {
+    "id": 34,
+    "especie": "Tortuga",
+    "edad": 8,
+    "genero": "Hembra",
+    "ciudad": "Valencia",
+    "tamaño": "Mediano",
+    "nombre": "Shelly",
+    "foto": "https://loremflickr.com/150/150/turtle"
+  },
+  {
+    "id": 35,
+    "especie": "Perro",
+    "edad": 5,
+    "genero": "Macho",
+    "ciudad": "Málaga",
+    "tamaño": "Grande",
+    "nombre": "Max",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 36,
+    "especie": "Gato",
+    "edad": 2,
+    "genero": "Hembra",
+    "ciudad": "Barcelona",
+    "tamaño": "Pequeño",
+    "nombre": "Sasha",
+    "foto": "https://loremflickr.com/150/150/cat"
+  },
+  {
+    "id": 37,
+    "especie": "Conejo",
+    "edad": 4,
+    "genero": "Macho",
+    "ciudad": "Madrid",
+    "tamaño": "Mediano",
+    "nombre": "Nibbles",
+    "foto": "https://loremflickr.com/150/150/rabbit"
+  },
+  {
+    "id": 38,
+    "especie": "Tortuga",
+    "edad": 3,
+    "genero": "Hembra",
+    "ciudad": "Sevilla",
+    "tamaño": "Pequeño",
+    "nombre": "Spike",
+    "foto": "https://loremflickr.com/150/150/turtle"
+  },
+  {
+    "id": 39,
+    "especie": "Perro",
+    "edad": 6,
+    "genero": "Hembra",
+    "ciudad": "Valencia",
+    "tamaño": "Mediano",
+    "nombre": "Molly",
+    "foto": "https://loremflickr.com/150/150/dog"
+  },
+  {
+    "id": 40,
+    "especie": "Gato",
+    "edad": 5,
+    "genero": "Macho",
+    "ciudad": "Málaga",
+    "tamaño": "Grande",
+    "nombre": "Whiskers",
+    "foto": "https://loremflickr.com/150/150/cat"
+  }
+]

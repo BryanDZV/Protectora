@@ -1,0 +1,28 @@
+
+[
+{
+"agreement":"si",
+"casero":"si",
+"city":"madrid",
+"conditions": true,
+"direction":"calle falsa 123",
+"dni":"11111111A",
+"email":"pepe@pepe.com",
+"expenses":"si",
+"familia":"no",
+"food":"si",
+"garden":"si",
+"home":"piso",
+"name":"homer",
+"needs":"si",
+"petfrienly":"si",
+"pets":"si",
+"postal":25248,
+"removal":"no",
+"rental":"no",
+"telf":111111111,
+"visit":"no",
+"what":"quiero un amigo",
+"which":"perro"
+}
+]

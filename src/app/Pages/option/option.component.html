@@ -1,0 +1,71 @@
+<section class="profContainer">
+  <ul class="container-list">
+    <li class="list-item">
+      <a [routerLink]="['/maps']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/protectora_little/protectora@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Asociaciones protectoras</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['/maps']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/eventos_little/eventos@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Eventos</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['/home']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/blog_little/blogCopy@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Curiosidades</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['#']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_standOut/help_little_standOut/ayuda@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Ayuda</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['#']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/confi_little/confi@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Configuración</p>
+        <p>></p></a
+      >
+    </li>
+  </ul>
+  <!-- Separación semántica -->
+  <ul class="container-list">
+    <li class="list-item">
+      <button (click)="logout()" class="list-item-btn">Cerrar sesión</button>
+    </li>
+  </ul>
+  <app-nav-bar></app-nav-bar>
+</section>

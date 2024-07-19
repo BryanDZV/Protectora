@@ -1,0 +1,33 @@
+[
+{
+    "name": "Rocio",
+    "email": "rocio@gmail.com",
+    "password": "12345678",
+    "role":"user"
+},
+{
+    "user": "",
+    "name": "Juan",
+    "email": "juan@gmail.com",
+    "password": "12345678",
+    "role":"user"
+},
+{
+    "name": "Pepe",
+    "email": "pepe@gmail.com",
+    "password": "12345678",
+    "role":"user"
+},
+{
+    "name": "Jose",
+    "email": "jose@gmail.com",
+    "password": "12345678",
+    "role":"user"
+},
+{
+    "name": "Susana",
+    "email": "susana@gmail.com",
+    "password": "12345678",
+    "role":"user"
+}
+]
