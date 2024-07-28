@@ -1,0 +1,81 @@
+:host {
+  color: rgb(1, 116, 142);
+}
+
+.animal-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra las tarjetas horizontalmente */
+  margin: 20px 0;
+}
+
+.animal {
+  display: inline-block;
+  position: relative;
+  margin: 8px;
+  border: 2px solid #3cc1c360;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 400px; /* Tamaño fijo para mantener la consistencia */
+  background-color: #f9f9f9;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra sutil */
+  /* Altura fija para tarjetas, ajusta según sea necesario */
+  height: 300px;
+}
+
+.imagen-container {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  border: none;
+
+}
+
+.imagen {
+  width: 400px; /* Tamaño mediano */
+  height: 250px; /* Tamaño mediano */
+
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: rgb(1, 116, 142);
+  color: white;
+}
+
+button:hover {
+  background-color: #00796b; /* Cambia el color de fondo al pasar el cursor */
+}
+
+@media (max-width: 768px) {
+  .animal {
+    width: 100%; /* Hace que cada tarjeta ocupe todo el ancho en pantallas más pequeñas */
+    height: auto; /* Ajusta la altura automáticamente */
+    margin: 10px 0;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .animal {
+    width: 100%;
+    height: auto; /* Ajusta la altura automáticamente */
+    margin: 10px 0;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
