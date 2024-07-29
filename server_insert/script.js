@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require('path');
+const path = require('path');// para poder unir rutas
 const { connect } = require("./hola/db");
 
 
@@ -38,7 +38,7 @@ app.use("/test", testRouter);
 
 //PARA PROBAR QUE RECIBES LOS DATOS DEL SERVIDOR ES http://localhost:5002/test/test-animales OOO http://localhost:5002/animales
 
-// Servir archivos estáticos (para el frontend)
+// Servir archivos estáticos
 app.use(express.static(path.join(__dirname, '../src')));
 
 // Ruta para manejar cualquier solicitud no manejada (SPA)
@@ -51,7 +51,7 @@ app.get('*', (req, res) => {
 // Escuchar en el puerto especificado
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto http://localhost:${PORT}`);
+  console.log(`Servidor escuchando en el puerto : ${PORT}`);//`Servidor escuchando en el puerto http://localhost:${PORT}`
 });
 
 
