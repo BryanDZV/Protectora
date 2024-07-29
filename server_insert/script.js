@@ -39,11 +39,11 @@ app.use("/test", testRouter);
 //PARA PROBAR QUE RECIBES LOS DATOS DEL SERVIDOR ES http://localhost:5002/test/test-animales OOO http://localhost:5002/animales
 
 // Servir archivos estáticos
-app.use(express.static(path.join(__dirname, '../src')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Ruta para manejar cualquier solicitud no manejada (SPA)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../src', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 

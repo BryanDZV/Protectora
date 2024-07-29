@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "TeamProyecto_Final": {
+    "Protectora": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/team-proyecto-final",
+            "outputPath": "dist/protectora",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -63,10 +63,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "TeamProyecto_Final:build:production"
+              "buildTarget": "Protectora:build:production"
             },
             "development": {
-              "buildTarget": "TeamProyecto_Final:build:development"
+              "buildTarget": "Protectora:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +74,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "TeamProyecto_Final:build"
+            "buildTarget": "Protectora:build"
           }
         },
         "test": {
