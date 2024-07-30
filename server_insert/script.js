@@ -7,6 +7,7 @@ const path = require('path');// para poder unir rutas
 const { connect } = require("./hola/db");
 
 
+
 // Inicializar la aplicación
 const app = express();
 
