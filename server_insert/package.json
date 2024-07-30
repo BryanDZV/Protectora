@@ -1,8 +1,9 @@
 {
   "name": "animales",
   "version": "0.0.0",
+  "type": "commonjs",
   "scripts": {
-    "start": "node server_insert/script.js",
+    "start": "node script.js",
     "dev": "nodemon server_insert/script.js"
   },
   "private": true,
@@ -26,5 +27,4 @@
   },
   "author": "",
   "license": "ISC"
-
 }
