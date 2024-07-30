@@ -2,8 +2,8 @@
   "name": "animales",
   "version": "0.0.0",
   "scripts": {
-    "start": "node script.js",
-    "dev": "nodemon script.js"
+    "start": "node server_insert/script.js",
+    "dev": "nodemon server_insert/script.js"
   },
   "private": true,
   "dependencies": {

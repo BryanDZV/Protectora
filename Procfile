@@ -1,1 +1,1 @@
-web: node server_insert/script.js
+web: node script.js
