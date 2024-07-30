@@ -1,6 +1,7 @@
-//modulo para conectar mi base 
+//modulo para conectar mi base
 
 const mongoose = require("mongoose");
+require('dotenv').config();
 //const Animal = require("../Back/models/animalModel") //si uso el animal.find activo
 const DB_URL =process.env.DB_URL;// mongodb+srv://usuario:contraseña@cluster0.zqnzqqp.mongodb.net/nombredevuestroproyecto
 
