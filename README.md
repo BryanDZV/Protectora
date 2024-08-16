@@ -30,3 +30,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Prueba Tu Aplicación
 
 Abre un navegador web y navega a http://localhost:8080 para verificar que tu aplicación se carga correctamente y que todas las funcionalidades localmente
+
+al desplegar en heroku 
+"start": "npx http-server dist/protectora -p $PORT",
+
+al probar localmente pones un valor al port
+"start": "npx http-server dist/protectora -p 8080",
