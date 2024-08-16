@@ -1,0 +1,143 @@
+// .gallery {
+//   width: 100%;
+//   height: 100%;
+
+//   padding: 16px;
+// }
+// .image-container {
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: space-between;
+
+//   gap: 25px;
+
+//   .image-card {
+//     width: 100%;
+//     max-width: 450px;
+//     height: 250px;
+
+//     img {
+//       width: 100%;
+//       height: 100%;
+
+//       object-fit: cover;
+//     }
+//   }
+//   h2 {
+//     font: var(--color-primary-blue);
+//   }
+// }
+/* Estilos para la galería de animales */
+
+
+
+:host {
+  color: rgb(1, 116, 142);
+}
+.animAdop{
+  border-radius: 5%;
+
+
+}
+
+/// para cada imagen  DEL BUCLE GALERIA
+.animal {
+  display: inline-block;
+  position: relative;
+  margin: 8px; /* Espacio  los div contenedores entre animales */
+
+}
+
+.imagen-container {
+  position: relative;
+  overflow: hidden;
+  display: inline-block; /* Hace que el contenedor ocupe solo el ancho necesario */
+
+  border: none;
+}
+
+.imagen {
+  width: 400px; /* Tamaño mediano */
+  height: 250px; /* Tamaño mediano */
+
+
+
+}
+
+.favorito-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: #e91c1c;
+  border: none;
+}
+ .animal {
+   border: 2px solid #3cc1c360;
+   border-radius: 10px;
+   overflow: hidden;
+ }
+
+
+
+//contenedor de los botnoes
+ .botones {
+   display: flex;
+   justify-content: space-between;
+   padding: 10px;
+ }
+//ataca a los botoness
+ .botones button {
+   padding: 8px 16px;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+ }
+
+ .botones button:hover {
+   background-color: #ddd;
+ }
+///HASTA AQUI BUCLE GALERIA
+
+
+
+.estadoA{
+  display: flex;
+  margin-top: 20px;
+  border: 2px solid #3cc1c360;
+  margin-bottom: 20px;
+
+  border-radius: 30px;
+  justify-content: center;
+
+}
+
+.tituloF{
+  display: flex;
+  justify-content: space-between;
+
+
+}
+
+.input_buscador{
+  width: 50%;
+border: none;
+
+}
+.buscador {
+  border: 2px solid #3cc1c360;
+  border-radius: 50px; /* Ajusta el valor según lo necesites para lograr el efecto deseado */
+  padding: 5px; /* Ajusta el relleno según sea necesario */
+  width:70%;
+}
+.modalAbrir{
+
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: #e91c1c;
+  border: none;
+}
+
+
+

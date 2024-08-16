@@ -1,0 +1,49 @@
+.navContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+
+  position: fixed;
+  bottom: 0vh;
+  left: 0vw;
+
+  width: 100%;
+  padding: 10px 0 10px 0;
+
+  box-shadow: 0px -3px 5px 1px rgba(184, 184, 184, 0.221);
+
+  background-color: white;
+
+  .navCard {
+    height: 30px;
+    width: 30px;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .navCard-profile {
+    height: 37px;
+    width: 37px;
+    border: 2px solid var(--color-stand-out-red);
+    border-radius: 50%;
+
+    a {
+      height: inherit;
+      width: inherit;
+      border-radius: 50%;
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+
+      border-radius: inherit;
+      object-fit: contain;
+    }
+  }
+}

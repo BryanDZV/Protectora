@@ -1,0 +1,224 @@
+
+
+
+
+   @if (contexto==='galeria'){
+
+
+    <div >
+
+
+
+  <div class="modal-content">
+    <h2>Filtro de animales</h2>
+
+    <div class="input-field">
+      <label for="ciudad">Ciudad:</label>
+      <select id="ciudad" [(ngModel)]="ciudad">
+        <option value="" disabled selected>Selecciona la ciudad</option>
+
+        @for (ciudad of ciudades; track $index) {
+        <option>
+          <div>
+            {{ ciudad }}
+          </div>
+        </option>
+
+        }
+      </select>
+    </div>
+
+    <div class="input-field">
+      <label for="especie">Especie:</label>
+      <button
+        mat-icon-button
+        (click)="selectEspecie('Perro')"
+        [ngClass]="especie === 'Perro' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/species_square_primary/type_perro/perrop@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectEspecie('Gato')"
+        [ngClass]="especie === 'Gato' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/species_square_primary/type_cat/cat@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectEspecie('Tortuga')"
+        [ngClass]="especie === 'Tortuga' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/species_square_primary/type_anfibio/anfibio@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectEspecie('Arácnido')"
+        [ngClass]="especie === 'Arácnido' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/species_square_primary/type_aracnid/group5@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectEspecie('Ave')"
+        [ngClass]="especie === 'Ave' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/species_square_primary/type_ave/ave@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectEspecie('Reptil')"
+        [ngClass]="especie === 'Reptil' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/species_square_primary/type_reptil/group8@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+    </div>
+
+    <div class="input-field">
+      <label for="edad">Edad:</label>
+      <select id="edad" [(ngModel)]="edad">
+        <option value="">Selecciona la edad</option>
+        <option value="Cachorro">Cachorro</option>
+        <option value="Joven">Joven</option>
+        <option value="Adulto">Adulto</option>
+      </select>
+    </div>
+    <div class="input-field">
+      <label for="genero">Genero:</label>
+      <button
+        mat-icon-button
+        (click)="selectGenero('Hembra')"
+        [ngClass]="genero === 'Hembra' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/genre_square/genre_female_square/female@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectGenero('Macho')"
+        [ngClass]="genero === 'Macho' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/genre_square/genre_male_square/male@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+    </div>
+
+    <div class="input-field">
+      <label for="size">Tamaño:</label>
+      <button
+        mat-icon-button
+        (click)="selectSize('Pequeño')"
+        [ngClass]="size === 'Pequeño' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/size_square_primary/size_small_square/group@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectSize('Mediano')"
+        [ngClass]="size === 'Mediano' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/size_square_primary/size_medium_square/groupCopy@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+      <button
+        mat-icon-button
+        (click)="selectSize('Grande')"
+        [ngClass]="size === 'Grande' ? 'filtro-seleccionado' : ''"
+      >
+        <img
+          src="../../../assets/primary_icons/size_square_primary/size_big_square/groupCopy2@3x.png"
+          alt="Pequeño"
+        />
+      </button>
+    </div>
+    @if (noResultados) {
+    <div class="no-results">
+      <p>No hay animales con esos filtros.</p>
+    </div>}
+
+    <div class="buttons">
+      <button mat-button (click)="aplicarFiltros()">Aplicar Filtros</button>
+      <button mat-button (click)="borrarFiltros()">Borrar Filtros</button>
+      <button mat-button (click)="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+}
+
+
+
+@if (contexto === 'adopcion') {
+
+<div >
+  <div class="input-field">
+    <label for="adoptionState">Estado:</label>
+    <button
+      mat-icon-button
+      (click)="selectEstadoAdopcion('Completo')"
+      [ngClass]="estadoAdopcion === 'Completo' ? 'filtro-seleccionado' : ''"
+    >
+      <img
+        src="../../../assets/primary_icons/process_square_primary/process_tic_square/group@3x.png"
+        alt="Pequeño"
+      />
+    </button>
+    <button
+      mat-icon-button
+      (click)="selectEstadoAdopcion('Proceso')"
+      [ngClass]="estadoAdopcion === 'Proceso' ? 'filtro-seleccionado' : ''"
+    >
+      <img
+        src="../../../assets/primary_icons/process_square_primary/process_settings_square/group@3x.png"
+        alt="Pequeño"
+      />
+    </button>
+    <button
+      mat-icon-button
+      (click)="selectEstadoAdopcion('Rechazado')"
+      [ngClass]="estadoAdopcion === 'Rechazado' ? 'filtro-seleccionado' : ''"
+    >
+      <img
+        src="../../../assets/primary_icons/process_square_primary/process_cross_square/group@3x.png"
+        alt="Pequeño"
+      />
+    </button>
+    @if (noResultados) {
+    <div class="no-results">
+      <p>No hay animales con esos filtros.</p>
+    </div>
+    }
+    <div class="buttons">
+      <button mat-button (click)="aplicarFiltros()">Aplicar Filtros</button>
+      <button mat-button (click)="borrarFiltros()">Borrar Filtros</button>
+      <button mat-button (click)="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+}

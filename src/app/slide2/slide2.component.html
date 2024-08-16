@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>title</title>
+  </head>
+  <body>
+    <section class="background">
+      <div class="container-slide2">
+        <button (click)="eleccion()">
+          <p class="x">X</p>
+        </button>
+        <button (click)="irSlide3()">
+          <img
+            src="../../assets/onboarding/imagen2@3x.png"
+            alt="imagen grande"
+          />
+          <h3>Adopta desde tu móvil</h3>
+          <p>
+            Puedes acceder al perfil de muchos animales<br />
+            que están en adopción y filtrarlos para <br />
+            encontrar el que mejor se adapte a ti
+          </p>
+        </button>
+
+        <button (click)="irSlide1()" class="siguiente">></button>
+        <button (click)="irSlide3()" class="anterior"><</button>
+      </div>
+    </section>
+  </body>
+</html>

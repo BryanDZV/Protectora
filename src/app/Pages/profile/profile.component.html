@@ -1,0 +1,95 @@
+<section class="profContainer" *ngIf="authService.currentUserSig()">
+  {{ authService.currentUserSig()?.name }}
+  <div class="container-photo">
+    <img src="../../assets/placeholder/photo_placeholder.jpg" alt="icono" />
+  </div>
+  <ul class="container-list">
+    <li class="list-item">
+      <a [routerLink]="['/perfilDetalle']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/chico_little/chico@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Mi perfil</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a href="https://www.google.com/maps"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/localization_little/localization@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Direcciones</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['/favoritos']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_standOut/favoritos_little_standOut/favoritos@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Favoritos</p>
+        <p>></p>
+      </a>
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['#']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/notification_little/notification@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Notificaciones</p>
+        <p>></p></a
+      >
+    </li>
+  </ul>
+  <!-- Separación semántica -->
+  <ul class="container-list">
+    <li class="list-item">
+      <a [routerLink]="['/adopcion']"
+        ><div class="list-item-icon">
+          <img src="../../../assets/navBar/mascota@3x.png" alt="icono" />
+        </div>
+        <p class="list-item-text">Estado de la adopción</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['/gallery']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/apadrina_little/apadrina@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Apadrinar</p>
+        <p>></p></a
+      >
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['#']"
+        ><div class="list-item-icon">
+          <img
+            src="../../../assets/primary_icons/little_icons_primary/donar_little/donar@3x.png"
+            alt="icono"
+          />
+        </div>
+        <p class="list-item-text">Donar</p>
+        <p>></p></a
+      >
+    </li>
+  </ul>
+  <app-nav-bar></app-nav-bar>
+</section>
+
+<p *ngIf="authService.currentUserSig() === null">No estas logado</p>

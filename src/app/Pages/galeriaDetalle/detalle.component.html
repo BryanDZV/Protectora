@@ -1,0 +1,175 @@
+<button routerLink="/gallery">VOLVER</button>
+
+<div *ngIf="animals">
+  <div className="cabeceraImg">
+    <div><img className="cabeceraImg-foto" src={{animals.foto}} alt="" ></div>
+    <div className="cabeceraImg-name"></div> 
+</div>
+</div>
+
+  <div className="cajaCabecera">
+    <div className='cajaCabecera2'>
+      <div *ngIf="animals">
+      <div className="cajaCabecera2-gender"> <img [src]="animals.genero === 'Macho' ? '../../../assets/primary_icons/genre_square/genre_male_square/male@3x.png' : '../../../assets/primary_icons/genre_square/genre_female_square/female@3x.png'" alt="" /> </div>
+      <div className="cajaCabecera2-city"><p>{{animals.nombre}}</p> <p>{{animals.ciudad}}</p></div>
+    </div>
+    </div>
+  
+  <button (click)="handleShareClick()" class="buttonShare">
+    <img src="../../../assets/primary_icons/comms_icons_standOut/share_little_standOut/compartir@3x.png" alt="Compartir"/>
+    Compartir
+  </button>
+  
+  <button (click)="handleLikeClick()" class="buttonLike">
+    <img src="../../../assets/primary_icons/little_icons_standOut/favoritos_little_standOut/favoritos@3x.png" alt="Me gusta"/>
+    Me gusta
+  </button>
+  
+  <mat-tab-group>
+      <mat-tab label="Datos">
+          <div className="imagen.filtro">
+              <div className="detalil">
+  
+                  <div className='detail2'>
+                    <div *ngIf="animals">
+                      <div className="detail2-line">
+                          <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Especie</span></div>
+                          <div><span>{{animals.especie}}</span></div>
+                      </div>
+                      <div className="detail2-line">
+                          <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Fecha de nacimiento</span></div>
+                          <div><span>{{animals.fechaDeNacimiento}}</span></div>
+                      </div>
+                      <div className="detail2-line">
+                          <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Sexo</span></div>
+                          <div><span>{{animals.genero}}</span></div>
+                      </div>
+                      <div className="detail2-line">
+                          <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Tamaño</span></div>
+                          <div><span>{{animals.size}}</span></div>
+                      </div>
+                      <div className="detail2-line">
+                          <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Peso</span></div>
+                          <div><span>{{animals.peso}}</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+  
+                  <div className="c__navbar--data2">
+                      <div className='detail3-title'><span>Personalidad</span></div>
+                      <div className='detail3-father'>
+            
+                      </div>
+                  </div>
+  
+                  <div className="detail4">
+                    <div *ngIf="animals">
+                      <div className='detail4-title'>
+                          <p>Historia</p>
+                      </div>
+                      <div className='detail4-text'>
+                          <p>{{animals.historia}}</p>
+                      </div>
+                      </div>
+                  </div>
+
+            </div>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Salud">
+        <div className="imagen.filtro">
+            <div className='detail2'>
+              <div *ngIf="animals">
+
+            </div>
+            </div>
+            <div className="detail4">
+              <div *ngIf="animals">
+              <div className='detail4-title'><p>Tienes que saber que</p></div>
+              <div className='detail4-text'>
+                <p>{{animals.aSaber}}</p>
+
+              </div>
+          </div>
+  
+      <mat-tab label="Salud">
+          <div className="imagen.filtro">
+              <div className='detail2'>
+                <div *ngIf="animals">
+                <div className="detail2-line"> <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Vacunado</span></div> <div>{{ boolToWord(animals.vacunado) }}</div> </div>
+                <div className="detail2-line"> <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Desparasitado</span></div> <div><span>{{boolToWord(animals.desparasitado)}}</span></div> </div>
+                <div className="detail2-line"> <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Sano</span></div> <div><span>{{boolToWord(animals.sano)}}</span></div> </div>
+                <div className="detail2-line"> <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Esterilizado</span></div> <div><span>{{boolToWord(animals.esterilizado)}}</span></div> </div>
+                <div className="detail2-line"> <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Identificado</span></div> <div><span>{{boolToWord(animals.identificado)}}</span></div> </div>
+                <div className="detail2-line"> <div><img src="../../../assets/primary_icons/listStyle_icon/pawprint@3x.png" alt="" /> <span>Microchip</span></div> <div><span>{{boolToWord(animals.microchip)}}</span></div> </div>
+              </div>
+
+              </div>
+              <div className="detail4">
+                <div *ngIf="animals">
+                <div className='detail4-title'><p>Tienes que saber que</p></div>
+                <div className='detail4-text'>
+                  <p>{{animals.aSaber}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </mat-tab>
+  
+      <mat-tab label="Adopción">
+        <div *ngIf="animals">
+          <div className="imagen.filtro">
+              <div className="detail4">
+                <div className='detail4-title'><p>Requisitos adopción</p></div>
+                <div className='detail4-text'>
+                  <p>{{animals.requisitosAdopcion}}</p>
+                </div>
+              </div>
+  
+              <div class="detail4">
+                <div class='detail4-title'>
+                  <span>Tasa de adopción</span> 
+                  <img (click)="openInfo()" src="../../../assets/primary_icons/little_icons_standOut/help_little_standOut/ayuda@3x.png" alt="" />
+                </div>
+                <div class='detail4-text'>
+                  <p>{{animals.tasaAdopcion}}</p>
+                </div>
+                <div *ngIf="info" class="popup-background" (click)="closeInfo()">
+                  <div class="popup">
+                    <div class="popUp__whiteBox">
+                      <div class="popUp__whiteBox--title"><p>Informacion de las tasas</p></div>
+                      <div class="popUp__whiteBox--text"><p>Las tasas de la adopcion van destinadas a las medicinas, comida y tiempo que invierte nuestro personal.</p></div>
+                      <button class="popUp__whiteBox--buttons--1" (click)="closeInfo()">Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+
+
+            <div className="detail4">
+              <div className='detail4-title'><p>¿Se envía a otra ciudad?</p></div>
+              <div className='detail4-text'>
+                <p>{{animals.seEnvia}}</p>
+
+              </div>
+              
+              
+  
+              <div className="detail4">
+                <div className='detail4-title'><p>¿Se envía a otra ciudad?</p></div>
+                <div className='detail4-text'>
+                  <p>{{animals.seEnvia}}</p>
+                </div>
+                </div>
+              </div>
+            </div>
+  
+  <div className="buttonAnimals">
+      <div className="buttonAnimals2"><button onClick="" className="buttonAnimals3">Apadrinar</button></div>
+  
+      <button (click)="abrirVentanaEmergente()">Adoptar</button>
+      <!-- <app-pop-up *ngIf="mostrarVentanaEmergente()"></app-pop-up> -->
+  </div>

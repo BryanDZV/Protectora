@@ -1,0 +1,41 @@
+<div class="container">
+  <img src="../../assets/login_logo/logo@3x.png" alt="Logo pequeño" class="logo" />
+
+<h2>¡Hola! create una  cuenta para comenzar</h2>
+<form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+  <fieldset>
+    <label class="block">
+      <input type="text" formControlName="name" placeholder="Nombre" />
+    </label>
+    <label class="block">
+      <input type="text" formControlName="email" placeholder="Email" />
+  </label>
+  <div class="contraseña-ojo">
+    <label class="label-contraseña">
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Contraseña"
+        id="passwordInput"
+        class="input-password"
+      />
+
+      <button
+        type="button"
+        class="eye-btn"
+        (click)="showPassword()"
+      >
+        <img
+          src="../../assets/primary_icons/little_icons_primary/ojo_little/ojo@3x.png"
+          class="ojo"
+        />
+      </button>
+    </label>
+  </div>
+</fieldset>
+
+  <div>
+    <button class="btn-login">Registrarse </button>
+  </div>
+</form>
+</div>

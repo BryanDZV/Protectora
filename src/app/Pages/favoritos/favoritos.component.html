@@ -1,0 +1,28 @@
+
+
+<button routerLink="/gallery">VOVLER A GALLERY </button>
+<div>
+  <h1>Animales Favoritos</h1>
+  @if (animalesFavoritos.length > 0;) {
+  <div class="animal-card">
+    @for (animal of animalesFavoritos; track $index) {
+    <div class="animal">
+      <h2>{{ animal.nombre }}</h2>
+      <div class="imagen-container">
+        <img
+          class="imagen"
+          [src]="animal.foto"
+          alt="foto"
+          routerLink="/gallery/ animal._id"
+        />
+      </div>
+    </div>
+
+    }
+  </div>
+  }
+
+ <ng-template #noFavoritos>
+    <p>No hay animales marcados como favoritos.</p>
+  </ng-template>
+</div>
