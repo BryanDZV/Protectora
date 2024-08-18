@@ -48,58 +48,66 @@
 
 </div>} -->
 
-<p>adopcion-estado works!</p>
 <div class="botones">
-  <button mat-icon-button routerLink="/perfil">
-    <mat-icon>arrow_back</mat-icon>
+  <button routerLink="/gallery">Galería</button>
+  <button routerLink="/perfil">Menu</button>
+  <button mat-icon-button routerLink="/favoritos">
+    <mat-icon>favorite</mat-icon>
   </button>
 </div>
 
 <div class="tituloF">
-
   <div class="buscador">
-  <input  class="input_buscador" type="text" [(ngModel)]="textoBusqueda"  (input)="buscar(textoBusqueda)" placeholder="Busca tu Animal...">
+    <input
+      class="input_buscador"
+      type="text"
+      [(ngModel)]="textoBusqueda"
+      (input)="buscar(textoBusqueda)"
+      placeholder="Busca tu Animal..."
+    />
+  </div>
+
+  <div>
+    <button mat-icon-button (click)="abrirModal()" class="modalAbrir">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </div>
 </div>
 
+@if (resultados.length > 0) {
+<div class="image-container">
+  @for (animal of resultados; track $index) {
+  <div class="animal">
+    <div>
+      <div>
+        <h1>Adopcion de {{ animal.nombre }}</h1>
+      </div>
+      <div>
+        <p>{{ animal.adoptionState }}</p>
+      </div>
+    </div>
+    <div>
+      <div class="imagen-container">
+        <img
+          class="imagen"
+          src="{{ animal.foto }}"
+          alt="foto"
+          routerLink="/adopcion/{{ animal._id }}"
+        />
+      </div>
+
+      <div>
+        <p>Nombre:{{ animal.nombre }}</p>
+        <p>Ciudad:{{ animal.ciudad }}</p>
+        <p>Sexo:{{ animal.genero }}</p>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+} @if (resultados.length === 0) {
 <div>
-  <button mat-icon-button (click)="abrirModal()" class="modalAbrir">
-    <mat-icon>filter_list</mat-icon>
-  </button>
+  <p>No se encontraron resultados.</p>
 </div>
-</div>
-
-
-
-  @if (resultados.length > 0) {
-    <div class="image-container">
-      @for (animal of resultados; track $index) {
-        <div  class="animal">
-          <div>
-            <div>
-              <h1>Adopcion de {{ animal.nombre }}</h1>
-            </div>
-            <div>
-              <p>{{ animal.adoptionState }}</p>
-            </div>
-          </div>
-          <div>
-            <div class="imagen-container">
-              <img class="imagen" src="{{ animal.foto }}" alt="foto" routerLink="/adopcion/{{animal._id}}" />
-            </div>
-
-            <div>
-              <p>Nombre:{{ animal.nombre }}</p>
-              <p>Ciudad:{{ animal.ciudad }}</p>
-              <p>Sexo:{{ animal.genero }}</p>
-            </div>
-          </div>
-        </div>
-      }
-    </div>
-  }
-
-  @if (resultados.length === 0) {
-    <div >
-      <p>No se encontraron resultados.</p>
-    </div>
-  }
+}
+<app-nav-bar></app-nav-bar>

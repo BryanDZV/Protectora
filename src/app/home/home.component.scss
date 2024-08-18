@@ -1,57 +1,70 @@
 .home {
   position: relative;
-  width: 100%;;
+  width: 100%;
   top: 0;
   display: flex;
   flex-direction: column;
-align-items:center;}
+  align-items: center;
+  padding-bottom: 70px; /* Asegura que el contenido no sea cubierto por el nav-bar */
+}
 
-.container-img img{
+.container-img img {
   width: 200px;
   margin-bottom: 30px; /* Baja el contenedor del logo */
   margin-left: auto; /* Centra horizontalmente el contenedor */
   margin-right: auto;
   margin-top: 25px;
-align-items: center;}
+  align-items: center;
+}
 
 .usuario {
   font-size: 25px;
   color: rgb(1, 116, 142);
   padding-left: 20px;
-width: 100%;
+  width: 100%;
+  text-align: center; /* Centra el texto */
 }
 
 .novedades {
   color: rgb(1, 116, 142);
   font-size: 16px;
   padding-left: 20px;
-width: 100%;
-margin-top: 22px;
+  width: 100%;
+  margin-top: 22px;
+  text-align: center; /* Centra el texto */
 }
 
 .gallery {
   border: 3px solid rgb(250, 156, 147);
   border-radius: 4px;
   width: 90%;
+  max-width: 500px; /* Ajusta el tamaño máximo del contenedor */
   background-color: rgb(250, 156, 147);
   margin-bottom: 20px;
-
-
-  & p {
-    color: white;
-    height: 10px;
-    font-size: 18px;
-    text-align: center;
-  }
+  overflow: hidden; /* Evita que el contenido se desborde */
 }
+
+.gallery img {
+  width: 100%; /* Hace que la imagen ocupe todo el ancho del contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.gallery p {
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  margin: 10px 0; /* Espaciado entre el texto y el borde */
+}
+
 .adoption-section {
   display: flex;
-  background-color: #BDD2D6;
-  flex-direction: row; /* Cambia la dirección a horizontal */
+  background-color: #bdd2d6;
+  flex-direction: row;
   height: 70px;
-  align-items: center; /* Alinea verticalmente el contenido */
-  padding: 10px; /* Ajusta el espacio interno */
-  width: 90%;  
+  align-items: center;
+  padding: 10px;
+  width: 90%;
+  margin-bottom: 20px; /* Añade espacio inferior para separar del contenido siguiente */
 }
 
 .pet-info {
@@ -71,11 +84,12 @@ margin-top: 22px;
   align-items: center;
   flex-grow: 1;
   margin-left: 10px;
-  display: flex;
   flex-direction: column;
-height: 60px;}
+  height: 60px;
+}
+
 .info-text-container h3 {
-  margin-bottom: 4px; 
+  margin-bottom: 4px;
   color: var(--color-primary-blue);
 }
 
@@ -83,6 +97,7 @@ height: 60px;}
   margin-top: 4px;
   font-size: 10px;
 }
+
 .progress-bar {
   height: 20px;
   background-color: #dddddd3f;
@@ -92,15 +107,39 @@ height: 60px;}
 
 .progress {
   height: 100%;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   border-radius: 10px;
   width: 0;
   transition: width 0.5s ease;
 }
+
 .separator {
-  width: 90%; 
+  width: 90%;
   height: 2px;
-  background-color: #ccc; 
-  margin-top: 20px;  
+  background-color: #ccc;
+  margin-top: 20px;
 }
 
+/* Estilos Responsivos */
+@media screen and (max-width: 768px) {
+  .gallery {
+    width: 100%; /* Ajusta el ancho para pantallas pequeñas */
+  }
+
+  .adoption-section {
+    width: 100%;
+    height: auto; /* Permite que la altura se ajuste automáticamente */
+    flex-direction: column; /* Coloca los elementos en columna */
+  }
+
+  .pet-image {
+    margin-right: 0; /* Elimina el margen derecho en pantallas pequeñas */
+    margin-bottom: 10px; /* Añade margen inferior entre la imagen y el texto */
+  }
+
+  .info-text-container {
+    align-items: center; /* Centra el texto en pantallas pequeñas */
+    margin-left: 0; /* Elimina el margen izquierdo en pantallas pequeñas */
+    text-align: center;
+  }
+}

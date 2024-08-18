@@ -29,15 +29,11 @@
 // }
 /* Estilos para la galería de animales */
 
-
-
 :host {
   color: rgb(1, 116, 142);
 }
-.animAdop{
+.animAdop {
   border-radius: 5%;
-
-
 }
 
 /// para cada imagen  DEL BUCLE GALERIA
@@ -45,7 +41,6 @@
   display: inline-block;
   position: relative;
   margin: 8px; /* Espacio  los div contenedores entre animales */
-
 }
 
 .imagen-container {
@@ -59,9 +54,6 @@
 .imagen {
   width: 400px; /* Tamaño mediano */
   height: 250px; /* Tamaño mediano */
-
-
-
 }
 
 .favorito-button {
@@ -72,36 +64,34 @@
   color: #e91c1c;
   border: none;
 }
- .animal {
-   border: 2px solid #3cc1c360;
-   border-radius: 10px;
-   overflow: hidden;
- }
-
-
+.animal {
+  border: 2px solid #3cc1c360;
+  border-radius: 10px;
+  overflow: hidden;
+}
 
 //contenedor de los botnoes
- .botones {
-   display: flex;
-   justify-content: space-between;
-   padding: 10px;
- }
+.botones {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
 //ataca a los botoness
- .botones button {
-   padding: 8px 16px;
-   border: none;
-   border-radius: 4px;
-   cursor: pointer;
- }
+.botones button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: rgb(1, 116, 142);
+  color: aliceblue;
+}
 
- .botones button:hover {
-   background-color: #ddd;
- }
+// .botones button:hover {
+//   background-color: #ddd;
+// }
 ///HASTA AQUI BUCLE GALERIA
 
-
-
-.estadoA{
+.estadoA {
   display: flex;
   margin-top: 20px;
   border: 2px solid #3cc1c360;
@@ -109,35 +99,27 @@
 
   border-radius: 30px;
   justify-content: center;
-
 }
 
-.tituloF{
+.tituloF {
   display: flex;
   justify-content: space-between;
-
-
 }
 
-.input_buscador{
+.input_buscador {
   width: 50%;
-border: none;
-
+  border: none;
 }
 .buscador {
   border: 2px solid #3cc1c360;
   border-radius: 50px; /* Ajusta el valor según lo necesites para lograr el efecto deseado */
   padding: 5px; /* Ajusta el relleno según sea necesario */
-  width:70%;
+  width: 70%;
 }
-.modalAbrir{
-
+.modalAbrir {
   top: 10px;
   right: 10px;
   background: transparent;
   color: #e91c1c;
   border: none;
 }
-
-
-

@@ -1,7 +1,7 @@
 <section class="profContainer" *ngIf="authService.currentUserSig()">
   {{ authService.currentUserSig()?.name }}
   <div class="container-photo">
-    <img src="../../assets/placeholder/photo_placeholder.jpg" alt="icono" />
+    <img src="../../assets/placeholder/david11.jpg" alt="icono" />
   </div>
   <ul class="container-list">
     <li class="list-item">
@@ -56,7 +56,7 @@
   <!-- Separación semántica -->
   <ul class="container-list">
     <li class="list-item">
-      <a [routerLink]="['/adopcion']"
+      <a [routerLink]="['/adopcionEstado']"
         ><div class="list-item-icon">
           <img src="../../../assets/navBar/mascota@3x.png" alt="icono" />
         </div>

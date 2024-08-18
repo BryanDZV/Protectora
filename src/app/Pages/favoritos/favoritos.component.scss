@@ -29,30 +29,34 @@
   overflow: hidden;
   display: inline-block;
   border: none;
-
 }
 
 .imagen {
   width: 400px; /* Tamaño mediano */
   height: 250px; /* Tamaño mediano */
-
+}
+//contenedor de los botnoes
+.botones {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 button {
   display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
+
   font-size: 16px;
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   background-color: rgb(1, 116, 142);
-  color: white;
+  color: aliceblue;
 }
 
-button:hover {
-  background-color: #00796b; /* Cambia el color de fondo al pasar el cursor */
-}
+// button:hover {
+//   background-color: #00796b; /* Cambia el color de fondo al pasar el cursor */
+// }
 
 @media (max-width: 768px) {
   .animal {

@@ -2,19 +2,26 @@ import { ApiService } from '../../servicios/api.service';
 import { Component } from '@angular/core';
 import { FiltroModalComponent } from '../../filtros/filtros-modal/filtro-modal.component';
 import { CommonModule } from '@angular/common';
-import {MatDialog, MatDialogModule,} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-adopcion-estado',
   standalone: true,
-  imports: [CommonModule,MatDialogModule,FiltroModalComponent,FormsModule,RouterLink,MatIconModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    FiltroModalComponent,
+    FormsModule,
+    RouterLink,
+    MatIconModule,
+    NavBarComponent,
+  ],
   templateUrl: './adopcion-estado.component.html',
-  styleUrl: './adopcion-estado.component.scss'
+  styleUrl: './adopcion-estado.component.scss',
 })
 export class AdopcionEstadoComponent {
   public animalesBase: any[] = [];
@@ -31,7 +38,7 @@ export class AdopcionEstadoComponent {
   }
 
   buscar(texto: string): any {
-    this.resultados = this.animalesBase.filter(animal =>
+    this.resultados = this.animalesBase.filter((animal) =>
       animal.nombre.toLowerCase().includes(texto.toLowerCase())
     );
   }
@@ -39,7 +46,7 @@ export class AdopcionEstadoComponent {
   abrirModal(): void {
     const dialogRef = this.dialog.open(FiltroModalComponent, {
       width: '400px',
-      data: { animales: this.animalesBase, contexto: 'adopcion' }
+      data: { animales: this.animalesBase, contexto: 'adopcion' },
     });
 
     dialogRef.afterClosed().subscribe((resultados: any[]) => {
@@ -48,6 +55,4 @@ export class AdopcionEstadoComponent {
       }
     });
   }
-
 }
-

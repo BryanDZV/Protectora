@@ -1,6 +1,8 @@
-
-
-<button routerLink="/gallery">VOVLER A GALLERY </button>
+<div class="botones">
+  <button routerLink="/adopcionEstado">Estado Adopción</button>
+  <button routerLink="/gallery">Galería</button>
+  <button routerLink="/perfil">Menu</button>
+</div>
 <div>
   <h1>Animales Favoritos</h1>
   @if (animalesFavoritos.length > 0;) {
@@ -22,7 +24,9 @@
   </div>
   }
 
- <ng-template #noFavoritos>
+  <ng-template #noFavoritos>
     <p>No hay animales marcados como favoritos.</p>
   </ng-template>
+
+  <app-nav-bar></app-nav-bar>
 </div>

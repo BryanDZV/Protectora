@@ -42,8 +42,8 @@ export const routes: Routes = [
 
   { path: 'adopcion/:id', component: AdopcionDetalleComponent },
 
-  { path: 'adopcion', component: AdopcionEstadoComponent },
-  { path: 'adopciondetalle', component: AdopcionDetalleComponent },
+  { path: 'adopcionEstado', component: AdopcionEstadoComponent },
+  { path: 'adopcionDetalle', component: AdopcionDetalleComponent },
 
   { path: 'favoritos', component: FavoritosComponent },
 ];
