@@ -36,3 +36,4 @@ al desplegar en heroku
 
 al probar localmente pones un valor al port
 "start": "npx http-server dist/protectora -p 8080",
+ng serve
