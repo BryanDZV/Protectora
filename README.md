@@ -48,6 +48,7 @@ No necesitas la carpeta dist en Git porque Vercel generará automáticamente esa
 PARA VERCELER 
 "start": "npx http-server dist/protectora -p $PORT"
 sto es correcto si estás sirviendo la aplicación desde la carpeta dist/protectora, pero para Vercel no necesitas un servidor manual como http-server. Vercel usa su propio mecanismo para servir la aplicación.
+no tienes que crear el vercel.json lo configura solo
 Puedes eliminar este script si solo lo usas para producción en Vercel, o mantenerlo si lo necesitas localmente.
 
 Dependencias del servidor (http-server, nodemon):
@@ -66,3 +67,10 @@ Mover dependencias que solo se usen para desarrollo (como nodemon) a devDependen
 
 ¿Qué hace production: true?
  deberías poner el production en true en el archivo environment cuando hagas el despliegue en Vercel o en cualquier entorno de producción. Esto afecta cómo Angular optimiza y maneja la aplicación.
+
+
+Entorno de desarrollo (Local)
+environment.ts: Este archivo se utiliza cuando ejecutas tu aplicación en modo desarrollo, es decir, en tu máquina local. En este archivo, normalmente, production se configura como false, lo que significa que se activan las herramientas de depuración y los errores detallados.
+
+Entorno de producción (En vivo)
+environment.prod.ts: Este archivo se usa cuando despliegas tu aplicación en un entorno en vivo (como Vercel). Aquí, production está configurado como true, lo que optimiza la aplicación y elimina los detalles de errores.

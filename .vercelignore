@@ -1,0 +1,22 @@
+# Ignorar directorios de dependencias y construcción
+node_modules
+dist
+
+# Ignorar archivos de registro
+*.log
+
+# Ignorar archivos de configuración sensibles
+.env
+
+# Ignorar configuraciones de IDE
+.vscode
+.idea
+
+# Ignorar cachés y resultados de pruebas
+.angular
+coverage
+test-results
+
+# Ignorar archivos temporales
+*.tmp
+*.temp
