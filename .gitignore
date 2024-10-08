@@ -42,5 +42,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#carpeta dist solo heroku activarla
+
 /dist
+.vercel
