@@ -1,76 +1,97 @@
-# TeamProyectoFinal
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.3.
+# Proyecto Protectora 🐾
 
-## Development server
+Aplicación web completa para la gestión de protectoras de animales, desarrollada con Angular en el frontend y Node.js/Express en el backend, con base de datos MongoDB. El proyecto está desplegado en Vercel.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## 🔗 Enlaces
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Frontend (Angular)**: [https://protectora-orcin.vercel.app/portada](https://protectora-orcin.vercel.app/portada)  
+- **Backend (Node.js / API)**: [https://servidor-protectora-bice.vercel.app](https://servidor-protectora-bice.vercel.app)  
+- **Repositorio GitHub**: [https://github.com/BryanDZV/Protectora](https://github.com/BryanDZV/Protectora)
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## ⚙️ Tecnologías utilizadas
 
-## Running unit tests
+**Frontend**: Angular 17, HTML, CSS, SCSS, JavaScript, BEM, Grid  
+**Backend**: Node.js, Express, MongoDB Atlas  
+**Herramientas**: Git/GitHub, Visual Studio Code, Vercel  
+**Otros**: npm, Nodemon (desarrollo local)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## 🚀 Funcionalidades principales
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Registro y login de usuarios  
+- Gestión de mascotas y adopciones  
+- Administración de protectora (alta, baja, actualización de datos)  
+- Integración completa con MongoDB Atlas  
+- Despliegue en Vercel (frontend y backend separados)
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## 🛠️ Instalación y desarrollo local
 
-<!-- SIEMPRE HACER  NPM I BACKEND AND FRONTEND
-Prueba Tu Aplicación
+1. Clonar repositorio:  
+```bash
+git clone https://github.com/BryanDZV/Protectora.git
+cd Protectora
+````
 
-Abre un navegador web y navega a http://localhost:8080 para verificar que tu aplicación se carga correctamente y que todas las funcionalidades localmente
+2. Instalar dependencias del frontend:
 
-al desplegar en heroku 
-"start": "npx http-server dist/protectora -p $PORT",
+bash
+npm install
 
-al probar localmente pones un valor al port
-"start": "npx http-server dist/protectora -p 8080",
+
+3. Instalar dependencias en el server backend:
+
+bash
+npm install
+
+
+4. Configurar variables de entorno (MongoDB URI, puerto, etc.)
+
+5. Ejecutar servidor backend:
+
+bash
+npm run dev
+
+
+6. Ejecutar frontend Angular:
+
+bash
+
 ng serve
 
 
-¿Qué hacer con la carpeta dist?
-Mantén dist en el .gitignore de tu proyecto Angular. De esta manera, la carpeta no se sube a Git.
-No necesitas la carpeta dist en Git porque Vercel generará automáticamente esa carpeta durante el proceso de despliegue.
+7. Abrir navegador en [http://localhost:4200](http://localhost:4200)o puerto que tengas activo para probar la aplicación localmente
 
+---
 
+## 📦 Despliegue en Vercel
 
-PARA VERCELER 
-"start": "npx http-server dist/protectora -p $PORT"
-sto es correcto si estás sirviendo la aplicación desde la carpeta dist/protectora, pero para Vercel no necesitas un servidor manual como http-server. Vercel usa su propio mecanismo para servir la aplicación.
-no tienes que crear el vercel.json lo configura solo
-Puedes eliminar este script si solo lo usas para producción en Vercel, o mantenerlo si lo necesitas localmente.
+* **Frontend**: desplegado en Vercel automáticamente .
+* **Backend/API**: desplegado en Vercel como funciones serverless.
+* No es necesario subir la carpeta `dist/` al repositorio, Vercel la genera automáticamente.
 
-Dependencias del servidor (http-server, nodemon):
-"build": "ng build"
-http-server y nodemon no son necesarias para el despliegue en Vercel, ya que Vercel maneja esto automáticamente. Si solo las usas localmente, puedes moverlas a devDependencies o eliminarlas si no las necesitas.
+---
 
-Sugerencias para ajustar el package.json:
+## 📝 Notas adicionales
 
-Eliminar http-server si solo lo usas para producción en Vercel. Si necesitas usarlo para desarrollo local, puedes mantenerlo.
+- Autenticación con JWT ya implementada, en fase de pruebas.
+- Validaciones y feedback de formularios en desarrollo.
+- Para producción, asegurarse que `environment.prod.ts` tenga `production: true`.
+- Cualquier cambio en variables de entorno o MongoDB requiere redeploy.
 
-Asegurarte de que el build optimizado esté bien configurado para producción en Vercel.
- "build": "ng build --prod"
+---
 
-Mover dependencias que solo se usen para desarrollo (como nodemon) a devDependencies.
+## 📌 Autor
 
+**Bryan Zavala**
+Desarrollador en formación – DAW 2º curso
+GitHub: [https://github.com/BryanDZV](https://github.com/BryanDZV)
+Correo: [bryan.dweb@gmail.com](bryan.dweb@gmail.com)
 
-¿Qué hace production: true?
- deberías poner el production en true en el archivo environment cuando hagas el despliegue en Vercel o en cualquier entorno de producción. Esto afecta cómo Angular optimiza y maneja la aplicación.
-
-
-Entorno de desarrollo (Local)
-environment.ts: Este archivo se utiliza cuando ejecutas tu aplicación en modo desarrollo, es decir, en tu máquina local. En este archivo, normalmente, production se configura como false, lo que significa que se activan las herramientas de depuración y los errores detallados.
-
-Entorno de producción (En vivo)
-environment.prod.ts: Este archivo se usa cuando despliegas tu aplicación en un entorno en vivo (como Vercel). Aquí, production está configurado como true, lo que optimiza la aplicación y elimina los detalles de errores.
