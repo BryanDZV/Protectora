@@ -3,12 +3,11 @@ import Animal from '../../../../animal.interface';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../servicios/api.service';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
-import { AdopcionEstadoComponent } from '../adopcion-estado/adopcion-estado.component';
 
 @Component({
   selector: 'app-favoritos',
   standalone: true,
-  imports: [RouterLink, NavBarComponent, AdopcionEstadoComponent],
+  imports: [RouterLink, NavBarComponent],
   templateUrl: './favoritos.component.html',
   styleUrl: './favoritos.component.scss',
 })

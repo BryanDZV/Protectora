@@ -1,11 +1,14 @@
 <div class="home">
+  <!--  Logo -->
   <div class="container-img">
     <img src="../../assets/login_logo/logo@3x.png" />
   </div>
+
+  <!--  Saludo -->
   <div class="usuario">
     <p>¡Hola!</p>
   </div>
-
+  <!--  Sección de adopción -->
   <div class="adoption-section" routerLink="/adopcion">
     <div class="pet-info">
       <img src="../../assets/navBar/mascota@3x.png" class="pet-image" />
@@ -18,30 +21,21 @@
 
   <div class="separator"></div>
 
+  <!--  Novedades -->
   <div class="novedades">
     <p>Novedades</p>
   </div>
 
+  <!--  Galería de novedades -->
+  @for (item of novedades; track item.texto) {
   <div class="gallery">
-    <a
-      href="https://www.mundoanimalia.com/animales-consejos/chinchillas-nuestros-10-consejos-basicos.html"
-      ><img src="../../assets/home/home1.png" alt="1" />
-      <p>10 Curiosidades sobre las chinchillas</p>
+    <a [href]="item.url" target="_blank">
+      <img [src]="item.img" [alt]="item.texto" />
+      <p>{{ item.texto }}</p>
     </a>
   </div>
-  <div class="gallery">
-    <a href="https://nubika.es/noticias/que-comen-iguanas/">
-      <img src="../../assets/home/home2.png" alt="2" />
-      <p>¿Sabes qué comen las iguanas?</p>
-    </a>
-  </div>
+  }
 
-  <div class="gallery">
-    <a href="https://yendoplan.com/planes/madrid/parques-perros"
-      ><img src="../../assets/home/home3.png" alt="3" />
-      <p>10 lugares para visitar con tu perro en Madrid</p>
-    </a>
-  </div>
-
+  <!--  Barra de navegación -->
   <app-nav-bar></app-nav-bar>
 </div>

@@ -1,20 +1,25 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-eleccion',
   standalone: true,
   imports: [],
   templateUrl: './eleccion.component.html',
-  styleUrl: './eleccion.component.scss'
+  styleUrl: './eleccion.component.scss',
 })
 export class EleccionComponent {
-  constructor(private router:Router){}
+  constructor(private router: Router) {}
 
-  login(){
+  login() {
     this.router.navigate(['/login']);
   }
-  refugio(){
+
+  refugio() {
     this.router.navigate(['/']);
   }
 
+  registrarseLuego() {
+    this.router.navigate(['/registro-pendiente']); // o cualquier ruta que tenga sentido
+  }
 }

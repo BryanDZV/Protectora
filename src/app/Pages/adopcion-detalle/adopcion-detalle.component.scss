@@ -1,7 +1,89 @@
-.red {
-  color: red;
+/*  Contenedor general */
+:host {
+  display: block;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.blue-text {
-  color: blue;
+/*  Botón de volver */
+button[routerLink] {
+  margin-bottom: 1rem;
+  background-color: #f1f1f1;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+/*  Imagen del animal */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/*  Secciones agrupadas */
+.animal-info,
+.protectora-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
+
+  > div {
+    flex: 1 1 300px;
+  }
+}
+
+/*  Inputs de imagen */
+input[type='file'] {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+/*  Mat-form-field */
+mat-form-field {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+/*  Botón de enviar */
+button[mat-raised-button],
+button[mat-button] {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+}
+
+/*  Checkboxes */
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+/*  Responsive */
+@media (max-width: 600px) {
+  :host {
+    padding: 1rem;
+  }
+
+  .animal-info,
+  .protectora-info {
+    flex-direction: column;
+  }
+
+  button[routerLink],
+  button[mat-raised-button],
+  button[mat-button] {
+    width: 100%;
+  }
 }

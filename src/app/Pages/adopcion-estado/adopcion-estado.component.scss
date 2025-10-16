@@ -1,95 +1,125 @@
-:host {
-  color: rgb(1, 116, 142);
-}
-.animAdop {
-  border-radius: 5%;
+/* 🎨 Paleta base */
+:root {
+  --color-primario: #007bff;
+  --color-secundario: #f1f1f1;
+  --color-texto: #333;
+  --color-error: #e63946;
+  --color-fondo: #fafafa;
+  --color-borde: #ddd;
 }
 
-//contenedor de los botnoes
+/* 🧱 Contenedor general */
+:host {
+  display: block;
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--color-fondo);
+}
+
+/* 🔘 Botones de navegación */
 .botones {
   display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+
+  button {
+    padding: 0.6rem 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--color-secundario);
+    color: var(--color-texto);
+    cursor: pointer;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+
+  button[mat-icon-button] {
+    background-color: transparent;
+    padding: 0.4rem;
+  }
+}
+
+/* 🔍 Buscador y filtro */
+.tituloF {
+  display: flex;
   justify-content: space-between;
-  padding: 10px;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .buscador {
+    flex: 1;
+  }
+
+  .input_buscador {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-borde);
+    font-size: 1rem;
+  }
+
+  .modalAbrir {
+    margin-left: 1rem;
+  }
 }
-//ataca a los botoness
-.botones button {
-  display: block;
 
-  font-size: 16px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: rgb(1, 116, 142);
-  color: aliceblue;
+/* 🐾 Tarjetas de animales */
+.image-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-// button:hover {
-//   background-color: #00796b; /* Cambia el color de fondo al pasar el cursor */
-// }
-
-/// para cada imagen  DEL BUCLE GALERIA
 .animal {
-  display: inline-block;
-  position: relative;
-  margin: 8px; /* Espacio  los div contenedores entre animales */
+  border: 1px solid var(--color-borde);
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
 
 .imagen-container {
-  position: relative;
-  overflow: hidden;
-  display: inline-block; /* Hace que el contenedor ocupe solo el ancho necesario */
+  margin: 1rem 0;
 
-  border: none;
-}
-
-.imagen {
-  width: 400px; /* Tamaño mediano */
-  height: 250px; /* Tamaño mediano */
+  .imagen {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
 }
 
-.favorito-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  color: #e91c1c;
-  border: none;
-}
-.animal {
-  border: 2px solid #3cc1c360;
-  border-radius: 10px;
-  overflow: hidden;
+/* ❌ Mensaje de no resultados */
+.no-result {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: var(--color-error);
 }
 
-///HASTA AQUI BUCLE GALERIA
+/* 📱 Responsive */
+@media (max-width: 600px) {
+  .tituloF {
+    flex-direction: column;
+    align-items: stretch;
 
-.estadoA {
-  display: flex;
-  margin-top: 20px;
-  border: 2px solid #3cc1c360;
-  margin-bottom: 20px;
-}
+    .modalAbrir {
+      margin-top: 0.5rem;
+      margin-left: 0;
+    }
+  }
 
-.tituloF {
-  display: flex;
-  justify-content: center;
-}
+  .imagen {
+    max-width: 100%;
+  }
 
-.input_buscador {
-  border: none;
-  outline: none;
-}
-.buscador {
-  border: 2px solid #3cc1c360;
-  border-radius: 50px; /* Ajusta el valor según lo necesites para lograr el efecto deseado */
-  padding: 5px; /* Ajusta el relleno según sea necesario */
-  width: 50%;
-}
-.modalAbrir {
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  color: #e91c1c;
-  border: none;
+  .botones {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

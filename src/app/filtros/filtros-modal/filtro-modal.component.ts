@@ -1,62 +1,62 @@
-import { Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-import { FormsModule,} from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+// Importaciones necesarias para el componente
+import { Component, Inject } from '@angular/core'; // Component para definir el componente, Inject para recibir datos externos
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog'; // Para usar modales de Angular Material
+import { FormsModule } from '@angular/forms'; // Para usar [(ngModel)] en el HTML
+import { CommonModule } from '@angular/common'; // Para directivas como *ngIf y *ngFor
+import { MatIconModule } from '@angular/material/icon'; // Para usar <mat-icon> o botones con íconos
+import { RouterLink } from '@angular/router'; // Por si se usa navegación dentro del modal
 
 @Component({
   selector: 'app-filtro-modal',
-  standalone: true,
-  imports: [MatDialogModule,CommonModule,FormsModule,MatIconModule,RouterLink],
-  templateUrl:'./filtro-modal.component.html',
-  styleUrl: './filtro-modal.component.scss'
+  standalone: true, // Angular moderno: no necesita NgModule
+  imports: [
+    MatDialogModule,
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    RouterLink,
+  ], // Módulos necesarios para el HTML
+  templateUrl: './filtro-modal.component.html', // Ruta al HTML del modal
+  styleUrl: './filtro-modal.component.scss', // Ruta a los estilos del modal
 })
 export class FiltroModalComponent {
-  // PARA GUARDAR SINO HAY FILTROS
-noResultados: boolean = false;
+  //  Estado para mostrar mensaje si no hay resultados
+  noResultados: boolean = false;
 
-especieSeleccionada: string = ''
-    // variables que me creo para guardar  los filtros que se seleccione
-    especie: string = '';
-    edad: string | null = null;
-    genero: string = '';
-    ciudad: string = '';
-    size: string = '';
-    nombre: string = '';
-    estadoAdopcion: string = '';
-    contexto: string = ''; // Variable para el contexto=== al componente que quiero usar en el modal FUNCION QUE TE DA EL MODAL PARA PASAR INFORMACION
-    mensaje:string="NO HAY ANIMALES" //PARA MANDAR MENSAJE
-    mensaje1:string="mira tus animales"
-    // resultadosFiltrados!:any
+  //  Variables para guardar los filtros seleccionados
+  especie: string = '';
+  edad: string | null = null;
+  genero: string = '';
+  ciudad: string = '';
+  size: string = '';
+  estadoAdopcion: string = '';
+  contexto: string = ''; // Contexto que indica desde qué componente se abrió el modal
 
-    // Definir arrays de opciones para los selects y iterar y tener el desplegable
-    ciudades: string[] = ['Barcelona', 'Madrid', 'Valencia','Sevilla'];
+  //  Mensajes (aunque no se usan directamente en el HTML)
+  mensaje: string = 'NO HAY ANIMALES';
+  mensaje1: string = 'mira tus animales';
 
-    edades: string[] = ['Cachorro', 'Joven', 'Adulto'];
-    estadosAdopcion: string[] = ['Disponible', 'Rechazado', 'Completo'];
+  //  Opciones para los desplegables
+  ciudades: string[] = ['Barcelona', 'Madrid', 'Valencia', 'Sevilla'];
+  edades: string[] = ['Cachorro', 'Joven', 'Adulto'];
+  estadosAdopcion: string[] = ['Disponible', 'Rechazado', 'Completo'];
 
-    constructor(
-      //aqui importo el modal CON MATDIALORef se utiliza para interactuar con el modal desde el componente. Puedes cerrar el modal, obtener
-      //información sobre él, etc.ademas con@inject puedo pasar datos en el modal en funcion del contexto
-      //que me viene de galeria componente
-      public dialogRef: MatDialogRef<FiltroModalComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: any
-      //es un decorador para inyectar los datos que se pasan al modal desde el componente
-      //que lo abre==GAleria en mi caso. MAT_DIALOG_DATA
-      //decoradores en Angular incluyen @Component, @Injectable, @NgModule, @Input, @Output
-    ) {
-      //puedo cambiar el tamaño del modal
-      dialogRef.updateSize('100%', '100%');
+  constructor(
+    public dialogRef: MatDialogRef<FiltroModalComponent>, // Referencia al modal para poder cerrarlo
+    @Inject(MAT_DIALOG_DATA) public data: any // Datos que se pasan al abrir el modal (animales + contexto)
+  ) {
+    dialogRef.updateSize('100%', '100%'); // Hacemos el modal de pantalla completa
+    this.contexto = data.contexto; // Guardamos el contexto recibido (galeria o adopcion)
+  }
 
-      this.contexto = data.contexto; // paso los datos del valor del contexto recibido
-      //guardo los animales aqui para usar
-    }
-//FUNCIONES PARA CONTRROLAR las SELECCIONES
-    selectEspecie(especie: string): void {
-      this.especie = especie;
-
-    }
+  //  Funciones para seleccionar filtros desde botones
+  selectEspecie(especie: string): void {
+    this.especie = especie;
+  }
 
   selectGenero(genero: string): void {
     this.genero = genero;
@@ -65,79 +65,84 @@ especieSeleccionada: string = ''
   selectSize(size: string): void {
     this.size = size;
   }
+
   selectEstadoAdopcion(estado: string): void {
     this.estadoAdopcion = estado;
   }
 
-
-  // Método para aplicar los filtros y cerrar el modal con los resultados
+  // Aplica los filtros y cierra el modal si hay resultados
   aplicarFiltros(): void {
-    //no sabia que datos era no me llegaba
     console.log('Tipo de datos de this.data:', typeof this.data);
-console.log('Contenido de this.data:', this.data);
+    console.log('Contenido de this.data:', this.data);
 
-    // para filtrar los datos según el CONTEXTOEN FUNCION DE EL ME FILTRA 1 U OTROS
     const resultadosFiltrados = this.data.animales.filter((animal: any) => {
       if (this.contexto === 'galeria') {
-        // Filtrar según los filtros de la gaLERIA
-        return (!this.especie || animal.especie.toLowerCase() === this.especie.toLowerCase()) &&
-               (!this.edad || animal.edad.toLowerCase() === this.edad.toLowerCase()) &&
-               (!this.genero || animal.genero.toLowerCase() === this.genero.toLowerCase()) &&
-               (!this.ciudad || animal.ciudad.toLowerCase() === this.ciudad.toLowerCase()) &&
-               (!this.size || animal.size.toLowerCase() === this.size.toLowerCase());
+        return (
+          (!this.especie ||
+            animal.especie.toLowerCase() === this.especie.toLowerCase()) &&
+          (!this.edad ||
+            animal.edad.toLowerCase() === this.edad.toLowerCase()) &&
+          (!this.genero ||
+            animal.genero.toLowerCase() === this.genero.toLowerCase()) &&
+          (!this.ciudad ||
+            animal.ciudad.toLowerCase() === this.ciudad.toLowerCase()) &&
+          (!this.size || animal.size.toLowerCase() === this.size.toLowerCase())
+        );
       } else if (this.contexto === 'adopcion') {
-        // según el filtro de aDOPCION
-        return !this.estadoAdopcion || animal.adoptionState.toLowerCase() === this.estadoAdopcion.toLowerCase();
+        return (
+          !this.estadoAdopcion ||
+          animal.adoptionState.toLowerCase() ===
+            this.estadoAdopcion.toLowerCase()
+        );
       }
-      return false; // siempre debo traer todas las sRUTAS POSIBLES Y DARLES VALOR
+      return false;
     });
 
-    // visibilidad del mensaje sI no hay animal
-    this.noResultados = resultadosFiltrados.length == 0;
+    this.noResultados = resultadosFiltrados.length === 0;
 
-    // DESPUES DE APLICAR FILTRO --->Cierra el modal y devuelve los resultados filtrados si hay resultados
     if (resultadosFiltrados.length > 0) {
-      //USO EL CLOSE DEL MODAL
-      this.dialogRef.close(resultadosFiltrados);
-      this.mensaje1
-      console.log("hay filtros");
-
+      this.dialogRef.close(resultadosFiltrados); // Devuelve los resultados al componente padre
+      console.log('hay filtros');
     } else {
-      this.mensaje
-      // Si no hay resultados QUIERO Q ME muestra el mensaje NO ANIMALES
-
+      // Si no hay resultados, no se cierra el modal
+      console.log('no hay resultados');
     }
+  }
 
-
-
-}
-
-///FUNCION PARA CERRAR Y BORRAR FILTROS
+  // Reinicia todos los filtros
   borrarFiltros(): void {
-    // Reiniciar todas las propiedades de filtro
     this.especie = '';
     this.edad = null;
     this.genero = '';
     this.ciudad = '';
     this.size = '';
     this.estadoAdopcion = '';
-
-
-
   }
 
+  //  Cierra el modal y devuelve todos los animales si no hay filtros
   cerrarModal(): void {
-    // EL BOTON CERRAR DENTRO DE MODAL Cierra el modal y devuelve todos los animales si no hay resultados
-    this.dialogRef.close(!this.noResultados ? this.data.animales : "");
+    this.dialogRef.close(!this.noResultados ? this.data.animales : '');
+  }
+  // Devuelve el nombre del archivo de imagen según la especie
+  getEspecieImg(tipo: string): string {
+    const map: any = {
+      Perro: 'perrop@3x.png',
+      Gato: 'cat@3x.png',
+      Tortuga: 'anfibio@3x.png',
+      Arácnido: 'group5@3x.png',
+      Ave: 'ave@3x.png',
+      Reptil: 'group8@3x.png',
+    };
+    return map[tipo] || 'default.png';
   }
 
-
-
+  // Devuelve el nombre del archivo de imagen según el tamaño
+  getSizeImg(tam: string): string {
+    const map: any = {
+      Pequeño: 'group@3x.png',
+      Mediano: 'groupCopy@3x.png',
+      Grande: 'groupCopy2@3x.png',
+    };
+    return map[tam] || 'default.png';
+  }
 }
-
-
-
-
-
-
-
