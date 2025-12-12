@@ -1,0 +1,21 @@
+<section class="background-slide">
+  <div class="container-slide">
+
+    <!-- Contenido -->
+    <div class="slide-content">
+      <img [src]="slide.img" alt="slide image" />
+
+      <h3 [innerHTML]="slide.title"></h3>
+
+      @if (slide.text) {
+        <p [innerHTML]="slide.text"></p>
+      }
+    </div>
+
+    <!-- Navegación -->
+    <button class="anterior" (click)="irAnterior()"><</button>
+    <button class="siguiente" (click)="irSiguiente()">></button>
+
+  </div>
+</section>
+

@@ -1,41 +1,43 @@
 <div class="container">
-  <img src="../../assets/login_logo/logo@3x.png" alt="Logo pequeño" class="logo" />
+  <img
+    src="../../assets/login_logo/logo@3x.png"
+    alt="Logo pequeño"
+    class="logo"
+  />
 
-<h2>¡Hola! create una  cuenta para comenzar</h2>
-<form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
-  <fieldset>
-    <label class="block">
-      <input type="text" formControlName="name" placeholder="Nombre" />
-    </label>
-    <label class="block">
-      <input type="text" formControlName="email" placeholder="Email" />
-  </label>
-  <div class="contraseña-ojo">
-    <label class="label-contraseña">
-      <input
-        type="password"
-        formControlName="password"
-        placeholder="Contraseña"
-        id="passwordInput"
-        class="input-password"
-      />
+  <h2>¡Hola! Crea una cuenta para comenzar</h2>
 
-      <button
-        type="button"
-        class="eye-btn"
-        (click)="showPassword()"
-      >
-        <img
-          src="../../assets/primary_icons/little_icons_primary/ojo_little/ojo@3x.png"
-          class="ojo"
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <label>
+        <input type="text" formControlName="name" placeholder="Nombre" />
+      </label>
+
+      <label>
+        <input type="text" formControlName="email" placeholder="Email" />
+      </label>
+
+      <label class="label-contraseña">
+        <input
+          [type]="show ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="Contraseña"
+          class="input-password"
         />
-      </button>
-    </label>
-  </div>
-</fieldset>
 
-  <div>
-    <button class="btn-login">Registrarse </button>
-  </div>
-</form>
+        <button type="button" class="eye-btn" (click)="togglePassword()">
+          <img
+            src="../../assets/primary_icons/little_icons_primary/ojo_little/ojo@3x.png"
+            class="ojo"
+          />
+        </button>
+      </label>
+    </fieldset>
+
+    <button class="btn-login" type="submit">Registrarse</button>
+  </form>
+  <button class="btn-back" (click)="volver()">Volver</button>
+</div>
+<div class="toast" *ngIf="showToast">
+  {{ toastMessage }}
 </div>

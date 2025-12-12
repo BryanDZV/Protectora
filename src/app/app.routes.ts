@@ -1,51 +1,74 @@
-import { UserComponent } from './user/user.component';
-import { Component } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+// src/app/app.routes.ts
+import { Routes } from '@angular/router';
+
+// Portada / intro / login
 import { PortadaComponent } from './portada/portada.component';
-import { Slide1Component } from './slide1/slide1.component';
-import { Slide2Component } from './slide2/slide2.component';
-import { Slide3Component } from './slide3/slide3.component';
 import { LoginComponent } from './login/login.component';
 import { EleccionComponent } from './eleccion/eleccion.component';
-import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
+import { SlidesComponent } from './slides/slides.component';
+
+// Home (nuevo layout) y home real (contenido)
+import { HomeLayoutComponent } from './home/home-layout/home-layout.component';
+import { HomePageComponent } from './home/home-page/home-page.component';
+
+// Pages dentro de home
 import { GaleriaComponent } from './Pages/galeria/galeria.component';
+import { DetalleComponent } from './Pages/galeriaDetalle/detalle.component';
 import { ProfileComponent } from './Pages/profile/profile.component';
 import { OptionComponent } from './Pages/option/option.component';
-import { DetalleComponent } from './Pages/galeriaDetalle/detalle.component';
-import { RegisterComponent } from './register/register.component';
-
-import { AdopcionEstadoComponent } from './Pages/adopcion-estado/adopcion-estado.component';
-import { AdopcionDetalleComponent } from './Pages/adopcion-detalle/adopcion-detalle.component';
-
 import { FormAdComponent } from './Pages/form-ad/form-ad.component';
+import { AdopcionDetalleComponent } from './Pages/adopcion-detalle/adopcion-detalle.component';
+import { AdopcionEstadoComponent } from './Pages/adopcion-estado/adopcion-estado.component';
 import { FavoritosComponent } from './Pages/favoritos/favoritos.component';
+import { UserComponent } from './user/user.component';
 
+// ======================
+// RUTAS DE LA APLICACIÓN
+// ======================
 export const routes: Routes = [
+  // 🔹 Ruta raíz → portada
   { path: '', redirectTo: 'portada', pathMatch: 'full' },
-  { path: 'slide1', component: Slide1Component },
-  { path: 'slide2', component: Slide2Component },
-  { path: 'slide3', component: Slide3Component },
-  { path: 'login', component: LoginComponent },
-  { path: 'eleccion', component: EleccionComponent },
   { path: 'portada', component: PortadaComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'perfil', component: ProfileComponent },
-  { path: 'opciones', component: OptionComponent },
+
+  // 🔹 Slides de introducción
+  { path: 'slide/:id', component: SlidesComponent },
+
+  // 🔹 Login / register / elección
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'eleccion', component: EleccionComponent },
 
-  { path: 'detalle', component: DetalleComponent },
-  { path: 'gallery/:id', component: DetalleComponent },
-  { path: 'gallery', component: GaleriaComponent },
-  { path: 'formAd', component: FormAdComponent },
+  // ================================================
+  // RUTA PADRE "HOME" → LAYOUT con router-outlet + navbar
+  // ================================================
+  {
+    path: 'home',
+    component: HomeLayoutComponent, // Layout que envuelve todas las páginas internas
+    children: [
+      // 🔹 Página principal de home (TU home real)
+      // Antes este contenido estaba dentro de HomeComponent
+      { path: '', component: HomePageComponent },
 
-  { path: 'user', component: UserComponent },
+      // 🔹 Galería
+      { path: 'gallery', component: GaleriaComponent },
+      { path: 'gallery/:id', component: DetalleComponent },
 
-  { path: 'adopcion/:id', component: AdopcionDetalleComponent },
+      // 🔹 Perfil y opciones
+      { path: 'profile', component: ProfileComponent },
+      { path: 'opciones', component: OptionComponent },
 
-  { path: 'adopcionEstado', component: AdopcionEstadoComponent },
-  { path: 'adopcionDetalle', component: AdopcionDetalleComponent },
+      // 🔹 Formularios, adopción, favoritos
+      { path: 'formAd', component: FormAdComponent },
+      { path: 'adopcion/:id', component: AdopcionDetalleComponent },
+      { path: 'adopcion-estado', component: AdopcionEstadoComponent },
+      { path: 'favoritos', component: FavoritosComponent },
 
-  { path: 'favoritos', component: FavoritosComponent },
+      // 🔹 Usuario (si lo usas dentro de home)
+      { path: 'user', component: UserComponent },
+    ],
+  },
+
+  // 🔹 Ruta fallback → vuelve a portada si no existe la ruta
+  { path: '**', redirectTo: 'portada' },
 ];
-
-export class AppRoutingModule {}

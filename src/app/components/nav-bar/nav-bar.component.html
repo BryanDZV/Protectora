@@ -1,29 +1,39 @@
 <nav class="navContainer">
+  <!-- HOME -->
   <div class="navCard">
-    <a [routerLink]="['/home']"
-      ><img src="../../../assets/navBar/home@3x.png" alt="home"
-    /></a>
+    <a [routerLink]="['/home']">
+      <img src="../../../assets/navBar/home@3x.png" alt="home" />
+    </a>
   </div>
+
+  <!-- MAPA (este está bien porque es un enlace externo) -->
   <div class="navCard">
-    <a href="https://www.google.com/maps"
-      ><img
+    <a href="https://www.google.com/maps">
+      <img
         src="../../../assets/primary_icons/little_icons_primary/localization_little/localization@3x.png"
         alt="direcciones"
-    /></a>
+      />
+    </a>
   </div>
+
+  <!-- GALERÍA -->
   <div class="navCard">
-    <a [routerLink]="['/gallery']"
-      ><img src="../../../assets/navBar/mascota@3x.png" alt="estado"
-    /></a>
+    <a [routerLink]="['/home/gallery']">
+      <img src="../../../assets/navBar/mascota@3x.png" alt="estado" />
+    </a>
   </div>
+
+  <!-- PERFIL -->
   <div class="navCard-profile">
-    <a [routerLink]="['/perfil']"
-      ><img src="../../../assets/placeholder/david11.jpg" alt="perfil"
-    /></a>
+    <a [routerLink]="['/home/profile']">
+      <img src="../../../assets/placeholder/david11.jpg" alt="perfil" />
+    </a>
   </div>
+
+  <!-- OPCIONES -->
   <div class="navCard">
-    <a [routerLink]="['/opciones']"
-      ><img src="../../../assets/navBar/tres-puntos.png" alt="opciones"
-    /></a>
+    <a [routerLink]="['/home/opciones']">
+      <img src="../../../assets/navBar/tres-puntos.png" alt="opciones" />
+    </a>
   </div>
 </nav>

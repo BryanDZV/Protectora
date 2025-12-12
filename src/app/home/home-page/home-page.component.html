@@ -1,15 +1,13 @@
 <div class="home">
-  <!--  Logo -->
   <div class="container-img">
     <img src="../../assets/login_logo/logo@3x.png" />
   </div>
 
-  <!--  Saludo -->
   <div class="usuario">
     <p>¡Hola!</p>
   </div>
-  <!--  Sección de adopción -->
-  <div class="adoption-section" routerLink="/adopcion">
+
+  <div class="adoption-section" routerLink="adopcion-estado">
     <div class="pet-info">
       <img src="../../assets/navBar/mascota@3x.png" class="pet-image" />
       <div class="info-text-container">
@@ -21,13 +19,11 @@
 
   <div class="separator"></div>
 
-  <!--  Novedades -->
   <div class="novedades">
     <p>Novedades</p>
   </div>
 
-  <!--  Galería de novedades -->
-  @for (item of novedades; track item.texto) {
+  @for (item of novedades(); track item.texto) {
   <div class="gallery">
     <a [href]="item.url" target="_blank">
       <img [src]="item.img" [alt]="item.texto" />
@@ -35,7 +31,4 @@
     </a>
   </div>
   }
-
-  <!--  Barra de navegación -->
-  <app-nav-bar></app-nav-bar>
 </div>

@@ -15,54 +15,69 @@
 
 h2 {
   font-size: 1.4rem;
-  font-weight: 590;
-  //   margin-bottom: 40px;
+  font-weight: 600;
   text-align: center;
   color: var(--color-primary-blue);
+  margin-bottom: 20px;
 }
 
 form {
   width: 100%;
   max-width: 400px;
-  box-sizing: border-box;
 }
 
 fieldset {
   border: none;
-  margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 16px;
+  margin: 0;
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"] {
   width: 100%;
   padding: 8px;
-  box-sizing: border-box;
-  border: none; /* Eliminamos el borde predeterminado */
-  border-bottom: 1px solid #ccc; /* Añadimos solo el borde inferior */
+  border: none;
+  border-bottom: 1px solid #ccc;
   font-size: 16px;
-  line-height: 1.5;
-  margin-top: 8px; /* Ajusta el margen superior según sea necesario */
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+/* Contraseña + ojo */
+.label-contraseña {
+  position: relative;
+  width: 100%;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.ojo {
+  width: 32px;
+  height: auto;
 }
 
 .forgot-password {
   text-align: right;
   margin-top: 8px;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
   color: var(--color-primary-blue);
 }
 
+/* Botones */
 .btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 10px;
+  font-size: 1.1rem;
 
   &-login {
     background-color: var(--color-primary-blue);
@@ -70,48 +85,30 @@ input[type="password"] {
   }
 
   &-create {
-    background-color: var(--color-bg-white);
+    background: var(--color-bg-white);
     color: var(--color-primary-blue);
-
     border: 1px solid var(--color-primary-blue);
   }
 }
-
-.contraseña-ojo {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.contraseña-ojo .eye-btn {
+.btn-back {
   position: absolute;
-  right: 0px;
-  top: 0px;
-  cursor: pointer;
-  background-color: transparent;
+  top: 20px;
+  left: 20px;
+
+  background-color: var(--color-primary-blue);
+  color: white;
+
+  padding: 10px 18px;
+  border-radius: 6px;
   border: none;
-  margin: 0%;
-  padding: 0%;
-  display: inline;
-  width: 60px;
-  top: 2px
+
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+  transition: transform 0.1s ease;
 }
 
-.contraseña-ojo input-password {
-  width: 100%;
-}
-.ojo{
-  height: 50px;
-  width: auto;
-  top: -50%;
-}
-.label-contraseña{
-  position: relative;
-  width: 100%;
-}
-.adopcion{
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
+.btn-back:active {
+  transform: scale(0.95);
 }

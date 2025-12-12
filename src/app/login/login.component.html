@@ -10,40 +10,43 @@
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
     <fieldset>
       <!-- Email -->
-      <label class="block">
+      <label>
         <input type="text" formControlName="email" placeholder="Email" />
       </label>
+
       @if (contactForm.get('email')?.errors) {
       <app-form-errors [errors]="contactForm.get('email')?.errors" />
       }
 
       <!-- Contraseña -->
-      <div class="contraseña-ojo">
-        <label class="label-contraseña">
-          <input
-            type="password"
-            formControlName="password"
-            placeholder="Contraseña"
-            id="passwordInput"
-            class="input-password"
+      <label class="label-contraseña">
+        <input
+          [type]="show ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="Contraseña"
+          class="input-password"
+        />
+
+        <button type="button" class="eye-btn" (click)="togglePassword()">
+          <img
+            src="../../assets/primary_icons/little_icons_primary/ojo_little/ojo@3x.png"
+            class="ojo"
           />
-          <button type="button" class="eye-btn" (click)="showPassword()">
-            <img
-              src="../../assets/primary_icons/little_icons_primary/ojo_little/ojo@3x.png"
-              class="ojo"
-            />
-          </button>
-        </label>
-      </div>
+        </button>
+      </label>
+
       @if (contactForm.get('password')?.errors) {
       <app-form-errors [errors]="contactForm.get('password')?.errors" />
       }
     </fieldset>
 
     <p class="forgot-password">¿Has olvidado tu contraseña?</p>
+
     <button class="btn btn-login" type="submit">Iniciar sesión</button>
+
     <button class="btn btn-create" type="button" (click)="register()">
       Crear cuenta
     </button>
   </form>
+  <button class="btn-back" (click)="volver()">Volver</button>
 </div>
