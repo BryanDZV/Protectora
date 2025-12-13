@@ -22,6 +22,7 @@ import { AdopcionDetalleComponent } from './Pages/adopcion-detalle/adopcion-deta
 import { AdopcionEstadoComponent } from './Pages/adopcion-estado/adopcion-estado.component';
 import { FavoritosComponent } from './Pages/favoritos/favoritos.component';
 import { UserComponent } from './user/user.component';
+import { authGuard } from './guards/auth.guard';
 
 // ======================
 // RUTAS DE LA APLICACIÓN
@@ -45,6 +46,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeLayoutComponent, // Layout que envuelve todas las páginas internas
+    canActivate: [authGuard], // defendemos rutas
     children: [
       // 🔹 Página principal de home (TU home real)
       // Antes este contenido estaba dentro de HomeComponent

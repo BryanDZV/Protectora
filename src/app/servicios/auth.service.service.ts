@@ -1,41 +1,75 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment'; // Asegúrate de tener la ruta correcta
-import { User } from './../interface/user';
-import { WritableSignal, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { User } from '../interface/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServiceService {
-  private apiUrl = environment.apiUrl; // Utiliza la URL base del entorno
+  private apiUrl = environment.apiUrl;
+
+  // señal del usuario
   currentUserSig: WritableSignal<User | null | undefined> = signal<
     User | null | undefined
   >(undefined);
 
   constructor(private http: HttpClient) {}
 
-  // Método para iniciar sesión
+  // ================================
+  // LOGIN
+  // ================================
   login(user: { email: string; password: string }) {
-    return this.http.post<{ user: User }>(`${this.apiUrl}/user/login`, {
-      user,
-    });
+    return this.http.post<{ user: User; token: string }>(
+      `${this.apiUrl}/user/login`,
+      { user }
+    );
   }
 
-  // Método para establecer el usuario actual
+  // ================================
+  // CARGAR USUARIO DESDE TOKEN
+  // ================================
+  loadUserFromToken(): void {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.currentUserSig.set(null);
+      return;
+    }
+
+    this.http
+      .post<{ user: User }>(`${this.apiUrl}/user/checksession`, {})
+      .subscribe({
+        next: (response) => {
+          this.currentUserSig.set(response.user);
+        },
+        error: () => {
+          localStorage.removeItem('token');
+          this.currentUserSig.set(null);
+        },
+      });
+  }
+
+  // ================================
+  // SET USER
+  // ================================
   setCurrentUser(user: User): void {
     this.currentUserSig.set(user);
   }
 
-  // Método para eliminar el usuario actual
+  // ================================
+  // LOGOUT
+  // ================================
   clearCurrentUser(): void {
     this.currentUserSig.set(null);
+    localStorage.removeItem('token');
   }
 
-  // Método para verificar si el usuario está autenticado
+  // ================================
+  // COMPROBAR SI ESTÁ AUTENTICADO
+  // ================================
   isAuthenticated(): boolean {
-    return (
-      this.currentUserSig() !== null && this.currentUserSig() !== undefined
-    );
+    const user = this.currentUserSig();
+    return user !== null && user !== undefined;
   }
 }

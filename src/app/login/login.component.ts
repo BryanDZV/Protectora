@@ -27,7 +27,7 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
-  show = false; // control moderno para mostrar/ocultar contraseña
+  show = false;
 
   togglePassword(): void {
     this.show = !this.show;
@@ -40,12 +40,22 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.contactForm.invalid) return;
 
-    this.authService.login(this.contactForm.getRawValue()).subscribe((res) => {
-      localStorage.setItem('token', res.user.token);
-      this.authService.currentUserSig.set(res.user);
-      this.router.navigateByUrl('/home');
+    this.authService.login(this.contactForm.getRawValue()).subscribe({
+      next: (res) => {
+        // ⬇️ IMPORTANTE: tu backend envía "token" fuera del objeto "user"
+        localStorage.setItem('token', res.token);
+
+        // Guardamos el usuario correctamente
+        this.authService.setCurrentUser(res.user);
+
+        this.router.navigateByUrl('/home');
+      },
+      error: () => {
+        alert('Credenciales incorrectas o error en el servidor');
+      },
     });
   }
+
   volver(): void {
     this.router.navigate(['/eleccion']);
   }
