@@ -1,43 +1,43 @@
-<button routerLink="/adopcion">VOLVER</button>
+<button routerLink="/home/adopcion-estado">VOLVER</button>
 
 <mat-tab-group>
   <mat-tab label="Resumen">
-    @if (animalEstado) {
-    <div>
-      <h1>Adopción de: {{ animalEstado.nombre }}</h1>
-
+    @if (animalEstado()) {
       <div>
-        <img [src]="animalEstado.foto" alt="Foto del animal" />
-        <p>Nombre: {{ animalEstado.nombre }}</p>
-        <p>Ciudad: {{ animalEstado.ciudad }}</p>
-        <p>Sexo: {{ animalEstado.genero }}</p>
-      </div>
+        <h1>Adopción de: {{ animalEstado()?.nombre }}</h1>
 
-      <div>
-        <img
-          src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 111838.png"
-          alt="Protectora"
-        />
-        <h1>Asociación Protectora Lara</h1>
-        <p>Calle Eraso</p>
-      </div>
+        <div>
+          <img [src]="animalEstado()?.foto" alt="Foto del animal" />
+          <p>Nombre: {{ animalEstado()?.nombre }}</p>
+          <p>Ciudad: {{ animalEstado()?.ciudad }}</p>
+          <p>Sexo: {{ animalEstado()?.genero }}</p>
+        </div>
 
-      <div>
-        <img
-          src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112638.png"
-          alt="Contacto"
-        />
-        <p>Contacta con nosotros</p>
-        <img
-          src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112340.png"
-          alt="WhatsApp"
-        />
-        <img
-          src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112356.png"
-          alt="Email"
-        />
+        <div>
+          <img
+            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 111838.png"
+            alt="Protectora"
+          />
+          <h1>Asociación Protectora Lara</h1>
+          <p>Calle Eraso</p>
+        </div>
+
+        <div>
+          <img
+            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112638.png"
+            alt="Contacto"
+          />
+          <p>Contacta con nosotros</p>
+          <img
+            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112340.png"
+            alt="WhatsApp"
+          />
+          <img
+            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112356.png"
+            alt="Email"
+          />
+        </div>
       </div>
-    </div>
     }
   </mat-tab>
 
@@ -57,7 +57,7 @@
         <mat-label>125 $ Desglosar Tasas</mat-label>
         <mat-select [(value)]="seleccionarOpcion">
           @for (opcion of opciones; track $index) {
-          <mat-option [value]="opcion">{{ opcion }}</mat-option>
+            <mat-option [value]="opcion">{{ opcion }}</mat-option>
           }
         </mat-select>
       </mat-form-field>

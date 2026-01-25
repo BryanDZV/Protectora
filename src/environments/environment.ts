@@ -1,5 +1,5 @@
 export const environment = {
-  production: false, //Me permitirá ejecutar tu aplicación localmente, pero comunicarte con la API en Heroku.
+  production: false, //Me permitirá ejecutar tu aplicación localmente, pero comunicarte con la API en Vercel
   apiUrl: 'https://servidor-protectora-bice.vercel.app', // URL de tu servidor local O SI UIEQERES PUEDES PONER LA WEB
 };
 

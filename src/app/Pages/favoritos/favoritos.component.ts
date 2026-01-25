@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import Animal from '../../../../animal.interface';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../servicios/api.service';
@@ -12,9 +12,11 @@ import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
   styleUrl: './favoritos.component.scss',
 })
 export class FavoritosComponent {
-  animalesFavoritos: Animal[] = [];
+  private readonly apiService = inject(ApiService);
 
-  constructor(private apiService: ApiService) {
-    this.animalesFavoritos = this.apiService.obtenerAnimalesFavoritos();
-  }
+  // Signal de solo lectura desde el servicio
+  animalesFavoritos = this.apiService.obtenerAnimalesFavoritos();
+
+  // Computed para mostrar la cantidad sin recalcular manualmente
+  totalFavoritos = computed(() => this.animalesFavoritos().length);
 }

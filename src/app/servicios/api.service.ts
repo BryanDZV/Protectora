@@ -1,109 +1,160 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, signal, computed } from '@angular/core';
+import { Observable } from 'rxjs';
 import Animal from '../../../animal.interface';
-import { environment } from '../../environments/environment'; // Asegúrate de tener la ruta correcta
+import { environment } from '../../environments/environment';
+
+interface AnimalResponse {
+  success: boolean;
+  data: Animal;
+}
+
+interface AnimalListResponse {
+  success: boolean;
+  data: Animal[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
-//mi servicio
 export class ApiService {
-  private baseUrl: string = environment.apiUrl; // Usa la URL base del archivo de entorno
-  public animalesUrl: string = `${this.baseUrl}/animales`;
+  private baseUrl: string = environment.apiUrl;
+  private animalesUrl: string = `${this.baseUrl}/animales`;
+  private formUrl: string = `${this.baseUrl}/form`;
+  private userUrl: string = `${this.baseUrl}/form`;
 
-  public formUrl: string = `${this.baseUrl}/form`;
-  public userUrl: string = `${this.baseUrl}/form`;
+  // Signals para manejo de estado reactivo
+  private animalesFavoritosSignal = signal<Animal[]>([]);
 
-  private animalesFavoritos: Animal[] = []; //PARA GUARDAR LOS NIMALES FAVORITOS Y PASARLOS AL COMPONENTE
+  // Computed para obtener cantidad de favoritos
+  public cantidadFavoritos = computed(
+    () => this.animalesFavoritosSignal().length,
+  );
+
   constructor(private http: HttpClient) {}
 
-  //PARA COMPONENTE FAVORITOSSSSS
-  //  obtener los animales favoritos
-  public obtenerAnimalesFavoritos(): Animal[] {
-    return this.animalesFavoritos;
+  // ========== FAVORITOS (usando Signals) ==========
+
+  // Obtener signal de favoritos (reactivo)
+  public obtenerAnimalesFavoritos() {
+    return this.animalesFavoritosSignal.asReadonly();
   }
-  // agregar un animal a la lista de favoritos
+
+  // Agregar animal a favoritos
   public agregarAnimalFavorito(animal: Animal): void {
-    this.animalesFavoritos.push(animal);
-  }
-  // eliminar un animal de la lista de favoritos
-  public eliminarAnimalFavorito(animal: Animal): void {
-    const index = this.animalesFavoritos.findIndex((a) => a._id === animal._id);
-    if (index !== -1) {
-      this.animalesFavoritos.splice(index, 1);
+    const actuales = this.animalesFavoritosSignal();
+    if (!actuales.some((a) => a._id === animal._id)) {
+      this.animalesFavoritosSignal.set([...actuales, animal]);
     }
   }
 
-  //para subir imagenes
-  SubirImagen(imageFile: File) {
+  // Eliminar animal de favoritos
+  public eliminarAnimalFavorito(animal: Animal): void {
+    const actuales = this.animalesFavoritosSignal();
+    const filtrados = actuales.filter((a) => a._id !== animal._id);
+    this.animalesFavoritosSignal.set(filtrados);
+  }
+
+  // Limpiar todos los favoritos
+  public limpiarFavoritos(): void {
+    this.animalesFavoritosSignal.set([]);
+  }
+
+  // Verificar si un animal es favorito
+  public esAnimalFavorito(animalId: string): boolean {
+    return this.animalesFavoritosSignal().some((a) => a._id === animalId);
+  }
+
+  // ========== UPLOAD DE IMÁGENES ==========
+
+  public subirImagen(imageFile: File): Observable<any> {
     const imagenCliente = new FormData();
     imagenCliente.append('image', imageFile, imageFile.name);
-    return this.http.post(`${this.baseUrl}/upload`, imagenCliente); // Asegúrate de que la ruta es correcta
+    return this.http.post<any>(`${this.baseUrl}/upload`, imagenCliente);
   }
 
-  //me creo una funcion para recoger los datos de imagenes y cheking y cuando pulse enviar los envie estan guardados en data
-  enviarDatos(data: any) {
-    return this.http.post(`${this.baseUrl}/animales`, data); //aqui tengo q pone mi base da datos el edppoint q necesite de mi db.js de mi server
+  // ========== ANIMALES (CRUD) ==========
+
+  public enviarDatos(data: Partial<Animal>): Observable<AnimalResponse> {
+    return this.http.post<AnimalResponse>(`${this.baseUrl}/animales`, data);
   }
 
-  //CRUD PARA INTERACTUAR CON BASE DE DATOS
-  getAnimalesConURL(url: string) {
-    return this.http.get(url);
+  public getAnimalesConURL(url: string): Observable<Animal[]> {
+    return this.http.get<Animal[]>(url);
   }
 
-  public getAnimales() {
-    return this.http.get(this.animalesUrl);
+  public getAnimales(): Observable<Animal[]> {
+    return this.http.get<Animal[]>(this.animalesUrl);
   }
-  public getAnimalbyId(_id: any) {
-    return this.http.get(`${this.animalesUrl}/${_id}`);
+
+  public getAnimalbyId(id: string): Observable<Animal> {
+    return this.http.get<Animal>(`${this.animalesUrl}/${id}`);
   }
-  public postAnimal(animal: any) {
-    return this.http.post(this.animalesUrl, animal);
+
+  public postAnimal(animal: Partial<Animal>): Observable<AnimalResponse> {
+    return this.http.post<AnimalResponse>(this.animalesUrl, animal);
   }
-  public putAnimal(id: string, animal: any) {
-    return this.http.put(`${this.animalesUrl}/${id}`, animal);
+
+  public putAnimal(
+    id: string,
+    animal: Partial<Animal>,
+  ): Observable<AnimalResponse> {
+    return this.http.put<AnimalResponse>(`${this.animalesUrl}/${id}`, animal);
   }
-  public borrarAnimal(id: string) {
+
+  public borrarAnimal(id: string): Observable<any> {
     return this.http.delete(`${this.animalesUrl}/${id}`);
   }
 
-  //form
-  getFormConURL(url: string) {
-    return this.http.get(url);
+  // ========== FORMS (CRUD) ==========
+
+  public getFormConURL(url: string): Observable<any[]> {
+    return this.http.get<any[]>(url);
   }
-  public getform() {
-    return this.http.get(this.formUrl);
+
+  public getForm(): Observable<any[]> {
+    return this.http.get<any[]>(this.formUrl);
   }
-  public getFormById(_id: any) {
-    return this.http.get(`${this.formUrl}/${_id}`);
+
+  public getFormById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.formUrl}/${id}`);
   }
-  public postForm(form: any) {
-    return this.http.post(this.formUrl, form);
+
+  public postForm(form: any): Observable<any> {
+    return this.http.post<any>(this.formUrl, form);
   }
-  public putForm(id: string, form: any) {
-    return this.http.put(`${this.formUrl}/${id}`, form);
+
+  public putForm(id: string, form: any): Observable<any> {
+    return this.http.put<any>(`${this.formUrl}/${id}`, form);
   }
-  public borrarForm(id: string) {
+
+  public borrarForm(id: string): Observable<any> {
     return this.http.delete(`${this.formUrl}/${id}`);
   }
 
-  //user
-  getUserConURL(url: string) {
-    return this.http.get(url);
+  // ========== USERS (CRUD) ==========
+
+  public getUserConURL(url: string): Observable<any[]> {
+    return this.http.get<any[]>(url);
   }
-  public getUser() {
-    return this.http.get(this.userUrl);
+
+  public getUser(): Observable<any[]> {
+    return this.http.get<any[]>(this.userUrl);
   }
-  public getUserById(_id: any) {
-    return this.http.get(`${this.userUrl}/${_id}`);
+
+  public getUserById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.userUrl}/${id}`);
   }
-  public postUser(User: any) {
-    return this.http.post(this.userUrl, User);
+
+  public postUser(user: any): Observable<any> {
+    return this.http.post<any>(this.userUrl, user);
   }
-  public putUser(id: string, User: any) {
-    return this.http.put(`${this.userUrl}/${id}`, User);
+
+  public putUser(id: string, user: any): Observable<any> {
+    return this.http.put<any>(`${this.userUrl}/${id}`, user);
   }
-  public borrarUser(id: string) {
+
+  public borrarUser(id: string): Observable<any> {
     return this.http.delete(`${this.userUrl}/${id}`);
   }
 }

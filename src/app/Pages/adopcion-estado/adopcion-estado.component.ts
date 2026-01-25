@@ -14,7 +14,6 @@ import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
   imports: [
     CommonModule,
     MatDialogModule,
-    FiltroModalComponent,
     FormsModule,
     RouterLink,
     MatIconModule,
@@ -28,7 +27,10 @@ export class AdopcionEstadoComponent {
   public resultados: any[] = [];
   public textoBusqueda = '';
 
-  constructor(private apiService: ApiService, private dialog: MatDialog) {}
+  constructor(
+    private apiService: ApiService,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.apiService.getAnimales().subscribe((data: any) => {
@@ -39,13 +41,17 @@ export class AdopcionEstadoComponent {
 
   buscar(texto: string): any {
     this.resultados = this.animalesBase.filter((animal) =>
-      animal.nombre.toLowerCase().includes(texto.toLowerCase())
+      animal.nombre.toLowerCase().includes(texto.toLowerCase()),
     );
   }
 
   abrirModal(): void {
     const dialogRef = this.dialog.open(FiltroModalComponent, {
-      width: '400px',
+      width: '90vw',
+      maxWidth: '520px',
+      maxHeight: 'auto',
+      panelClass: 'filtro-modal-panel',
+      backdropClass: 'filtro-modal-backdrop',
       data: { animales: this.animalesBase, contexto: 'adopcion' },
     });
 

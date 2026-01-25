@@ -1,34 +1,35 @@
 <!--  Navegación -->
 <div class="botones">
-  <button routerLink="/adopcionEstado">Estado Adopción</button>
-  <button routerLink="/gallery">Galería</button>
-  <button routerLink="/perfil">Menú</button>
+  <button routerLink="/home/adopcion-estado">Estado Adopción</button>
+  <button routerLink="/home/gallery">Galería</button>
+  <button routerLink="/home/profile">Menú</button>
 </div>
 
 <!--  Título -->
 <h1>Animales Favoritos</h1>
 
 <!--  Lista de favoritos -->
-@if (animalesFavoritos.length > 0) {
-<div class="animal-card">
-  @for (animal of animalesFavoritos; track $index) {
-  <div class="animal">
-    <h2>{{ animal.nombre }}</h2>
-    <div class="imagen-container">
-      <img
-        class="imagen"
-        [src]="animal.foto"
-        alt="foto"
-        [routerLink]="'/gallery/' + animal._id"
-      />
-    </div>
+@if (animalesFavoritos().length > 0) {
+  <div class="animal-card">
+    @for (animal of animalesFavoritos(); track animal._id) {
+      <div class="animal">
+        <h2>{{ animal.nombre }}</h2>
+        <div class="imagen-container">
+          <img
+            class="imagen"
+            [src]="animal.foto"
+            alt="foto"
+            [routerLink]="'/gallery/' + animal._id"
+          />
+        </div>
+      </div>
+    }
   </div>
-  }
-</div>
-} @if (animalesFavoritos.length === 0) {
-<div class="no-favoritos">
-  <p>No hay animales marcados como favoritos.</p>
-</div>
+}
+@if (animalesFavoritos().length === 0) {
+  <div class="no-favoritos">
+    <p>No hay animales marcados como favoritos.</p>
+  </div>
 }
 
 <!--  Barra inferior -->

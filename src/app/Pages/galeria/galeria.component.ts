@@ -1,27 +1,24 @@
 import { ApiService } from './../../servicios/api.service';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { FiltroModalComponent } from '../../filtros/filtros-modal/filtro-modal.component';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import Animal from '../../../../animal.interface';
 import { MatIconModule } from '@angular/material/icon';
 
-
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
-
 
 @Component({
   selector: 'app-galeria',
   standalone: true,
 
-
   imports: [
     CommonModule,
     MatDialogModule,
-    FiltroModalComponent,
     FormsModule,
     RouterLink,
     NavBarComponent,
@@ -32,33 +29,39 @@ import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
   styleUrl: './galeria.component.scss',
 })
 export class GaleriaComponent {
-  public animalesBase: any[] = []; //para guardar mis datos base
-  public resultados: any[] = []; //lo uso para el resultado el buscador guardar sus resutlados o mostrar los animales base
-  public textoBusqueda = ''; //inicar el buscador con 0
+  public animalesBase = signal<Animal[]>([]); // datos base
+  public resultados = signal<Animal[]>([]); // resultados mostrados
+  public textoBusqueda = '';
 
+  private readonly apiService = inject(ApiService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly favoritosSignal = this.apiService.obtenerAnimalesFavoritos();
 
-  constructor(private apiService: ApiService, private dialog: MatDialog) {}
-
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.apiService.getAnimales().subscribe((data: any) => {
+    this.apiService
+      .getAnimales()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((animales) => {
+        const favoritos = this.favoritosSignal();
+        const conFavorito = animales.map((animal) => ({
+          ...animal,
+          favorito: favoritos.some((fav) => fav._id === animal._id),
+        }));
 
-      console.log("soy data en galeria",data);
-      this.resultados = data;
-      this.animalesBase=this.resultados
-
-
-      // Recuperar los animales favoritos y actualizar el estado de favorito en la galería
-      const animalesFavoritos = this.apiService.obtenerAnimalesFavoritos();
-      this.resultados.forEach(animal => {
-        animal.favorito = animalesFavoritos.some(favorito => favorito._id === animal._id);
+        this.animalesBase.set(conFavorito);
+        this.resultados.set(conFavorito);
       });
-    });
   }
   //BUSCADOR
   buscar(texto: string): any {
-    this.resultados = this.animalesBase.filter((animal) =>
-      animal.nombre.toLowerCase().includes(texto.toLowerCase())
+    const termino = texto.toLowerCase().trim();
+    const base = this.animalesBase();
+    this.resultados.set(
+      termino
+        ? base.filter((animal) => animal.nombre.toLowerCase().includes(termino))
+        : base,
     );
   }
   //INTERACTUAR CON EL MODAL
@@ -66,32 +69,39 @@ export class GaleriaComponent {
     //DIALOG.OPEN FUNCIONALIDAD QUE TE DA EL MODAL
     const dialogRef = this.dialog.open(FiltroModalComponent, {
       width: '400px',
-      data: { animales: this.animalesBase, contexto: 'galeria' }, // Pasar todos los animales para aplicar filtros sobre ellos LE PASO A FILTRO MODAL
+      data: { animales: this.animalesBase(), contexto: 'galeria' }, // Pasar todos los animales para aplicar filtros sobre ellos LE PASO A FILTRO MODAL
     });
 
     // Actualizar la lista de resultados con los filtrados GALERIA RECIBE LOS DATOS YA FILTRADOS DE MODAL
-    dialogRef.afterClosed().subscribe((resultados: any[]) => {
-      //afterclose para hacer algo al cerrar el modal en este caso :
-      console.log('soy resultadosen galeria', resultados);
+    dialogRef
+      .afterClosed()
+      .subscribe((animalesFiltrados: Animal[] | undefined) => {
+        //afterclose para hacer algo al cerrar el modal en este caso :
+        console.log('soy resultadosen galeria', animalesFiltrados);
 
-      if (resultados && resultados.length > 0) {
-        this.resultados = resultados;
-      }
-    });
+        if (animalesFiltrados && animalesFiltrados.length > 0) {
+          this.resultados.set(animalesFiltrados);
+        }
+      });
   }
 
-
   marcarFavorito(animal: Animal): void {
+    const actualmenteFavorito = this.apiService.esAnimalFavorito(animal._id);
+    const nuevoEstado = !actualmenteFavorito;
 
-
-    animal.favorito = !animal.favorito;
-    if (animal.favorito) {
-      console.log("estas marcado animal");
+    if (nuevoEstado) {
       this.apiService.agregarAnimalFavorito(animal);
     } else {
       this.apiService.eliminarAnimalFavorito(animal);
-      console.log("estas quitando animal");
     }
-  }
 
+    // Reflejar el cambio en las señales locales
+    const toggleFavorito = (lista: Animal[]) =>
+      lista.map((item) =>
+        item._id === animal._id ? { ...item, favorito: nuevoEstado } : item,
+      );
+
+    this.resultados.update(toggleFavorito);
+    this.animalesBase.update(toggleFavorito);
+  }
 }

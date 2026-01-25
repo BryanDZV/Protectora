@@ -1,13 +1,13 @@
-<!-- 🔘 Navegación rápida -->
+<!--  Navegación rápida -->
 <div class="botones">
-  <button routerLink="/gallery">Galería</button>
-  <button routerLink="/perfil">Menú</button>
-  <button mat-icon-button routerLink="/favoritos">
+  <button routerLink="/home/gallery">Galería</button>
+  <button routerLink="/home/profile">Menú</button>
+  <button mat-icon-button routerLink="/home/favoritos">
     <mat-icon>favorite</mat-icon>
   </button>
 </div>
 
-<!-- 🔍 Buscador y filtro -->
+<!--  Buscador y filtro -->
 <div class="tituloF">
   <div class="buscador">
     <input
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<!-- 🐾 Resultados -->
+<!--  Resultados -->
 @if (resultados.length > 0) {
 <div class="image-container">
   @for (animal of resultados; track $index) {
@@ -39,7 +39,7 @@
         class="imagen"
         [src]="animal.foto"
         alt="foto"
-        routerLink="/adopcion/{{ animal._id }}"
+        [routerLink]="['/home', 'adopcion', animal._id]"
       />
     </div>
 
@@ -57,5 +57,5 @@
 </div>
 }
 
-<!-- 📱 Barra inferior -->
+<!--  Barra inferior -->
 <app-nav-bar></app-nav-bar>

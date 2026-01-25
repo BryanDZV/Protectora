@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, map, switchMap } from 'rxjs';
+import Animal from '../../../../animal.interface';
 
 import { ApiService } from '../../servicios/api.service';
 import { AdopcionModalComponent } from '../../filtros/adopcion-modal/adopcion-modal.component';
@@ -35,37 +38,42 @@ import { AdopcionModalComponent } from '../../filtros/adopcion-modal/adopcion-mo
   styleUrl: './adopcion-detalle.component.scss',
 })
 export class AdopcionDetalleComponent {
-  id!: string;
-  animalEstado!: any;
+  private readonly apiService = inject(ApiService);
+  private readonly rutaActivada = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
 
-  // 📷 Fotos seleccionadas
+  id = '';
+  animalEstado = signal<Animal | null>(null);
+
+  // Fotos seleccionadas
   fotoSeleccionada1!: File;
   fotoSeleccionada2!: File;
   fotoSeleccionada3!: File;
 
-  // 🧾 Datos del formulario
+  //  Datos del formulario
   seleccionarOpcion!: string;
   opciones: string[] = ['iva:90 $', 'vacuna:20$', 'gestión:15$'];
   checkedvisto1 = false;
   checkedvisto2 = false;
 
-  // 🕒 Fecha y hora
+  //  Fecha y hora
   fechaSeleccionada!: Date;
   inputText!: string;
 
-  constructor(
-    private servicio: ApiService,
-    private rutaActivada: ActivatedRoute,
-    private dialog: MatDialog
-  ) {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.rutaActivada.paramMap.subscribe((params) => {
-      this.id = params.get('id')!;
-      this.servicio.getAnimalbyId(this.id).subscribe((data) => {
-        this.animalEstado = data;
-      });
-    });
+    this.rutaActivada.paramMap
+      .pipe(
+        map((params) => params.get('id')),
+        filter((id): id is string => !!id),
+        switchMap((id) => {
+          this.id = id;
+          return this.apiService.getAnimalbyId(id);
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((animal) => this.animalEstado.set(animal));
   }
 
   seleccionarFoto1(event: Event): void {
@@ -93,7 +101,7 @@ export class AdopcionDetalleComponent {
       visto2: this.checkedvisto2,
     };
 
-    this.servicio.enviarDatos(data).subscribe({
+    this.apiService.enviarDatos(data as any).subscribe({
       error: (error) => {
         console.error('No se ha enviado datos desde adopcion-Modal:', error);
       },
