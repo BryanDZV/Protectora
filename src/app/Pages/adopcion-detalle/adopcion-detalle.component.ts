@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, map, switchMap } from 'rxjs';
-import Animal from '../../../../animal.interface';
+import { Animal } from '../../types/animal.types';
 
 import { ApiService } from '../../servicios/api.service';
 import { AdopcionModalComponent } from '../../filtros/adopcion-modal/adopcion-modal.component';

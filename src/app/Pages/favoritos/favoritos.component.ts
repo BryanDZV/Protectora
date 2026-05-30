@@ -1,5 +1,4 @@
 import { Component, computed, inject } from '@angular/core';
-import Animal from '../../../../animal.interface';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../servicios/api.service';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';

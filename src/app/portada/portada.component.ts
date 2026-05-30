@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-portada',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './portada.component.html',
   styleUrls: ['./portada.component.scss'],
 })
@@ -14,7 +14,5 @@ export class PortadaComponent {
   irSlide1(): void {
     // Navegación moderna y limpia
     this.router.navigate(['/slide', 1]);
-
   }
 }
-

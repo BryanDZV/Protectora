@@ -1,0 +1,14 @@
+@if (errors(); as validationErrors) {
+  @if (validationErrors["required"]) {
+    <span>Este campo es obligatorio.</span>
+  }
+  @if (validationErrors["email"]) {
+    <span>Introduce un email válido.</span>
+  }
+  @if (validationErrors["minlength"]) {
+    <span
+      >Debe tener al menos
+      {{ validationErrors["minlength"].requiredLength }} caracteres.</span
+    >
+  }
+}

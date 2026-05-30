@@ -1,17 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
-interface SlideData {
-  img: string;
-  title: string;
-  text?: string;
-}
+import { SlideData } from '../types/slide.types';
 
 @Component({
   selector: 'app-slides',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './slides.component.html',
   styleUrls: ['./slides.component.scss'],
 })
@@ -33,7 +28,8 @@ export class SlidesComponent {
     },
     {
       img: '../../assets/onboarding/undrawPetAdoption2Qkw@3x.png',
-      title: 'Si eres una asociación, sube a tus peludos para darles más difusión',
+      title:
+        'Si eres una asociación, sube a tus peludos para darles más difusión',
     },
   ];
 
@@ -47,19 +43,16 @@ export class SlidesComponent {
   }
 
   irSiguiente(): void {
-  if (this.currentId === 3) {
-    this.router.navigate(['/eleccion']);
-    return;
+    if (this.currentId === 3) {
+      this.router.navigate(['/eleccion']);
+      return;
+    }
+
+    this.router.navigate(['/slide', this.currentId + 1]);
   }
-
-  this.router.navigate(['/slide', this.currentId + 1]);
-}
-
 
   irAnterior(): void {
     const prev = this.currentId === 1 ? 1 : this.currentId - 1;
     this.router.navigate(['/slide', prev]);
   }
-
-
 }

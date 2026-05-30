@@ -1,0 +1,57 @@
+﻿const fs = require('fs');
+const html = \<div class=\"login-page\">
+  <div class=\"image-panel\"></div>
+  <div class=\"login-card\">
+    <div class=\"login-card-content\">
+      <button class=\"btn-back\" (click)=\"controller.navigateBack()\" aria-label=\"Volver atrás\">
+        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" fill=\"currentColor\" viewBox=\"0 0 16 16\">
+          <path fill-rule=\"evenodd\" d=\"M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z\"/>
+        </svg>
+        <span>Volver</span>
+      </button>
+      <div class=\"logo-container\">
+        <img src=\"../../assets/login_logo/logo@3x.png\" alt=\"Protectora Logo\" class=\"logo\" />
+      </div>
+      <h1 class=\"title\">¡Hola!</h1>
+      <p class=\"subtitle\">Para continuar, inicia sesión o crea una cuenta</p>
+      <app-error-alert [errorMessage]=\"controller.errorMessage()\"></app-error-alert>
+      <form [formGroup]=\"controller.loginForm\" (ngSubmit)=\"controller.login()\">
+        <div class=\"form-group\">
+          <label for=\"email\" class=\"visually-hidden\">Email</label>
+          <input id=\"email\" type=\"email\" formControlName=\"email\" placeholder=\"Email\" class=\"form-control\" [class.is-invalid]=\"controller.loginForm.get('email')?.invalid && controller.loginForm.get('email')?.touched\" />
+          @if (controller.loginForm.get('email')?.errors && controller.loginForm.get('email')?.touched) {
+            <app-form-errors [errors]=\"controller.loginForm.get('email')?.errors ?? null\" />
+          }
+        </div>
+        <div class=\"form-group\">
+          <label for=\"password\" class=\"visually-hidden\">Contraseña</label>
+          <div class=\"password-wrapper\">
+            <input id=\"password\" [type]=\"showPassword ? 'text' : 'password'\" formControlName=\"password\" placeholder=\"Contraseña\" class=\"form-control input-password\" [class.is-invalid]=\"controller.loginForm.get('password')?.invalid && controller.loginForm.get('password')?.touched\" />
+            <button type=\"button\" class=\"eye-btn\" (click)=\"togglePassword()\" aria-label=\"Mostrar contraseña\">
+              <img src=\"../../assets/primary_icons/little_icons_primary/ojo_little/ojo@3x.png\" alt=\"Ver\" class=\"ojo-icon\" />
+            </button>
+          </div>
+          @if (controller.loginForm.get('password')?.errors && controller.loginForm.get('password')?.touched) {
+            <app-form-errors [errors]=\"controller.loginForm.get('password')?.errors ?? null\" />
+          }
+        </div>
+        <div class=\"forgot-password-container\">
+          <a href=\"#\" class=\"forgot-password\">¿Has olvidado tu contraseña?</a>
+        </div>
+        <div class=\"actions\">
+          <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"controller.isLoading()\">
+            @if (controller.isLoading()) {
+              <span class=\"spinner\"></span> Iniciando...
+            } @else {
+              Iniciar sesión
+            }
+          </button>
+          <button class=\"btn btn-outline mt-3\" type=\"button\" (click)=\"controller.navigateToRegister()\" [disabled]=\"controller.isLoading()\">
+            Crear cuenta
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>\;
+fs.writeFileSync('src/app/login/login.component.html', html, 'utf8');

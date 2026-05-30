@@ -13,9 +13,17 @@
         <input type="text" formControlName="name" placeholder="Nombre" />
       </label>
 
+      @if (contactForm.get("name")?.errors) {
+        <app-form-errors [errors]="contactForm.get('name')?.errors ?? null" />
+      }
+
       <label>
         <input type="text" formControlName="email" placeholder="Email" />
       </label>
+
+      @if (contactForm.get("email")?.errors) {
+        <app-form-errors [errors]="contactForm.get('email')?.errors ?? null" />
+      }
 
       <label class="label-contraseña">
         <input
@@ -32,6 +40,12 @@
           />
         </button>
       </label>
+
+      @if (contactForm.get("password")?.errors) {
+        <app-form-errors
+          [errors]="contactForm.get('password')?.errors ?? null"
+        />
+      }
     </fieldset>
 
     <button class="btn-login" type="submit">Registrarse</button>

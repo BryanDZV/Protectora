@@ -1,7 +1,13 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { User } from '../interface/user';
+import { User } from '../types/user.types';
+import {
+  AuthResponse,
+  LoginCredentials,
+  RegisterUserPayload,
+  SessionResponse,
+} from '../types/auth.types';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +25,17 @@ export class AuthServiceService {
   // ================================
   // LOGIN
   // ================================
-  login(user: { email: string; password: string }) {
-    return this.http.post<{ user: User; token: string }>(
-      `${this.apiUrl}/user/login`,
-      { user }
-    );
+  login(user: LoginCredentials) {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/user/login`, { user });
+  }
+
+  // ================================
+  // REGISTER
+  // ================================
+  register(user: RegisterUserPayload) {
+    return this.http.post<{ user: User }>(`${this.apiUrl}/user/register/`, {
+      user,
+    });
   }
 
   // ================================
@@ -38,7 +50,7 @@ export class AuthServiceService {
     }
 
     this.http
-      .post<{ user: User }>(`${this.apiUrl}/user/checksession`, {})
+      .post<SessionResponse>(`${this.apiUrl}/user/checksession`, {})
       .subscribe({
         next: (response) => {
           this.currentUserSig.set(response.user);

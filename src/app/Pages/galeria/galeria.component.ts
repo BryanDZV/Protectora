@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import Animal from '../../../../animal.interface';
+import { Animal } from '../../types/animal.types';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';

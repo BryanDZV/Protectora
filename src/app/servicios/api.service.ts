@@ -1,18 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, computed } from '@angular/core';
 import { Observable } from 'rxjs';
-import Animal from '../../../animal.interface';
+import { Animal, AnimalResponse } from '../types/animal.types';
 import { environment } from '../../environments/environment';
-
-interface AnimalResponse {
-  success: boolean;
-  data: Animal;
-}
-
-interface AnimalListResponse {
-  success: boolean;
-  data: Animal[];
-}
 
 @Injectable({
   providedIn: 'root',

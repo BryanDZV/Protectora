@@ -1,12 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
-interface Novedad {
-  img: string;
-  texto: string;
-  url: string;
-}
+import { Novedad } from '../../types/home-page.types';
 
 @Component({
   selector: 'app-home-page',

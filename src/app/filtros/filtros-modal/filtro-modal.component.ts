@@ -8,18 +8,11 @@ import {
 import { FormsModule } from '@angular/forms'; // Para usar [(ngModel)] en el HTML
 import { CommonModule } from '@angular/common'; // Para directivas como *ngIf y *ngFor
 import { MatIconModule } from '@angular/material/icon'; // Para usar <mat-icon> o botones con íconos
-import { RouterLink } from '@angular/router'; // Por si se usa navegación dentro del modal
 
 @Component({
   selector: 'app-filtro-modal',
   standalone: true, // Angular moderno: no necesita NgModule
-  imports: [
-    MatDialogModule,
-    CommonModule,
-    FormsModule,
-    MatIconModule,
-    RouterLink,
-  ], // Módulos necesarios para el HTML
+  imports: [MatDialogModule, CommonModule, FormsModule, MatIconModule], // Módulos necesarios para el HTML
   templateUrl: './filtro-modal.component.html', // Ruta al HTML del modal
   styleUrl: './filtro-modal.component.scss', // Ruta a los estilos del modal
 })
@@ -47,7 +40,7 @@ export class FiltroModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<FiltroModalComponent>, // Referencia al modal para poder cerrarlo
-    @Inject(MAT_DIALOG_DATA) public data: any // Datos que se pasan al abrir el modal (animales + contexto)
+    @Inject(MAT_DIALOG_DATA) public data: any, // Datos que se pasan al abrir el modal (animales + contexto)
   ) {
     dialogRef.updateSize('100%', '100%'); // Hacemos el modal de pantalla completa
     this.contexto = data.contexto; // Guardamos el contexto recibido (galeria o adopcion)
