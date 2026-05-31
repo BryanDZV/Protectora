@@ -13,8 +13,8 @@ import { AdoptionForm } from '../../types/form.types';
   selector: 'app-adopcion-detalle',
   standalone: true,
   imports: [CommonModule, RouterLink, MatIconModule, FormsModule],
-  templateUrl: '../../pages/adopcion-detalle/adopcion-detalle.component.html',
-  styleUrl: '../../pages/adopcion-detalle/adopcion-detalle.component.scss',
+  templateUrl: './adopcion-detalle.component.html',
+  styleUrl: './adopcion-detalle.component.scss',
 })
 export class AdopcionDetalleComponent implements OnInit {
   private readonly apiService = inject(ApiService);

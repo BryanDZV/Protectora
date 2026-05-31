@@ -98,13 +98,6 @@ export const routes: Routes = [
 
       // 🔹 Formularios, adopción, favoritos
       {
-        path: 'formAd',
-        loadComponent: () =>
-          import('./pages/form-ad/form-ad.component').then(
-            (m) => m.FormAdComponent,
-          ),
-      },
-      {
         path: 'adopcion/:id',
         loadComponent: () =>
           import('./pages/adopcion-detalle/adopcion-detalle.component').then(
