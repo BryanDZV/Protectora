@@ -1,34 +1,124 @@
-<div class="home">
-  <div class="container-img">
-    <img src="../../assets/login_logo/logo@3x.png" />
-  </div>
-
-  <div class="usuario">
-    <p>¡Hola!</p>
-  </div>
-
-  <div class="adoption-section" routerLink="adopcion-estado">
-    <div class="pet-info">
-      <img src="../../assets/navBar/mascota@3x.png" class="pet-image" />
-      <div class="info-text-container">
-        <h3>Estado de la adopción</h3>
-        <p>Revisa el proceso de tus adopciones en curso</p>
+<div class="global-page-shell home-container">
+  <!-- 🔹 SECCIÓN HERO (Bienvenida) -->
+  <section class="hero-section fade-in">
+    <div class="hero-content">
+      <span class="eyebrow">Bienvenido a la Protectora</span>
+      <h1>Cambia una vida,<br />encuentra a tu mejor amigo.</h1>
+      <p>
+        Únete a nuestra misión de darles una segunda oportunidad a los peludos
+        que más lo necesitan. Explora, enamórate y dales un hogar.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/home/galeria" class="btn-primary"
+          >Ver animales en adopción</a
+        >
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="separator"></div>
+  <!-- 🔹 SECCIÓN DESTACADOS -->
+  <section class="featured-section fade-in">
+    <div class="section-header">
+      <h2>Peludos Destacados</h2>
+      <a routerLink="/home/galeria" class="view-all"
+        >Ver todos <mat-icon>arrow_forward</mat-icon></a
+      >
+    </div>
 
-  <div class="novedades">
-    <p>Novedades</p>
-  </div>
+    @if (loading()) {
+      <p class="loading-text">Cargando nuestras novedades...</p>
+    }
 
-  @for (item of novedades(); track item.texto) {
-  <div class="gallery">
-    <a [href]="item.url" target="_blank">
-      <img [src]="item.img" [alt]="item.texto" />
-      <p>{{ item.texto }}</p>
-    </a>
-  </div>
-  }
+    @if (!loading() && error()) {
+      <div class="error-box">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ error() }}</p>
+      </div>
+    }
+
+    @if (!loading() && !error() && animalesDestacados().length > 0) {
+      <div class="gallery-grid">
+        @for (animal of animalesDestacados(); track animal._id) {
+          <article class="animal-card">
+            <div class="card-image-wrapper">
+              <img
+                [src]="animal.foto"
+                [alt]="animal.nombre"
+                class="animal-image"
+                loading="lazy"
+              />
+              <div
+                class="status-badge"
+                [ngClass]="
+                  (
+                    animal.estadoAdopcion ||
+                    animal.adoptionState ||
+                    'disponible'
+                  ).toLowerCase()
+                "
+              >
+                {{
+                  animal.estadoAdopcion || animal.adoptionState || "Disponible"
+                }}
+              </div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-title-row">
+                <h2 class="animal-name">{{ animal.nombre }}</h2>
+                @if (animal.genero === "Macho") {
+                  <mat-icon class="gender-icon male">male</mat-icon>
+                }
+                @if (animal.genero === "Hembra") {
+                  <mat-icon class="gender-icon female">female</mat-icon>
+                }
+              </div>
+              <div class="animal-details">
+                <span class="detail-item"
+                  ><mat-icon>pets</mat-icon> {{ animal.especie }}</span
+                >
+                <span class="detail-item"
+                  ><mat-icon>cake</mat-icon> {{ animal.rangoEdad }}</span
+                >
+              </div>
+              <div class="card-actions">
+                <button class="btn-outline" (click)="verDetalle(animal)">
+                  Ver Ficha
+                </button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- 🔹 SECCIÓN CÓMO FUNCIONA -->
+  <section class="info-section fade-in">
+    <h2>¿Cómo adoptar?</h2>
+    <div class="steps-grid">
+      <div class="step-box">
+        <div class="icon-circle"><mat-icon>search</mat-icon></div>
+        <h3>1. Busca</h3>
+        <p>
+          Encuentra a tu peludo ideal en nuestra galería según tu estilo de
+          vida.
+        </p>
+      </div>
+      <div class="step-box">
+        <div class="icon-circle"><mat-icon>edit_document</mat-icon></div>
+        <h3>2. Solicita</h3>
+        <p>
+          Rellena el formulario de adopción oficial con tus datos de contacto.
+        </p>
+      </div>
+      <div class="step-box">
+        <div class="icon-circle"><mat-icon>home</mat-icon></div>
+        <h3>3. Adopta</h3>
+        <p>
+          Tras una breve entrevista de seguimiento, dale la bienvenida a casa.
+        </p>
+      </div>
+    </div>
+  </section>
 </div>
