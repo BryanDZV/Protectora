@@ -1,0 +1,45 @@
+<div class="global-page-shell map-container">
+  <a [routerLink]="['/home/profile']" class="back-link">
+    <mat-icon>arrow_back</mat-icon> Volver a mi menú
+  </a>
+
+  <header class="map-header">
+    <div class="header-content">
+      <span class="eyebrow">Nuestra Ubicación</span>
+      <h1>Direcciones</h1>
+      <p>Ven a visitarnos y conoce a nuestros peludos en persona.</p>
+    </div>
+  </header>
+
+  <div class="map-card">
+    <div class="map-info">
+      <div class="info-item">
+        <mat-icon>location_on</mat-icon>
+        <div>
+          <strong>Dirección Central:</strong>
+          <p>Calle Falsa 123, 28080 Madrid, España</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <mat-icon>schedule</mat-icon>
+        <div>
+          <strong>Horario de visitas:</strong>
+          <p>Lunes a Sábado: 10:00 - 18:00</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 MAPA REAL (Google Maps iframe) -->
+    <div class="iframe-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.6062758169974!2d-3.703790184600115!3d40.41677537936496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422997800a3c81%3A0xc436dec1618c2269!2sMadrid!5e0!3m2!1ses!2ses!4v1684340000000!5m2!1ses!2ses"
+        width="100%"
+        height="450"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+</div>
