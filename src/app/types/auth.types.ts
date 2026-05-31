@@ -7,19 +7,11 @@ export interface LoginCredentials {
 
 export interface AuthResponse {
   token: string;
-  user: UserProfile;
-}
-
-export interface UserProfile {
-  id: string;
-  email: string;
-  name: string;
+  user: User;
 }
 
 export interface RegisterUserPayload extends LoginCredentials {
   name: string;
 }
 
-export interface SessionResponse {
-  user: User;
-}
+export type SessionResponse = User;

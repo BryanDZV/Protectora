@@ -1,5 +1,9 @@
 export interface User {
+  _id: string;
   email: string;
-  token: string;
   name: string;
+  favPets?: string[];
+  pets?: string[];
+  inProcessPets?: string[];
+  info?: string[];
 }
