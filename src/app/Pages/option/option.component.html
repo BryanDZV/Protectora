@@ -1,71 +1,122 @@
-<section class="profContainer">
-  <ul class="container-list">
-    <li class="list-item">
-      <a [routerLink]="['/maps']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/protectora_little/protectora@3x.png"
-            alt="icono"
-          />
-        </div>
-        <p class="list-item-text">Asociaciones protectoras</p>
-        <p>></p></a
+<div class="global-page-shell options-container">
+  <header class="options-header">
+    <div class="header-content">
+      <span class="eyebrow">Centro de usuario</span>
+      <h1>{{ authService.currentUserSig()?.name || "Mi cuenta" }}</h1>
+      <p>
+        {{
+          authService.currentUserSig()?.email ||
+            "Gestiona accesos rápidos y soporte"
+        }}
+      </p>
+    </div>
+  </header>
+
+  <div class="options-grid">
+    <a class="option-card" [routerLink]="['/home/user']">
+      <div class="icon-wrapper"><mat-icon>person</mat-icon></div>
+      <div class="card-text">
+        <h2>Mi perfil</h2>
+        <p>Consulta favoritos y adopciones</p>
+      </div>
+      <mat-icon class="arrow-icon">chevron_right</mat-icon>
+    </a>
+
+    <a class="option-card" [routerLink]="['/home/favoritos']">
+      <div class="icon-wrapper accent-red"><mat-icon>favorite</mat-icon></div>
+      <div class="card-text">
+        <h2>Favoritos</h2>
+        <p>Revisa los animales que te interesan</p>
+      </div>
+      <mat-icon class="arrow-icon">chevron_right</mat-icon>
+    </a>
+
+    <a class="option-card" [routerLink]="['/home/mis-solicitudes']">
+      <div class="icon-wrapper accent-orange">
+        <mat-icon>assignment_turned_in</mat-icon>
+      </div>
+      <div class="card-text">
+        <h2>Mis solicitudes</h2>
+        <p>Consulta cada solicitud y su estado actual</p>
+      </div>
+      <mat-icon class="arrow-icon">chevron_right</mat-icon>
+    </a>
+
+    <a class="option-card" [routerLink]="['/home/galeria']">
+      <div class="icon-wrapper"><mat-icon>grid_view</mat-icon></div>
+      <div class="card-text">
+        <h2>Seguir adoptando</h2>
+        <p>Explora nuevos animales disponibles</p>
+      </div>
+      <mat-icon class="arrow-icon">chevron_right</mat-icon>
+    </a>
+  </div>
+
+  <div class="panels-section">
+    <section class="action-panel">
+      <button
+        type="button"
+        class="panel-trigger"
+        (click)="toggleHelp()"
+        [class.active]="showHelp()"
       >
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['/maps']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/eventos_little/eventos@3x.png"
-            alt="icono"
-          />
+        <div class="trigger-left">
+          <mat-icon class="panel-icon">support_agent</mat-icon>
+          <span>Ayuda y contacto</span>
         </div>
-        <p class="list-item-text">Eventos</p>
-        <p>></p></a
-      >
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['/home']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/blog_little/blogCopy@3x.png"
-            alt="icono"
-          />
+        <mat-icon class="expand-icon">{{
+          showHelp() ? "expand_less" : "expand_more"
+        }}</mat-icon>
+      </button>
+
+      @if (showHelp()) {
+        <div class="panel-body fade-in">
+          <p>
+            Si necesitas soporte, puedes escribir a la protectora o revisar el
+            estado de tus adopciones.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:info@protectora.local" class="btn-outline"
+              ><mat-icon>email</mat-icon> info@protectora.local</a
+            >
+            <a href="tel:+34000000000" class="btn-outline"
+              ><mat-icon>phone</mat-icon> +34 000 000 000</a
+            >
+          </div>
         </div>
-        <p class="list-item-text">Curiosidades</p>
-        <p>></p></a
+      }
+    </section>
+
+    <section class="action-panel">
+      <button
+        type="button"
+        class="panel-trigger"
+        (click)="toggleConfig()"
+        [class.active]="showConfig()"
       >
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['#']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_standOut/help_little_standOut/ayuda@3x.png"
-            alt="icono"
-          />
+        <div class="trigger-left">
+          <mat-icon class="panel-icon">settings</mat-icon>
+          <span>Configuración rápida</span>
         </div>
-        <p class="list-item-text">Ayuda</p>
-        <p>></p></a
-      >
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['#']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/confi_little/confi@3x.png"
-            alt="icono"
-          />
+        <mat-icon class="expand-icon">{{
+          showConfig() ? "expand_less" : "expand_more"
+        }}</mat-icon>
+      </button>
+
+      @if (showConfig()) {
+        <div class="panel-body fade-in actions">
+          <button
+            type="button"
+            class="btn-outline"
+            (click)="clearLocalFavorites()"
+          >
+            <mat-icon>cleaning_services</mat-icon> Limpiar favoritos locales
+          </button>
+          <button type="button" class="btn-primary danger" (click)="logout()">
+            <mat-icon>logout</mat-icon> Cerrar sesión
+          </button>
         </div>
-        <p class="list-item-text">Configuración</p>
-        <p>></p></a
-      >
-    </li>
-  </ul>
-  <!-- Separación semántica -->
-  <ul class="container-list">
-    <li class="list-item">
-      <button (click)="logout()" class="list-item-btn">Cerrar sesión</button>
-    </li>
-  </ul>
-  <app-nav-bar></app-nav-bar>
-</section>
+      }
+    </section>
+  </div>
+</div>

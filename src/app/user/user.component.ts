@@ -1,30 +1,20 @@
-import { Component } from '@angular/core';
-import { ApiService } from '../servicios/api.service';
-import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthServiceService } from '../servicios/auth.service.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterLink, MatIconModule],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  styleUrl: './user.component.scss',
 })
 export class UserComponent {
-  id!:any;
-  userDetalle!:any;
-  constructor(private servicio: ApiService, private rutaActivada: ActivatedRoute) { }
+  private readonly authService = inject(AuthServiceService);
 
-  ngOnInit(): void {
-    this.rutaActivada.paramMap.subscribe(params => {
-      //console.log(params);
-           this.id = params.get("id")
-     console.log("Soy Id",params.get("id"));
-    })
-
-    this.servicio.getFormById(this.id).subscribe((data:any)=>{
-      console.log("Soy datos",data);
-      this.userDetalle=data
-    })
-}
-
+  get user() {
+    return this.authService.currentUserSig();
+  }
 }

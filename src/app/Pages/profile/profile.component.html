@@ -1,95 +1,57 @@
-<section class="profContainer" *ngIf="authService.currentUserSig()">
-  {{ authService.currentUserSig()?.name }}
-  <div class="container-photo">
-    <img src="../../assets/placeholder/david11.jpg" alt="icono" />
-  </div>
-  <ul class="container-list">
-    <li class="list-item">
-      <a [routerLink]="['/perfilDetalle']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/chico_little/chico@3x.png"
-            alt="icono"
-          />
-        </div>
-        <p class="list-item-text">Mi perfil</p>
-        <p>></p></a
-      >
-    </li>
-    <li class="list-item">
-      <a href="https://www.google.com/maps"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/localization_little/localization@3x.png"
-            alt="icono"
-          />
-        </div>
-        <p class="list-item-text">Direcciones</p>
-        <p>></p></a
-      >
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['/favoritos']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_standOut/favoritos_little_standOut/favoritos@3x.png"
-            alt="icono"
-          />
-        </div>
-        <p class="list-item-text">Favoritos</p>
-        <p>></p>
-      </a>
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['#']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/notification_little/notification@3x.png"
-            alt="icono"
-          />
-        </div>
-        <p class="list-item-text">Notificaciones</p>
-        <p>></p></a
-      >
-    </li>
-  </ul>
-  <!-- Separación semántica -->
-  <ul class="container-list">
-    <li class="list-item">
-      <a [routerLink]="['/adopcionEstado']"
-        ><div class="list-item-icon">
-          <img src="../../../assets/navBar/mascota@3x.png" alt="icono" />
-        </div>
-        <p class="list-item-text">Estado de la adopción</p>
-        <p>></p></a
-      >
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['/gallery']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/apadrina_little/apadrina@3x.png"
-            alt="icono"
-          />
-        </div>
-        <p class="list-item-text">Apadrinar</p>
-        <p>></p></a
-      >
-    </li>
-    <li class="list-item">
-      <a [routerLink]="['#']"
-        ><div class="list-item-icon">
-          <img
-            src="../../../assets/primary_icons/little_icons_primary/donar_little/donar@3x.png"
-            alt="icono"
-          />
-        </div>
-        <p class="list-item-text">Donar</p>
-        <p>></p></a
-      >
-    </li>
-  </ul>
-  <app-nav-bar></app-nav-bar>
-</section>
+<div class="global-page-shell profile-menu-container">
+  <header class="menu-header">
+    <div class="header-content">
+      <span class="eyebrow">Ajustes</span>
+      <h1>Menú Principal</h1>
+    </div>
+  </header>
 
-<p *ngIf="authService.currentUserSig() === null">No estas logado</p>
+  <div class="menu-list">
+    <a routerLink="/home/user" class="menu-item">
+      <div class="item-left">
+        <div class="icon-box blue"><mat-icon>person</mat-icon></div>
+        <span>Mi perfil</span>
+      </div>
+      <mat-icon class="arrow">chevron_right</mat-icon>
+    </a>
+
+    <a routerLink="/home/map" class="menu-item">
+      <div class="item-left">
+        <div class="icon-box green"><mat-icon>location_on</mat-icon></div>
+        <span>Direcciones</span>
+      </div>
+      <mat-icon class="arrow">chevron_right</mat-icon>
+    </a>
+
+    <a routerLink="/home/favoritos" class="menu-item">
+      <div class="item-left">
+        <div class="icon-box red"><mat-icon>favorite</mat-icon></div>
+        <span>Favoritos</span>
+      </div>
+      <mat-icon class="arrow">chevron_right</mat-icon>
+    </a>
+
+    <button class="menu-item" (click)="toggleNotificaciones()">
+      <div class="item-left">
+        <div class="icon-box yellow"><mat-icon>notifications</mat-icon></div>
+        <span>Notificaciones</span>
+      </div>
+      <div class="modern-toggle mini">
+        <input type="checkbox" [checked]="notificacionesActivas" />
+        <div class="toggle-slider"></div>
+      </div>
+    </button>
+
+    <a routerLink="/home/mis-solicitudes" class="menu-item">
+      <div class="item-left">
+        <div class="icon-box orange"><mat-icon>assignment</mat-icon></div>
+        <span>Estado de la adopción</span>
+      </div>
+      <mat-icon class="arrow">chevron_right</mat-icon>
+    </a>
+  </div>
+
+  <button class="btn-logout" (click)="logout()">
+    <mat-icon>logout</mat-icon> Cerrar Sesión
+  </button>
+</div>

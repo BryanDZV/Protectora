@@ -1,74 +1,278 @@
-.profContainer {
+$primary: #01748e;
+$primary-dark: #1d5c74;
+$text-main: #173648;
+$text-muted: #5c7382;
+$card-bg: rgba(255, 255, 255, 0.95);
+$card-border: 1px solid rgba(34, 67, 102, 0.08);
+$card-shadow: 0 12px 30px rgba(15, 31, 47, 0.08);
+$transition: 0.3s ease;
+
+.options-header {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
   align-items: center;
-  padding: 30px;
 
-  color: var(--color-primary-blue);
+  .header-content {
+    max-width: 600px;
+
+    .eyebrow {
+      display: inline-block;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(1, 116, 142, 0.1);
+      color: $primary;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: $text-main;
+      margin: 0 0 0.5rem 0;
+      font-weight: 800;
+    }
+
+    p {
+      color: $text-muted;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+  }
 }
 
-.container-list {
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  max-width: 1000px;
+  margin: 0 auto 3rem;
+}
+
+.option-card {
+  background: $card-bg;
+  border: $card-border;
+  border-radius: 20px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  text-decoration: none;
+  box-shadow: $card-shadow;
+  transition: all $transition;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(15, 31, 47, 0.12);
+    border-color: rgba($primary, 0.3);
+
+    .arrow-icon {
+      transform: translateX(4px);
+      color: $primary;
+    }
+  }
+
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: rgba($primary, 0.1);
+    color: $primary;
+
+    mat-icon {
+      font-size: 1.8rem;
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+
+    &.accent-red {
+      background: rgba(233, 28, 28, 0.1);
+      color: #e91c1c;
+    }
+    &.accent-green {
+      background: rgba(76, 175, 80, 0.1);
+      color: #4caf50;
+    }
+    &.accent-orange {
+      background: rgba(255, 152, 0, 0.1);
+      color: #ff9800;
+    }
+  }
+
+  .card-text {
+    flex-grow: 1;
+
+    h2 {
+      font-size: 1.1rem;
+      color: $text-main;
+      margin: 0 0 0.2rem;
+      font-weight: 700;
+    }
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: $text-muted;
+    }
+  }
+
+  .arrow-icon {
+    color: #a0b2bd;
+    transition: all $transition;
+  }
+}
+
+.panels-section {
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 20px;
-  padding: 0;
-  margin-bottom: 50px;
-  margin: 25px 0 25px 0;
+  gap: 1rem;
+}
 
-  width: 90dvw;
-  max-width: 400px;
+.action-panel {
+  background: $card-bg;
+  border: $card-border;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 
-  .list-item {
-    border: 1px solid var(--color-primary-lightblue);
-    border-radius: 3%;
-
+  .panel-trigger {
     width: 100%;
-    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background $transition;
 
-    &:hover {
-      transform: translateY(-2px);
-      background-color: var(--color-primary-blue-off);
+    &:hover,
+    &.active {
+      background: rgba($primary, 0.03);
     }
 
-    a {
-      cursor: pointer;
+    .trigger-left {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
       align-items: center;
-      align-content: center;
-      gap: 15px;
-      padding-right: 25px;
+      gap: 0.8rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $text-main;
 
-      width: 100%;
-      height: 100%;
-    }
-
-    &-icon {
-      width: 30px;
-      height: 30px;
-
-      margin: 2px 0 2px 12px;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      .panel-icon {
+        color: $primary;
       }
     }
 
-    &-btn {
-      color: var(--color-primary-blue);
-      background-color: var(--color-primary-blue-off);
-      border: 0.5px solid var(--color-primary-blue);
-      border-radius: 3%;
-
-      width: 100%;
-      height: 50px;
+    .expand-icon {
+      color: $text-muted;
     }
   }
-  p {
-    margin: 0;
+
+  .panel-body {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 0.5rem;
+    padding-top: 1.5rem;
+
+    p {
+      color: $text-muted;
+      margin: 0 0 1.5rem;
+      line-height: 1.6;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    &.actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: $text-main;
+  border: 1px solid #cbd5d8;
+  padding: 0.7rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover {
+    background: #f3f8f9;
+    border-color: $primary;
+    color: $primary;
+  }
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, $primary-dark 0%, $primary 100%);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba($primary, 0.3);
+  }
+
+  &.danger {
+    background: linear-gradient(135deg, #c62828 0%, #e53935 100%);
+    &:hover {
+      box-shadow: 0 6px 16px rgba(#e53935, 0.3);
+    }
+  }
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

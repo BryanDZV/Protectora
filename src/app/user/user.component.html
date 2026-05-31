@@ -1,1 +1,80 @@
-<p>user works!</p>
+<div class="global-page-shell profile-container">
+  @if (user; as currentUser) {
+    <!-- Cabecera Hero -->
+    <header class="profile-header">
+      <div class="avatar-wrapper">
+        <div class="avatar-circle">
+          {{ currentUser.name.charAt(0) | uppercase }}
+        </div>
+      </div>
+      <div class="profile-info">
+        <span class="eyebrow">Información Personal</span>
+        <h1>{{ currentUser.name }}</h1>
+        <p class="email-text">
+          <mat-icon>email</mat-icon> {{ currentUser.email }}
+        </p>
+      </div>
+    </header>
+
+    <!-- Sección de Información -->
+    <div class="profile-sections">
+      <div class="section-card data-card">
+        <h2><mat-icon>badge</mat-icon> Identidad de la cuenta</h2>
+        <div class="data-list">
+          <div class="data-item">
+            <span class="label">Nombre completo en sistema</span>
+            <span class="value">{{ currentUser.name }}</span>
+          </div>
+          <div class="data-item">
+            <span class="label">Correo de contacto</span>
+            <span class="value">{{ currentUser.email }}</span>
+          </div>
+          <div class="data-item">
+            <span class="label">ID de usuario</span>
+            <span class="value uid">{{ currentUser._id || "N/A" }}</span>
+          </div>
+        </div>
+        <button class="btn-outline mt-4" disabled>
+          Editar mis datos (Próximamente)
+        </button>
+      </div>
+
+      <div class="section-card actions-card">
+        <h2><mat-icon>explore</mat-icon> Accesos Rápidos</h2>
+        <div class="quick-links">
+          <a routerLink="/home/favoritos" class="quick-link">
+            <div class="link-left">
+              <mat-icon class="accent-red">favorite_border</mat-icon> Mis
+              Favoritos guardados
+            </div>
+            <mat-icon class="arrow">chevron_right</mat-icon>
+          </a>
+          <a routerLink="/home/mis-solicitudes" class="quick-link">
+            <div class="link-left">
+              <mat-icon class="accent-orange">assignment</mat-icon> Historial de
+              Solicitudes
+            </div>
+            <mat-icon class="arrow">chevron_right</mat-icon>
+          </a>
+          <a routerLink="/home/galeria" class="quick-link highlight">
+            <div class="link-left">
+              <mat-icon class="accent-green">pets</mat-icon>
+              <strong>Adoptar un nuevo amigo</strong>
+            </div>
+            <mat-icon class="arrow">chevron_right</mat-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">account_circle</mat-icon>
+      <h3>No hay sesión activa</h3>
+      <p>
+        Inicia sesión o regístrate para acceder a tu perfil y gestionar tus
+        adopciones.
+      </p>
+      <a routerLink="/login" class="btn-primary mt-3">Ir a Iniciar Sesión</a>
+    </div>
+  }
+</div>
