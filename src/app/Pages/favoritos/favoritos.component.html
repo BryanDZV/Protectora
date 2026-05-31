@@ -1,36 +1,109 @@
-<!--  Navegación -->
-<div class="botones">
-  <button routerLink="/home/adopcion-estado">Estado Adopción</button>
-  <button routerLink="/home/gallery">Galería</button>
-  <button routerLink="/home/profile">Menú</button>
-</div>
+<div class="global-page-shell favorites-container">
+  <!-- 🔹 CABECERA -->
+  <header class="favorites-header">
+    <div class="header-content">
+      <span class="eyebrow">Tu Selección</span>
+      <h1>Mis Favoritos</h1>
+      <p>Aquí están los peludos que te han robado el corazón.</p>
+    </div>
 
-<!--  Título -->
-<h1>Animales Favoritos</h1>
-
-<!--  Lista de favoritos -->
-@if (animalesFavoritos().length > 0) {
-  <div class="animal-card">
-    @for (animal of animalesFavoritos(); track animal._id) {
-      <div class="animal">
-        <h2>{{ animal.nombre }}</h2>
-        <div class="imagen-container">
-          <img
-            class="imagen"
-            [src]="animal.foto"
-            alt="foto"
-            [routerLink]="'/gallery/' + animal._id"
-          />
-        </div>
-      </div>
+    @if (totalFavoritos() > 0) {
+      <button class="btn-clear-all" (click)="limpiarFavoritos()">
+        <mat-icon>delete_sweep</mat-icon>
+        <span>Limpiar todos</span>
+      </button>
     }
-  </div>
-}
-@if (animalesFavoritos().length === 0) {
-  <div class="no-favoritos">
-    <p>No hay animales marcados como favoritos.</p>
-  </div>
-}
+  </header>
 
-<!--  Barra inferior -->
-<app-nav-bar></app-nav-bar>
+  <!-- 🔹 GRID DE FAVORITOS -->
+  @if (totalFavoritos() > 0) {
+    <div class="gallery-grid">
+      @for (animal of animalesFavoritos(); track animal._id) {
+        <article class="animal-card">
+          <!-- IMAGEN Y BADGES -->
+          <div class="card-image-wrapper">
+            <img
+              [src]="animal.foto"
+              [alt]="animal.nombre"
+              class="animal-image"
+              loading="lazy"
+            />
+
+            <div
+              class="status-badge"
+              [ngClass]="
+                animal.estadoAdopcion?.toLowerCase() ||
+                animal.adoptionState?.toLowerCase() ||
+                'disponible'
+              "
+            >
+              {{
+                animal.estadoAdopcion || animal.adoptionState || "Disponible"
+              }}
+            </div>
+
+            <button
+              class="favorite-btn active"
+              (click)="quitarFavorito(animal)"
+              aria-label="Quitar de favoritos"
+              title="Quitar de favoritos"
+            >
+              <mat-icon class="is-favorite">favorite</mat-icon>
+            </button>
+          </div>
+
+          <!-- CONTENIDO TARJETA -->
+          <div class="card-content">
+            <div class="card-title-row">
+              <h2 class="animal-name">{{ animal.nombre }}</h2>
+              @if (animal.genero === "Macho") {
+                <mat-icon class="gender-icon male">male</mat-icon>
+              }
+              @if (animal.genero === "Hembra") {
+                <mat-icon class="gender-icon female">female</mat-icon>
+              }
+            </div>
+
+            <div class="animal-details">
+              <span class="detail-item"
+                ><mat-icon>pets</mat-icon>
+                {{ animal.especie || "Desconocida" }}</span
+              >
+              <span class="detail-item"
+                ><mat-icon>location_on</mat-icon>
+                {{ animal.ubicacion || "Ubicación desconocida" }}</span
+              >
+            </div>
+
+            <!-- BOTONES ACCIÓN -->
+            <div class="card-actions">
+              <a
+                [routerLink]="['/home', 'adopcion', animal._id]"
+                class="btn-primary"
+              >
+                Adoptar
+              </a>
+              <a
+                [routerLink]="['/home', 'galeria', animal._id]"
+                class="btn-outline"
+              >
+                Detalles
+              </a>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <!-- 🔹 ESTADO VACÍO (EMPTY STATE) -->
+    <div class="empty-state">
+      <mat-icon class="empty-icon">favorite_border</mat-icon>
+      <h3>Aún no tienes favoritos</h3>
+      <p>
+        Explora nuestra galería y dale "Me gusta" a los peludos para guardarlos
+        aquí.
+      </p>
+      <a routerLink="/home/galeria" class="btn-primary">Ir a la Galería</a>
+    </div>
+  }
+</div>

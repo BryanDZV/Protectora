@@ -1,57 +1,351 @@
-:host {
-  display: block;
-  padding: 1rem;
-  max-width: 900px;
-  margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
-}
+$primary: #01748e;
+$primary-dark: #1d5c74;
+$accent: #e91c1c;
+$text-main: #173648;
+$text-muted: #5c7382;
+$card-bg: rgba(255, 255, 255, 0.95);
+$card-border: 1px solid rgba(34, 67, 102, 0.08);
+$card-shadow: 0 12px 30px rgba(15, 31, 47, 0.08);
+$card-shadow-hover: 0 20px 40px rgba(15, 31, 47, 0.12);
+$border-radius: 24px;
+$transition: 0.3s ease;
 
-.botones {
+/* --- CABECERA DE FAVORITOS --- */
+.favorites-header {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  align-items: center;
 
-  button {
+  .header-content {
+    max-width: 600px;
+
+    .eyebrow {
+      display: inline-block;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(233, 28, 28, 0.1);
+      color: $accent;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: $text-main;
+      margin: 0 0 0.5rem 0;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    p {
+      color: $text-muted;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+  }
+
+  .btn-clear-all {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: $text-muted;
+    border: 1px solid rgba(92, 115, 130, 0.3);
     padding: 0.6rem 1.2rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    background-color: #f1f1f1;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition;
 
     &:hover {
-      background-color: #e0e0e0;
+      background: rgba(233, 28, 28, 0.05);
+      color: $accent;
+      border-color: rgba(233, 28, 28, 0.2);
+    }
+
+    mat-icon {
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
     }
   }
 }
 
-.animal-card {
-  display: flex;
-  flex-wrap: wrap;
+/* --- GRID RESPONSIVO (Autoadaptable) --- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
-  justify-content: center;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
-.animal {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: #fafafa;
-  width: 250px;
-  text-align: center;
-}
+/* --- TARJETAS --- */
+.animal-card {
+  background: $card-bg;
+  border: $card-border;
+  border-radius: $border-radius;
+  overflow: hidden;
+  box-shadow: $card-shadow;
+  transition:
+    transform $transition,
+    box-shadow $transition;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 
-.imagen-container {
-  margin-top: 0.5rem;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: $card-shadow-hover;
 
-  .imagen {
+    .card-image-wrapper img {
+      transform: scale(1.05);
+    }
+  }
+
+  .card-image-wrapper {
+    position: relative;
     width: 100%;
-    border-radius: 8px;
+    padding-top: 75%;
+    overflow: hidden;
+    background-color: #eef5f6;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(4px);
+
+      &.disponible {
+        background: rgba(76, 175, 80, 0.95);
+      }
+      &.reservado,
+      &.proceso {
+        background: rgba(255, 152, 0, 0.95);
+      }
+      &.adoptado {
+        background: rgba(158, 158, 158, 0.95);
+      }
+    }
+
+    .favorite-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(233, 28, 28, 0.15);
+      transition: transform $transition;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      mat-icon {
+        color: $accent;
+        transition:
+          color $transition,
+          transform $transition;
+      }
+
+      /* Efecto UX: al pasar por encima, se muestra como si se fuera a borrar */
+      &:hover mat-icon {
+        color: #ccc;
+        transform: scale(0.85);
+      }
+    }
+  }
+
+  .card-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+
+      .animal-name {
+        font-size: 1.4rem;
+        color: $text-main;
+        margin: 0;
+        font-weight: 800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .gender-icon {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        font-size: 1.2rem;
+
+        &.male {
+          color: #2196f3;
+          background: rgba(33, 150, 243, 0.1);
+        }
+        &.female {
+          color: #e91e63;
+          background: rgba(233, 30, 99, 0.1);
+        }
+      }
+    }
+
+    .animal-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+
+      .detail-item {
+        display: flex;
+        align-items: center;
+        color: $text-muted;
+        font-size: 0.95rem;
+
+        mat-icon {
+          font-size: 1.1rem;
+          width: 1.1rem;
+          height: 1.1rem;
+          margin-right: 0.5rem;
+          color: rgba($primary-dark, 0.6);
+        }
+      }
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+
+      a {
+        flex: 1;
+        text-align: center;
+        padding: 0.8rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: all $transition;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, $primary-dark 0%, $primary 100%);
+        color: #fff;
+        border: none;
+        box-shadow: 0 4px 12px rgba($primary, 0.2);
+
+        &:hover:not(.disabled):not(:disabled) {
+          box-shadow: 0 6px 16px rgba($primary, 0.3);
+          transform: translateY(-1px);
+        }
+
+        &.disabled,
+        &:disabled {
+          background: #eef5f6;
+          color: #a0b2bd;
+          border: 1px solid #dcecf0;
+          box-shadow: none;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: $primary-dark;
+        border: 2px solid rgba($primary, 0.2);
+
+        &:hover {
+          background: rgba($primary, 0.05);
+          border-color: $primary;
+        }
+      }
+    }
   }
 }
 
-.no-favoritos {
+/* --- ESTADO VACÍO PROFESIONAL --- */
+.empty-state {
   text-align: center;
-  margin-top: 2rem;
-  font-size: 1.1rem;
-  color: #888;
+  padding: 4rem 2rem;
+  background: $card-bg;
+  border-radius: $border-radius;
+  border: $card-border;
+  box-shadow: $card-shadow;
+  max-width: 600px;
+  margin: 2rem auto;
+
+  .empty-icon {
+    font-size: 5rem;
+    width: 5rem;
+    height: 5rem;
+    color: rgba(233, 28, 28, 0.2);
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    color: $text-main;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: $text-muted;
+    margin-bottom: 2rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: linear-gradient(135deg, $primary-dark 0%, $primary 100%);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all $transition;
+    box-shadow: 0 4px 12px rgba($primary, 0.2);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba($primary, 0.3);
+    }
+  }
 }
