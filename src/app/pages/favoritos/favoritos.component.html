@@ -32,9 +32,11 @@
             <div
               class="status-badge"
               [ngClass]="
-                animal.estadoAdopcion?.toLowerCase() ||
-                animal.adoptionState?.toLowerCase() ||
-                'disponible'
+                (
+                  animal.estadoAdopcion ||
+                  animal.adoptionState ||
+                  'disponible'
+                ).toLowerCase()
               "
             >
               {{
