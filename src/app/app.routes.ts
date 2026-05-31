@@ -1,27 +1,5 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
-
-// Portada / intro / login
-import { PortadaComponent } from './portada/portada.component';
-import { LoginComponent } from './login/login.component';
-import { EleccionComponent } from './eleccion/eleccion.component';
-import { RegisterComponent } from './register/register.component';
-import { SlidesComponent } from './slides/slides.component';
-
-// Home (nuevo layout) y home real (contenido)
-import { HomeLayoutComponent } from './home/home-layout/home-layout.component';
-import { HomePageComponent } from './home/home-page/home-page.component';
-
-// Pages dentro de home
-import { GaleriaComponent } from './Pages/galeria/galeria.component';
-import { DetalleComponent } from './Pages/galeriaDetalle/detalle.component';
-import { ProfileComponent } from './Pages/profile/profile.component';
-import { OptionComponent } from './Pages/option/option.component';
-import { FormAdComponent } from './Pages/form-ad/form-ad.component';
-import { AdopcionDetalleComponent } from './Pages/adopcion-detalle/adopcion-detalle.component';
-import { AdopcionEstadoComponent } from './Pages/adopcion-estado/adopcion-estado.component';
-import { FavoritosComponent } from './Pages/favoritos/favoritos.component';
-import { UserComponent } from './user/user.component';
 import { authGuard } from './guards/auth.guard';
 
 // ======================
@@ -30,44 +8,130 @@ import { authGuard } from './guards/auth.guard';
 export const routes: Routes = [
   // 🔹 Ruta raíz → portada
   { path: '', redirectTo: 'portada', pathMatch: 'full' },
-  { path: 'portada', component: PortadaComponent },
+  {
+    path: 'portada',
+    loadComponent: () =>
+      import('./portada/portada.component').then((m) => m.PortadaComponent),
+  },
 
   // 🔹 Slides de introducción
-  { path: 'slide/:id', component: SlidesComponent },
+  {
+    path: 'slide/:id',
+    loadComponent: () =>
+      import('./slides/slides.component').then((m) => m.SlidesComponent),
+  },
 
   // 🔹 Login / register / elección
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'eleccion', component: EleccionComponent },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./register/register.component').then((m) => m.RegisterComponent),
+  },
+  {
+    path: 'eleccion',
+    loadComponent: () =>
+      import('./eleccion/eleccion.component').then((m) => m.EleccionComponent),
+  },
 
   // ================================================
   // RUTA PADRE "HOME" → LAYOUT con router-outlet + navbar
   // ================================================
   {
     path: 'home',
-    component: HomeLayoutComponent, // Layout que envuelve todas las páginas internas
+    loadComponent: () =>
+      import('./home/home-layout/home-layout.component').then(
+        (m) => m.HomeLayoutComponent,
+      ),
     canActivate: [authGuard], // defendemos rutas
     children: [
       // 🔹 Página principal de home (TU home real)
       // Antes este contenido estaba dentro de HomeComponent
-      { path: '', component: HomePageComponent },
+      {
+        path: '',
+        loadComponent: () =>
+          import('./home/home-page/home-page.component').then(
+            (m) => m.HomePageComponent,
+          ),
+      },
 
       // 🔹 Galería
-      { path: 'gallery', component: GaleriaComponent },
-      { path: 'gallery/:id', component: DetalleComponent },
+      {
+        path: 'galeria',
+        loadComponent: () =>
+          import('./pages/galeria/galeria.component').then(
+            (m) => m.GaleriaComponent,
+          ),
+      },
+      {
+        path: 'map',
+        loadComponent: () =>
+          import('./pages/map/map.component').then((m) => m.MapComponent),
+      },
+      {
+        path: 'galeria/:id',
+        loadComponent: () =>
+          import('./pages/galeriaDetalle/detalle.component').then(
+            (m) => m.DetalleComponent,
+          ),
+      },
 
       // 🔹 Perfil y opciones
-      { path: 'profile', component: ProfileComponent },
-      { path: 'opciones', component: OptionComponent },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/profile/profile.component').then(
+            (m) => m.ProfileComponent,
+          ),
+      },
+      {
+        path: 'opciones',
+        loadComponent: () =>
+          import('./pages/option/option.component').then(
+            (m) => m.OptionComponent,
+          ),
+      },
 
       // 🔹 Formularios, adopción, favoritos
-      { path: 'formAd', component: FormAdComponent },
-      { path: 'adopcion/:id', component: AdopcionDetalleComponent },
-      { path: 'adopcion-estado', component: AdopcionEstadoComponent },
-      { path: 'favoritos', component: FavoritosComponent },
+      {
+        path: 'formAd',
+        loadComponent: () =>
+          import('./pages/form-ad/form-ad.component').then(
+            (m) => m.FormAdComponent,
+          ),
+      },
+      {
+        path: 'adopcion/:id',
+        loadComponent: () =>
+          import('./pages/adopcion-detalle/adopcion-detalle.component').then(
+            (m) => m.AdopcionDetalleComponent,
+          ),
+      },
+      {
+        path: 'mis-solicitudes',
+        loadComponent: () =>
+          import('./pages/mis-solicitudes/mis-solicitudes.component').then(
+            (m) => m.MisSolicitudesComponent,
+          ),
+      },
+      {
+        path: 'favoritos',
+        loadComponent: () =>
+          import('./pages/favoritos/favoritos.component').then(
+            (m) => m.FavoritosComponent,
+          ),
+      },
 
       // 🔹 Usuario (si lo usas dentro de home)
-      { path: 'user', component: UserComponent },
+      {
+        path: 'user',
+        loadComponent: () =>
+          import('./user/user.component').then((m) => m.UserComponent),
+      },
     ],
   },
 
