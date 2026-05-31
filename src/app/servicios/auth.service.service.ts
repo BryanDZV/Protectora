@@ -8,6 +8,7 @@ import {
   RegisterUserPayload,
   SessionResponse,
 } from '../types/auth.types';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,16 +27,21 @@ export class AuthServiceService {
   // LOGIN
   // ================================
   login(user: LoginCredentials) {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/user/login`, { user });
+    return this.http
+      .post<AuthResponse>(`${this.apiUrl}/user/login`, { user })
+      .pipe(
+        tap((response) => {
+          localStorage.setItem('token', response.token);
+          this.currentUserSig.set(response.user);
+        }),
+      );
   }
 
   // ================================
   // REGISTER
   // ================================
   register(user: RegisterUserPayload) {
-    return this.http.post<{ user: User }>(`${this.apiUrl}/user/register/`, {
-      user,
-    });
+    return this.http.post<User>(`${this.apiUrl}/user/register`, { user });
   }
 
   // ================================
@@ -53,7 +59,7 @@ export class AuthServiceService {
       .post<SessionResponse>(`${this.apiUrl}/user/checksession`, {})
       .subscribe({
         next: (response) => {
-          this.currentUserSig.set(response.user);
+          this.currentUserSig.set(response);
         },
         error: () => {
           localStorage.removeItem('token');
@@ -75,6 +81,10 @@ export class AuthServiceService {
   clearCurrentUser(): void {
     this.currentUserSig.set(null);
     localStorage.removeItem('token');
+  }
+
+  getCurrentUser(): User | null | undefined {
+    return this.currentUserSig();
   }
 
   // ================================
