@@ -1,104 +1,140 @@
-.navContainer {
+$primary: #01748e;
+$primary-light: rgba(1, 116, 142, 0.1);
+$text: #333333;
+$text-muted: #888888;
+$bg: #ffffff;
+$shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+$shadow-desktop: 0 4px 12px rgba(0, 0, 0, 0.08);
+$transition: 0.3s ease;
+
+.navbar {
+  background-color: $bg;
+  box-shadow: $shadow;
   position: fixed;
-  bottom: 0;
-  left: 0;
-
-  width: 100%;
-  padding: 10px 0;
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  background-color: #ffffff;
-  box-shadow: 0 -3px 8px rgba(0, 0, 0, 0.12);
-
   z-index: 1000;
 
-  /* Animación de aparición suave */
-  animation: fadeUp 0.3s ease;
+  /* Comportamiento móvil: Bottom Nav */
+  bottom: 0;
+  left: 0;
+  width: 100%;
 
-  /* Para pantallas pequeñas */
-  @media (max-width: 420px) {
-    padding: 8px 0;
+  @media (min-width: 768px) {
+    /* Comportamiento escritorio: Top Nav */
+    bottom: auto;
+    top: 0;
+    box-shadow: $shadow-desktop;
   }
 }
 
-/* Animación de entrada */
-@keyframes fadeUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* ====== TARJETAS DE ICONOS ====== */
-
-.navCard,
-.navCard-profile {
+.navbar-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  height: 56px;
 
-  width: 36px;
-  height: 36px;
-
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  /* Efecto al pulsar */
-  &:active {
-    transform: scale(0.85);
-    opacity: 0.7;
+  @media (min-width: 768px) {
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 64px;
   }
 }
 
-/* ====== ICONO NORMAL ====== */
+.navbar-brand {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: $primary;
+  font-weight: 700;
+  font-size: 1.5rem;
 
-.navCard {
-  img {
-    transition: transform 0.2s ease;
+  @media (min-width: 768px) {
+    display: flex;
   }
 
-  &:hover img {
-    transform: translateY(-3px);
+  .brand-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
   }
 }
 
-/* ====== ICONO DE PERFIL ====== */
+.nav-links {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 
-.navCard-profile {
-  width: 42px;
-  height: 42px;
+  @media (min-width: 768px) {
+    width: auto;
+    gap: 1rem;
+  }
+}
 
-  border: 2px solid var(--color-stand-out-red);
-  border-radius: 50%;
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: $text-muted;
+  padding: 0.5rem;
+  border-radius: 12px;
+  transition: all $transition;
+  flex: 1;
+  gap: 2px;
 
-  img {
-    border-radius: 50%;
-    object-fit: cover;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex: none;
+    padding: 0.6rem 1.2rem;
+    gap: 6px;
+  }
+
+  mat-icon {
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: transform $transition;
+
+    @media (min-width: 768px) {
+      font-size: 1.3rem;
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+  }
+
+  .nav-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+      font-weight: 600;
+    }
   }
 
   &:hover {
-    transform: scale(1.05);
+    color: $primary;
+
+    @media (min-width: 768px) {
+      background-color: $primary-light;
+    }
+
+    mat-icon {
+      transform: scale(1.1);
+    }
   }
-}
 
-/* ====== ICONO ACTIVO ====== */
-/* Permite resaltar el botón según la ruta */
+  &.active {
+    color: $primary;
 
-.active-icon {
-  filter: brightness(0) saturate(100%) invert(36%) sepia(98%) saturate(2140%)
-    hue-rotate(186deg) brightness(92%) contrast(100%);
-  /* Aplica un tono azul elegante */
+    @media (min-width: 768px) {
+      background-color: $primary-light;
+    }
+  }
 }

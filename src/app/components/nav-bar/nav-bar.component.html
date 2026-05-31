@@ -1,39 +1,41 @@
-<nav class="navContainer">
-  <!-- HOME -->
-  <div class="navCard">
-    <a [routerLink]="['/home']">
-      <img src="../../../assets/navBar/home@3x.png" alt="home" />
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Logo / Enlace a inicio (Oculto en móvil para ganar espacio) -->
+    <a routerLink="/home" class="navbar-brand">
+      <mat-icon class="brand-icon">pets</mat-icon>
+      <span class="brand-text">Protectora</span>
     </a>
-  </div>
 
-  <!-- MAPA (este está bien porque es un enlace externo) -->
-  <div class="navCard">
-    <a href="https://www.google.com/maps">
-      <img
-        src="../../../assets/primary_icons/little_icons_primary/localization_little/localization@3x.png"
-        alt="direcciones"
-      />
-    </a>
-  </div>
+    <!-- Enlaces de navegación -->
+    <div class="nav-links">
+      <a
+        routerLink="/home"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-item"
+      >
+        <mat-icon>home</mat-icon>
+        <span class="nav-label">Inicio</span>
+      </a>
 
-  <!-- GALERÍA -->
-  <div class="navCard">
-    <a [routerLink]="['/home/gallery']">
-      <img src="../../../assets/navBar/mascota@3x.png" alt="estado" />
-    </a>
-  </div>
+      <a routerLink="/home/galeria" routerLinkActive="active" class="nav-item">
+        <mat-icon>grid_view</mat-icon>
+        <span class="nav-label">Galería</span>
+      </a>
 
-  <!-- PERFIL -->
-  <div class="navCard-profile">
-    <a [routerLink]="['/home/profile']">
-      <img src="../../../assets/placeholder/david11.jpg" alt="perfil" />
-    </a>
-  </div>
+      <a
+        routerLink="/home/favoritos"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <mat-icon>favorite</mat-icon>
+        <span class="nav-label">Favoritos</span>
+      </a>
 
-  <!-- OPCIONES -->
-  <div class="navCard">
-    <a [routerLink]="['/home/opciones']">
-      <img src="../../../assets/navBar/tres-puntos.png" alt="opciones" />
-    </a>
+      <a routerLink="/home/profile" routerLinkActive="active" class="nav-item">
+        <mat-icon>person</mat-icon>
+        <span class="nav-label">Perfil</span>
+      </a>
+    </div>
   </div>
 </nav>
