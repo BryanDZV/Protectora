@@ -32,11 +32,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./register/register.component').then((m) => m.RegisterComponent),
   },
-  {
-    path: 'eleccion',
-    loadComponent: () =>
-      import('./eleccion/eleccion.component').then((m) => m.EleccionComponent),
-  },
 
   // ================================================
   // RUTA PADRE "HOME" → LAYOUT con router-outlet + navbar
