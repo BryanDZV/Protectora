@@ -48,7 +48,9 @@
       }
     </fieldset>
 
-    <button class="btn-login" type="submit">Registrarse</button>
+    <button class="btn-login" type="submit" [disabled]="isSubmitting">
+      {{ isSubmitting ? "Registrando..." : "Registrarse" }}
+    </button>
   </form>
   <button class="btn-back" (click)="volver()">Volver</button>
 </div>

@@ -18,13 +18,24 @@ export class RegisterComponent {
   authService = inject(AuthServiceService);
   showToast = false;
   toastMessage = '';
+  isSubmitting = false;
 
   show = false;
+
+  private readonly passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$/;
 
   contactForm = this.fb.nonNullable.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(this.passwordPattern),
+      ],
+    ],
   });
 
   togglePassword(): void {
@@ -33,19 +44,27 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.contactForm.invalid) {
+      this.contactForm.markAllAsTouched();
       this.showSuccess('Formulario inválido');
       return;
     }
 
+    this.isSubmitting = true;
     this.authService.register(this.contactForm.getRawValue()).subscribe({
       next: () => {
         this.showSuccess('Usuario registrado correctamente');
         setTimeout(() => {
           this.router.navigateByUrl('/login');
         }, 1900); // un poquito de delay para que se vea el mensaje
+        this.isSubmitting = false;
       },
-      error: () => {
-        this.showSuccess('Error al registrar el usuario');
+      error: (error) => {
+        const backendMessage =
+          error?.error?.message ||
+          error?.error?.error ||
+          'Error al registrar el usuario';
+        this.showSuccess(backendMessage);
+        this.isSubmitting = false;
       },
     });
   }
