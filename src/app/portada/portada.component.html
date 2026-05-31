@@ -1,13 +1,27 @@
-<div class="portContainer" (click)="irSlide1()">
-  <div class="port-image">
-    <img
-      class="portada"
-      src="../../assets/onboarding/group29@3x.png"
-      alt="Logo grande"
-    />
-  </div>
+<div
+  class="splash-container fade-in"
+  (click)="irSlide1()"
+  title="Toca para empezar"
+>
+  <main class="splash-content">
+    <div class="logo-wrapper pulse-animation">
+      <img
+        class="logo-main"
+        src="../../assets/onboarding/group29@3x.png"
+        alt="Logo de la Protectora"
+      />
+    </div>
 
-  <div class="port-title">
-    <img src="../../assets/onboarding/lucky_portada.png" alt="Lucky" />
-  </div>
+    <div class="title-wrapper">
+      <img
+        class="logo-text"
+        src="../../assets/onboarding/lucky_portada.png"
+        alt="Lucky"
+      />
+    </div>
+  </main>
+
+  <footer class="splash-footer">
+    <p class="tap-text">Toca la pantalla para comenzar</p>
+  </footer>
 </div>

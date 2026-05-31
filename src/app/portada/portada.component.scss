@@ -1,37 +1,117 @@
-.portContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+$primary: #01748e;
+$primary-dark: #1d5c74;
+$bg-color: #f4f8f9;
 
-  gap: 35px;
-  height: 100vh;
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $bg-color 0%, #e1eff1 100%);
 }
 
-.port-image {
-  width: 300px;
-  height: 120px;
+.splash-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  padding: 3rem 1.5rem;
   cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+}
 
-  img {
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 2rem;
+  width: 100%;
+}
+
+.logo-wrapper {
+  width: 100%;
+  /* Uso de Clamp para que nunca desborde en móviles muy estrechos */
+  max-width: clamp(160px, 50vw, 260px);
+  display: flex;
+  justify-content: center;
+
+  .logo-main {
     width: 100%;
-    height: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 25px rgba($primary, 0.15));
+  }
+}
 
+.title-wrapper {
+  width: 100%;
+  max-width: clamp(140px, 40vw, 220px);
+  display: flex;
+  justify-content: center;
+
+  .logo-text {
+    width: 100%;
+    height: auto;
     object-fit: contain;
   }
 }
 
-.port-title {
-  width: 280px;
-  height: 50px;
-  display: flex;
-  cursor: pointer;
+.splash-footer {
+  padding-bottom: 2rem;
+  width: 100%;
+  text-align: center;
 
-  img {
-    width: 100%;
-    height: 100%;
+  .tap-text {
+    color: $primary-dark;
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    animation: blink 2s ease-in-out infinite;
+  }
+}
 
-    object-fit: contain;
+/* ========================================= */
+/* ANIMACIONES UX                            */
+/* ========================================= */
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+.pulse-animation {
+  animation: pulse 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
   }
 }

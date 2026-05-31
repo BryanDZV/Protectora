@@ -1,71 +1,181 @@
-/* --- REGLA GLOBAL DEL COMPONENTE --- */
-button {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
+$primary: #01748e;
+$primary-dark: #1d5c74;
+$text-main: #173648;
+$text-muted: #5c7382;
+$transition: 0.3s ease;
 
-/* Zona principal */
-.background-slide {
-  position: relative;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: clamp(200px, 90vw, 600px);
-  margin: 0 auto;
-}
-
-.container-slide {
-  text-align: center;
-  position: relative;
-}
-
-/* Imagen del slide */
-.slide-content img {
-  max-width: 80%;
-  max-height: 80%;
+:host {
   display: block;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f8f9 100%);
+}
+
+.onboarding-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  max-width: 600px;
   margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-/* Textos */
-.slide-content h3 {
-  margin-top: 35px;
-  text-size-adjust: 100%;
-  color: var(--color-primary-blue);
+.onboarding-header {
+  display: flex;
+  justify-content: flex-end;
+
+  .btn-skip {
+    background: transparent;
+    border: none;
+    color: $text-muted;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color $transition;
+    &:hover {
+      color: $primary;
+    }
+  }
 }
 
-.slide-content p {
-  margin-top: 35px;
-  text-size-adjust: 100%;
+.onboarding-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex-grow: 1;
+  justify-content: center;
+  padding: 1rem 0;
+
+  .image-wrapper {
+    width: 100%;
+    max-width: 320px;
+    cursor: pointer; // Indica que se puede tocar
+    transition: transform $transition;
+    margin-bottom: 3rem;
+
+    // Efecto al tocar la imagen
+    &:active {
+      transform: scale(0.95);
+    }
+
+    .slide-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      animation: float 4s ease-in-out infinite;
+    }
+  }
+
+  .text-wrapper {
+    h2 {
+      font-size: 1.8rem;
+      color: $text-main;
+      font-weight: 800;
+      margin: 0 0 1rem 0;
+    }
+    p {
+      font-size: 1.1rem;
+      color: $text-muted;
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
 }
 
-/* Botones navegación */
-.anterior,
-.siguiente {
-  display: inline-block;
-  margin-top: 35px;
-  color: var(--color-stand-out-red);
-  margin-left: 20px;
-  margin-right: 20px;
+.onboarding-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 1rem;
+
+  .dots-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #cbd5d8;
+      transition: all $transition;
+
+      &.active {
+        width: 24px;
+        background-color: $primary;
+      }
+    }
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .btn-icon {
+      background: #eef5f6;
+      border: none;
+      color: $primary-dark;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all $transition;
+
+      &:hover {
+        background: #dcecf0;
+      }
+      &.invisible {
+        visibility: hidden;
+      }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, $primary-dark 0%, $primary 100%);
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba($primary, 0.2);
+      transition: all $transition;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba($primary, 0.3);
+      }
+    }
+  }
 }
-.anterior,
-.siguiente {
-  font-size: 2.8rem;      /* flechas grandes */
-  padding: 8px 16px;      /* más superficie de clic */
-  color: var(--color-stand-out-red);
-  margin-left: 20px;
-  margin-right: 20px;
-  background: transparent;
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
 }
-
-
-
-/* Por si usas un fondo diferente para cada slide */
-.background-slide1,
-.background-slide2,
-.background-slide3 {
-  @extend .background-slide;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }

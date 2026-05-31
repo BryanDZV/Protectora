@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { SlideData } from '../types/slide.types';
 
 @Component({
   selector: 'app-slides',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './slides.component.html',
   styleUrls: ['./slides.component.scss'],
 })
@@ -44,7 +45,7 @@ export class SlidesComponent {
 
   irSiguiente(): void {
     if (this.currentId === 3) {
-      this.router.navigate(['/eleccion']);
+      this.router.navigate(['/login']);
       return;
     }
 
@@ -54,5 +55,9 @@ export class SlidesComponent {
   irAnterior(): void {
     const prev = this.currentId === 1 ? 1 : this.currentId - 1;
     this.router.navigate(['/slide', prev]);
+  }
+
+  omitir(): void {
+    this.router.navigate(['/login']);
   }
 }

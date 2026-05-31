@@ -1,21 +1,49 @@
-<section class="background-slide">
-  <div class="container-slide">
+<div class="onboarding-container fade-in">
+  <header class="onboarding-header">
+    <button class="btn-skip" (click)="omitir()">Omitir</button>
+  </header>
 
-    <!-- Contenido -->
-    <div class="slide-content">
-      <img [src]="slide.img" alt="slide image" />
+  <main class="onboarding-content">
+    <!-- 🔹 Imagen interactiva: Avanza al hacer clic -->
+    <div
+      class="image-wrapper"
+      (click)="irSiguiente()"
+      title="Toca para continuar"
+    >
+      <img [src]="slide.img" alt="Ilustración onboarding" class="slide-image" />
+    </div>
 
-      <h3 [innerHTML]="slide.title"></h3>
-
+    <div class="text-wrapper">
+      <h2 [innerHTML]="slide.title"></h2>
       @if (slide.text) {
         <p [innerHTML]="slide.text"></p>
       }
     </div>
+  </main>
 
-    <!-- Navegación -->
-    <button class="anterior" (click)="irAnterior()"><</button>
-    <button class="siguiente" (click)="irSiguiente()">></button>
+  <footer class="onboarding-footer">
+    <!-- 🔹 Indicadores (Dots) -->
+    <div class="dots-container">
+      <span class="dot" [class.active]="currentId === 1"></span>
+      <span class="dot" [class.active]="currentId === 2"></span>
+      <span class="dot" [class.active]="currentId === 3"></span>
+    </div>
 
-  </div>
-</section>
+    <!-- 🔹 Botones UX -->
+    <div class="nav-buttons">
+      <button
+        class="btn-icon"
+        (click)="irAnterior()"
+        [disabled]="currentId === 1"
+        [class.invisible]="currentId === 1"
+        aria-label="Anterior"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
 
+      <button class="btn-primary" (click)="irSiguiente()">
+        {{ currentId === 3 ? "Comenzar" : "Siguiente" }}
+      </button>
+    </div>
+  </footer>
+</div>
