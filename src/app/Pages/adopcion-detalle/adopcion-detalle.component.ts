@@ -1,117 +1,134 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, map, switchMap } from 'rxjs';
-import { Animal } from '../../types/animal.types';
-
 import { ApiService } from '../../servicios/api.service';
-import { AdopcionModalComponent } from '../../filtros/adopcion-modal/adopcion-modal.component';
+import { AuthServiceService } from '../../servicios/auth.service.service';
+import { Animal } from '../../types/animal.types';
+import { AdoptionForm } from '../../types/form.types';
 
 @Component({
   selector: 'app-adopcion-detalle',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterLink,
-    MatTabsModule,
-    MatIconModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
-  templateUrl: './adopcion-detalle.component.html',
-  styleUrl: './adopcion-detalle.component.scss',
+  imports: [CommonModule, RouterLink, MatIconModule, FormsModule],
+  templateUrl: '../../pages/adopcion-detalle/adopcion-detalle.component.html',
+  styleUrl: '../../pages/adopcion-detalle/adopcion-detalle.component.scss',
 })
-export class AdopcionDetalleComponent {
+export class AdopcionDetalleComponent implements OnInit {
   private readonly apiService = inject(ApiService);
-  private readonly rutaActivada = inject(ActivatedRoute);
+  private readonly authService = inject(AuthServiceService);
+  private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
 
-  id = '';
-  animalEstado = signal<Animal | null>(null);
+  public animal = signal<Animal | null>(null);
+  public adoptionStatus = signal<string>('Disponible');
+  public statusMessage = signal<string | null>(null);
+  public isSubmitting = signal(false);
 
-  // Fotos seleccionadas
-  fotoSeleccionada1!: File;
-  fotoSeleccionada2!: File;
-  fotoSeleccionada3!: File;
+  // 🔹 UX: Controlamos en qué paso estamos (1: Ficha, 2: Formulario, 3: Éxito)
+  public currentStep = signal<number>(1);
 
-  //  Datos del formulario
-  seleccionarOpcion!: string;
-  opciones: string[] = ['iva:90 $', 'vacuna:20$', 'gestión:15$'];
-  checkedvisto1 = false;
-  checkedvisto2 = false;
+  // 🔹 UX: Solicitud existente del usuario para el Dashboard de seguimiento
+  public existingRequest = signal<AdoptionForm | null>(null);
 
-  //  Fecha y hora
-  fechaSeleccionada!: Date;
-  inputText!: string;
-
-  constructor(private dialog: MatDialog) {}
+  // 🔹 Datos reactivos del formulario
+  public formData = {
+    telf: '',
+    dni: '',
+    city: '',
+    direccion: '',
+    postal: '',
+    petFriendly: false,
+    tipoVivienda: 'Piso' as 'Piso' | 'Casa' | 'Finca',
+    alquilerOCompra: 'Alquiler' as 'Alquiler' | 'Propiedad',
+    permisoCasero: false,
+    tieneJardin: false,
+    tieneMascotas: false,
+    acuerdoVisitas: true,
+  };
 
   ngOnInit(): void {
-    this.rutaActivada.paramMap
-      .pipe(
-        map((params) => params.get('id')),
-        filter((id): id is string => !!id),
-        switchMap((id) => {
-          this.id = id;
-          return this.apiService.getAnimalbyId(id);
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe((animal) => this.animalEstado.set(animal));
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.apiService
+        .getAnimalbyId(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((data) => {
+          this.animal.set(data);
+          this.adoptionStatus.set(
+            data.estadoAdopcion || data.adoptionState || 'Disponible',
+          );
+        });
+
+      // Verificamos si el usuario actual ya ha enviado un formulario para este animal
+      const currentUser = this.authService.getCurrentUser();
+      if (currentUser?._id) {
+        this.apiService
+          .getForm()
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((forms) => {
+            const req = forms.find(
+              (f) => f.user_id === currentUser._id && f.animal_id === id,
+            );
+            if (req) {
+              // Si ya hay solicitud, guardamos los datos y lo enviamos directo al estado de seguimiento (Paso 4)
+              this.existingRequest.set(req);
+              this.currentStep.set(4);
+            }
+          });
+      }
+    }
   }
 
-  seleccionarFoto1(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.fotoSeleccionada1 = input.files?.[0]!;
+  puedeAdoptar(): boolean {
+    return this.adoptionStatus().toLowerCase() === 'disponible';
   }
 
-  seleccionarFoto2(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.fotoSeleccionada2 = input.files?.[0]!;
+  irAPaso(paso: number): void {
+    this.currentStep.set(paso);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Subir al inicio al cambiar de paso
   }
 
-  seleccionarFoto3(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.fotoSeleccionada3 = input.files?.[0]!;
-  }
+  enviarFormulario(): void {
+    const animalId = this.animal()?._id;
+    const currentUser = this.authService.getCurrentUser();
 
-  subir(): void {
-    const data = {
-      foto1: this.fotoSeleccionada1,
-      foto2: this.fotoSeleccionada2,
-      foto3: this.fotoSeleccionada3,
-      opcion: this.seleccionarOpcion,
-      visto1: this.checkedvisto1,
-      visto2: this.checkedvisto2,
-    };
+    if (!currentUser?._id) {
+      this.statusMessage.set('Debes iniciar sesión para enviar una solicitud.');
+      return;
+    }
 
-    this.apiService.enviarDatos(data as any).subscribe({
-      error: (error) => {
-        console.error('No se ha enviado datos desde adopcion-Modal:', error);
-      },
-    });
-  }
+    if (!this.puedeAdoptar()) {
+      this.statusMessage.set(
+        `Este animal ya está ${this.adoptionStatus().toLowerCase()}.`,
+      );
+      return;
+    }
 
-  abrirModal(): void {
-    this.dialog.open(AdopcionModalComponent, {
-      width: '50%',
-      data: {},
-    });
+    if (animalId) {
+      const payload: AdoptionForm = {
+        user_id: currentUser._id,
+        animal_id: animalId,
+        ...this.formData,
+        postal: Number(this.formData.postal), // 🔹 Convertimos a número
+      };
+
+      this.isSubmitting.set(true);
+      this.statusMessage.set(null);
+
+      this.apiService.postForm(payload).subscribe({
+        next: () => this.irAPaso(3), // Si todo va bien, pasamos a la pantalla de éxito
+        error: (err) => {
+          console.error('Error al enviar solicitud', err);
+          this.statusMessage.set(
+            'No se ha podido enviar la solicitud. Revisa los datos e inténtalo de nuevo.',
+          );
+          this.isSubmitting.set(false);
+        },
+        complete: () => this.isSubmitting.set(false),
+      });
+    }
   }
 }

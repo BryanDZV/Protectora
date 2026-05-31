@@ -1,37 +1,93 @@
-<h3>Tus datos</h3>
-<div class="form-group">
-    <input type="text" id="name" name="name" required placeholder="Nombre y apellidos">
-</div>
+<section class="adoption-form">
+  <header>
+    <a routerLink="/home/adopcion-estado">Volver</a>
+    <h1>Solicitud de adopción</h1>
+  </header>
 
-<div class="form-group">
-    <input type="email" id="email" name="email" required placeholder="Email">
-</div>
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
 
-<div class="form-group">
-    <input type="tel" id="phone" name="phone" required placeholder="Teléfono">
-</div>
+  @if (selectedAnimal(); as animal) {
+    <article class="animal-card">
+      <img [src]="animal.foto" [alt]="animal.nombre" />
+      <div>
+        <h2>{{ animal.nombre }}</h2>
+        <p>
+          {{ animal.especie }} | {{ animal.rangoEdad }} | {{ animal.ciudad }}
+        </p>
+      </div>
+    </article>
+  }
 
-<div class="form-group">
-    <input type="text" id="dni" name="dni" required placeholder="DNI">
-</div>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+    <label>
+      Teléfono
+      <input type="text" formControlName="telf" placeholder="600000000" />
+    </label>
 
-<h3>Dirección</h3>
+    <label>
+      DNI
+      <input type="text" formControlName="dni" placeholder="12345678A" />
+    </label>
 
-<div class="form-group">
-    <input type="text" id="address" name="address" required placeholder="Calle, número, piso">
-</div>
+    <label>
+      Ciudad
+      <input type="text" formControlName="city" placeholder="Tu ciudad" />
+    </label>
 
-<div class="form-group">
-    <input type="text" id="postalCode" name="postalCode" required placeholder="Código postal">
-</div>
+    <label>
+      Dirección
+      <input
+        type="text"
+        formControlName="direccion"
+        placeholder="Calle, número, piso"
+      />
+    </label>
 
-<div class="form-group">
-    <input type="text" id="city" name="city" required placeholder="Ciudad">
-</div>
+    <label>
+      Código postal
+      <input type="number" formControlName="postal" placeholder="08001" />
+    </label>
 
-<div class="form-group">
-    <input type="checkbox" id="terms" name="terms" required>
-    <label for="terms">Acepto los términos y condiciones de la adopción</label>
-</div>
+    <label>
+      Tipo de vivienda
+      <select formControlName="tipoVivienda">
+        <option value="Piso">Piso</option>
+        <option value="Casa">Casa</option>
+        <option value="Finca">Finca</option>
+      </select>
+    </label>
 
-<button type="submit">Continuar</button>
+    <label>
+      Situación de vivienda
+      <select formControlName="alquilerOCompra">
+        <option value="Alquiler">Alquiler</option>
+        <option value="Propiedad">Propiedad</option>
+      </select>
+    </label>
+
+    <label
+      ><input type="checkbox" formControlName="petFriendly" /> Soy pet
+      friendly</label
+    >
+    <label
+      ><input type="checkbox" formControlName="tieneMascotas" /> Tengo otras
+      mascotas</label
+    >
+    <label
+      ><input type="checkbox" formControlName="permisoCasero" /> Tengo permiso
+      del casero</label
+    >
+    <label
+      ><input type="checkbox" formControlName="tieneJardin" /> Tengo
+      jardín</label
+    >
+    <label
+      ><input type="checkbox" formControlName="acuerdoVisitas" /> Acepto visitas
+      de seguimiento</label
+    >
+
+    <button type="submit" [disabled]="isSubmitting()">Enviar solicitud</button>
+  </form>
+</section>

@@ -1,107 +1,486 @@
-<button routerLink="/home/adopcion-estado">VOLVER</button>
+<div class="global-page-shell">
+  <a routerLink="/home/galeria" class="back-link">
+    <mat-icon>arrow_back</mat-icon> Volver a la galería
+  </a>
 
-<mat-tab-group>
-  <mat-tab label="Resumen">
-    @if (animalEstado()) {
-      <div>
-        <h1>Adopción de: {{ animalEstado()?.nombre }}</h1>
+  @if (animal()) {
+    <div class="adoption-content">
+      <div class="hero-card">
+        <img
+          [src]="animal()?.foto"
+          [alt]="animal()?.nombre"
+          class="hero-image"
+        />
+        <div class="hero-copy">
+          <span class="eyebrow">Paso 1: Conocer al animal</span>
+          <h1>Adopta a {{ animal()?.nombre }}</h1>
 
-        <div>
-          <img [src]="animalEstado()?.foto" alt="Foto del animal" />
-          <p>Nombre: {{ animalEstado()?.nombre }}</p>
-          <p>Ciudad: {{ animalEstado()?.ciudad }}</p>
-          <p>Sexo: {{ animalEstado()?.genero }}</p>
-        </div>
+          <div class="status-pill" [ngClass]="adoptionStatus().toLowerCase()">
+            {{ adoptionStatus() }}
+          </div>
 
-        <div>
-          <img
-            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 111838.png"
-            alt="Protectora"
-          />
-          <h1>Asociación Protectora Lara</h1>
-          <p>Calle Eraso</p>
-        </div>
+          @if (!puedeAdoptar()) {
+            <p class="status-warning">
+              Este animal ya está {{ adoptionStatus().toLowerCase() }}. Puedes
+              ver su ficha, pero no enviar una nueva solicitud.
+            </p>
+          }
 
-        <div>
-          <img
-            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112638.png"
-            alt="Contacto"
-          />
-          <p>Contacta con nosotros</p>
-          <img
-            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112340.png"
-            alt="WhatsApp"
-          />
-          <img
-            src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112356.png"
-            alt="Email"
-          />
+          <p class="history-text">
+            {{
+              animal()?.historia ||
+                "Este pequeño está esperando una familia que le dé una segunda oportunidad."
+            }}
+          </p>
+
+          <div class="tags-row">
+            <span class="tag"
+              ><mat-icon>pets</mat-icon> {{ animal()?.especie }}</span
+            >
+            <span class="tag"
+              ><mat-icon>cake</mat-icon> {{ animal()?.rangoEdad }}</span
+            >
+            <span class="tag"
+              ><mat-icon>monitor_weight</mat-icon> {{ animal()?.peso }} kg</span
+            >
+            <span class="tag"
+              ><mat-icon>female</mat-icon> {{ animal()?.genero }}</span
+            >
+          </div>
         </div>
       </div>
-    }
-  </mat-tab>
 
-  <mat-tab label="Info Adicional">
-    <div>
-      <h1>Subir Imágenes</h1>
-      <p>Sube fotos del entorno donde vivirá tu mascota.</p>
+      <div class="process-section">
+        <h2 class="section-title">Tu proceso de adopción</h2>
+        <div class="timeline-grid">
+          <div
+            class="step-card"
+            [class.active]="currentStep() === 1"
+            [class.completed]="currentStep() > 1"
+          >
+            <span class="step-number">
+              @if (currentStep() > 1) {
+                <mat-icon>check</mat-icon>
+              } @else {
+                <span>1</span>
+              }
+            </span>
+            <h2>1. Revisar Ficha</h2>
+            <p>
+              Estás aquí. Lee atentamente sus necesidades de salud y requisitos.
+            </p>
+            @if (currentStep() === 4) {
+              <button class="btn-outline step-action mt-2" (click)="irAPaso(1)">
+                Ver Ficha
+              </button>
+            }
+          </div>
 
-      <input type="file" (change)="seleccionarFoto1($event)" />
-      <input type="file" (change)="seleccionarFoto2($event)" />
-      <input type="file" (change)="seleccionarFoto3($event)" />
+          <div
+            class="step-card"
+            [class.active]="currentStep() === 2"
+            [class.next-step]="currentStep() === 1"
+            [class.completed]="currentStep() > 2"
+          >
+            <span class="step-number">
+              @if (currentStep() > 2) {
+                <mat-icon>check</mat-icon>
+              } @else {
+                <span>2</span>
+              }
+            </span>
+            <h2>2. Enviar Solicitud</h2>
+            <p>Rellena el formulario oficial con tus datos.</p>
+            @if (currentStep() === 1 && puedeAdoptar() && !existingRequest()) {
+              <button
+                class="primary-button step-action mt-2"
+                (click)="irAPaso(2)"
+              >
+                Rellenar Formulario
+              </button>
+            } @else if (
+              currentStep() === 1 && !puedeAdoptar() && !existingRequest()
+            ) {
+              <button class="primary-button step-action" disabled>
+                Solicitud no disponible
+              </button>
+            }
+          </div>
 
-      <h1>¿Cómo quieres pagar las tasas?</h1>
-      <p>Pago único o fraccionado con la protectora.</p>
+          <div
+            class="step-card"
+            [class.active]="currentStep() >= 3"
+            [class.disabled]="currentStep() < 3"
+          >
+            <span class="step-number">
+              @if (currentStep() >= 3) {
+                <mat-icon>done_all</mat-icon>
+              } @else {
+                <span>3</span>
+              }
+            </span>
+            <h2>3. Seguimiento</h2>
+            <p>Evaluaremos tu perfil y nos pondremos en contacto.</p>
+            @if (currentStep() === 1 && existingRequest()) {
+              <button class="btn-outline step-action mt-2" (click)="irAPaso(4)">
+                Ver Seguimiento
+              </button>
+            }
+          </div>
+        </div>
+      </div>
 
-      <mat-form-field>
-        <mat-label>125 $ Desglosar Tasas</mat-label>
-        <mat-select [(value)]="seleccionarOpcion">
-          @for (opcion of opciones; track $index) {
-            <mat-option [value]="opcion">{{ opcion }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      @if (currentStep() === 1) {
+        <div class="details-grid fade-in">
+          <div class="info-card">
+            <h2>
+              <mat-icon class="icon-health">medical_services</mat-icon> Estado
+              de Salud
+            </h2>
+            <div class="detail-list">
+              <div [class.checked]="animal()?.salud?.vacunado">
+                <strong>Vacunas:</strong>
+                <span>{{
+                  animal()?.salud?.vacunado ? "Al día" : "Pendientes"
+                }}</span>
+              </div>
+              <div [class.checked]="animal()?.salud?.desparasitado">
+                <strong>Desparasitado:</strong>
+                <span>{{ animal()?.salud?.desparasitado ? "Sí" : "No" }}</span>
+              </div>
+              <div [class.checked]="animal()?.salud?.esterilizado">
+                <strong>Esterilizado:</strong>
+                <span>{{ animal()?.salud?.esterilizado ? "Sí" : "No" }}</span>
+              </div>
+              <div [class.checked]="animal()?.salud?.microchip">
+                <strong>Microchip:</strong>
+                <span>{{
+                  animal()?.salud?.microchip ? "Asignado" : "No asignado"
+                }}</span>
+              </div>
+            </div>
+          </div>
 
-      <mat-checkbox [(ngModel)]="checkedvisto1">Texto 1</mat-checkbox>
-      <mat-checkbox [(ngModel)]="checkedvisto2">Texto 2</mat-checkbox>
+          <div class="info-card">
+            <h2>
+              <mat-icon class="icon-info">info</mat-icon> A tener en cuenta
+            </h2>
+            <div class="text-blocks">
+              <p>
+                <strong>Personalidad:</strong>
+                {{
+                  animal()?.personalidad?.join(", ") || "Sociable y amigable."
+                }}
+              </p>
+              <p>
+                <strong>Cosas a saber:</strong>
+                {{
+                  animal()?.aSaber ||
+                    "Necesitará tiempo y paciencia para adaptarse a su nuevo hogar."
+                }}
+              </p>
+              <p>
+                <strong>Requisitos de la Protectora:</strong>
+                {{
+                  animal()?.requisitosAdopcion ||
+                    "Entrevista telefónica y firma de contrato de adopción obligatoria."
+                }}
+              </p>
+            </div>
+          </div>
+        </div>
+      }
 
-      <button mat-raised-button color="primary" (click)="subir()">
-        ENVIAR
-      </button>
+      @if (currentStep() === 2) {
+        <div class="form-container fade-in info-card">
+          <div class="form-header">
+            <h2>
+              <mat-icon>edit_document</mat-icon> Formulario Oficial de Adopción
+            </h2>
+            <p>
+              Por favor, completa tus datos para enviar la solicitud. Esta
+              información es confidencial.
+            </p>
+          </div>
+
+          <form
+            (ngSubmit)="enviarFormulario()"
+            #adoptForm="ngForm"
+            class="adoption-form"
+          >
+            <h3 class="form-section-title">Datos Personales</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>DNI / NIE *</label>
+                <input
+                  type="text"
+                  name="dni"
+                  [(ngModel)]="formData.dni"
+                  required
+                  placeholder="Ej: 12345678X"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label>Teléfono de Contacto *</label>
+                <input
+                  type="tel"
+                  name="telf"
+                  [(ngModel)]="formData.telf"
+                  required
+                  placeholder="Ej: 600 000 000"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group full-width">
+                <label>Dirección Completa *</label>
+                <input
+                  type="text"
+                  name="direccion"
+                  [(ngModel)]="formData.direccion"
+                  required
+                  placeholder="Calle, Número, Piso..."
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label>Ciudad *</label>
+                <input
+                  type="text"
+                  name="city"
+                  [(ngModel)]="formData.city"
+                  required
+                  placeholder="Tu ciudad"
+                  class="form-control"
+                />
+              </div>
+              <div class="form-group">
+                <label>Código Postal *</label>
+                <input
+                  type="number"
+                  name="postal"
+                  [(ngModel)]="formData.postal"
+                  required
+                  placeholder="Ej: 28001"
+                  class="form-control"
+                />
+              </div>
+              <label class="modern-toggle full-width">
+                <input
+                  type="checkbox"
+                  name="petFriendly"
+                  [(ngModel)]="formData.petFriendly"
+                  required
+                />
+                <div class="toggle-slider"></div>
+                <span class="toggle-label">Soy pet friendly *</span>
+              </label>
+            </div>
+
+            <h3 class="form-section-title mt-4">
+              Detalles de la Vivienda y Estilo de Vida
+            </h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Tipo de Vivienda</label>
+                <select
+                  name="tipoVivienda"
+                  [(ngModel)]="formData.tipoVivienda"
+                  class="form-control"
+                >
+                  <option value="Piso">Piso / Apartamento</option>
+                  <option value="Casa">Casa</option>
+                  <option value="Chalet">Chalet / Finca</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Régimen de la vivienda</label>
+                <select
+                  name="alquilerOCompra"
+                  [(ngModel)]="formData.alquilerOCompra"
+                  class="form-control"
+                >
+                  <option value="Alquiler">Alquiler</option>
+                  <option value="Propiedad">Propiedad</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="toggles-grid">
+              <label class="modern-toggle">
+                <input
+                  type="checkbox"
+                  name="permisoCasero"
+                  [(ngModel)]="formData.permisoCasero"
+                  required
+                />
+                <div class="toggle-slider"></div>
+                <span class="toggle-label">Tengo permiso del casero *</span>
+              </label>
+
+              <label class="modern-toggle">
+                <input
+                  type="checkbox"
+                  name="tieneJardin"
+                  [(ngModel)]="formData.tieneJardin"
+                />
+                <div class="toggle-slider"></div>
+                <span class="toggle-label"
+                  >¿Tienes jardín o terraza vallada?</span
+                >
+              </label>
+
+              <label class="modern-toggle">
+                <input
+                  type="checkbox"
+                  name="tieneMascotas"
+                  [(ngModel)]="formData.tieneMascotas"
+                />
+                <div class="toggle-slider"></div>
+                <span class="toggle-label">
+                  ¿Convives con otras mascotas actualmente?
+                </span>
+              </label>
+
+              <label class="modern-toggle">
+                <input
+                  type="checkbox"
+                  name="acuerdoVisitas"
+                  [(ngModel)]="formData.acuerdoVisitas"
+                />
+                <div class="toggle-slider"></div>
+                <span class="toggle-label">
+                  ¿Estás de acuerdo con visitas de seguimiento?
+                </span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-outline" (click)="irAPaso(1)">
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="primary-button"
+                [disabled]="
+                  !adoptForm.valid || !puedeAdoptar() || isSubmitting()
+                "
+              >
+                {{
+                  isSubmitting()
+                    ? "Enviando..."
+                    : "Enviar Solicitud de Adopción"
+                }}
+              </button>
+            </div>
+
+            @if (statusMessage()) {
+              <p class="status-warning form-warning">{{ statusMessage() }}</p>
+            }
+          </form>
+        </div>
+      }
+
+      @if (currentStep() === 3) {
+        <div class="success-state fade-in info-card">
+          <mat-icon class="success-icon">check_circle</mat-icon>
+          <h2>¡Solicitud enviada con éxito!</h2>
+          <p>
+            Hemos recibido tu formulario para adoptar a
+            <strong>{{ animal()?.nombre }}</strong
+            >.
+          </p>
+          <div class="success-details">
+            <p>
+              Nuestro equipo revisará tu perfil en las próximas 48 horas. Si
+              encaja con las necesidades del animal, nos pondremos en contacto
+              contigo vía telefónica para agendar la entrevista de seguimiento.
+            </p>
+          </div>
+          <button routerLink="/home/galeria" class="primary-button mt-4">
+            Seguir explorando la Galería
+          </button>
+        </div>
+      }
+
+      <!-- PASO 4: DASHBOARD DE SEGUIMIENTO (Si ya ha solicitado) -->
+      @if (currentStep() === 4 && existingRequest()) {
+        <div class="tracking-dashboard fade-in info-card">
+          <div class="tracking-header">
+            <mat-icon
+              class="tracking-icon"
+              [ngClass]="adoptionStatus().toLowerCase()"
+              >assignment_turned_in</mat-icon
+            >
+            <div class="tracking-title">
+              <h2>Estado de tu Solicitud</h2>
+              <div
+                class="status-badge"
+                [ngClass]="adoptionStatus().toLowerCase()"
+              >
+                {{ adoptionStatus() }}
+              </div>
+            </div>
+          </div>
+
+          <div class="tracking-content">
+            <div class="status-message">
+              @if (adoptionStatus().toLowerCase() === "disponible") {
+                <h3>Solicitud en revisión inicial</h3>
+                <p>
+                  Hemos recibido tu formulario correctamente. Nuestro equipo
+                  está evaluando tu perfil para asegurarse de que es el hogar
+                  ideal para {{ animal()?.nombre }}. Te contactaremos pronto por
+                  teléfono o correo para comunicarte si avanzas en el proceso.
+                </p>
+              } @else if (
+                adoptionStatus().toLowerCase() === "reservado" ||
+                adoptionStatus().toLowerCase() === "proceso"
+              ) {
+                <h3>Proceso de entrevista / Reserva</h3>
+                <p>
+                  ¡Tú solicitud ha avanzado o el animal se encuentra en fase de
+                  pre-adopción! El estado del animal es
+                  <strong>{{ adoptionStatus() }}</strong
+                  >. Permanece atento a tu correo electrónico, nuestro equipo
+                  está tomando decisiones en esta fase.
+                </p>
+              } @else if (adoptionStatus().toLowerCase() === "adoptado") {
+                <h3>Proceso finalizado</h3>
+                <p>
+                  El proceso de adopción para {{ animal()?.nombre }} ha
+                  concluido oficialmente y ya tiene un hogar. Si has sido tú el
+                  afortunado, ¡muchas felicidades! Si no ha podido ser en esta
+                  ocasión, te animamos de corazón a seguir explorando la
+                  galería. ¡Hay muchísimos peludos que te necesitan!
+                </p>
+              }
+            </div>
+
+            <div class="request-summary">
+              <h4>Resumen de tu envío</h4>
+              <ul>
+                <li>
+                  <mat-icon>tag</mat-icon> <strong>ID Solicitud:</strong>
+                  {{ existingRequest()?._id | slice: -8 | uppercase }}
+                </li>
+                <li>
+                  <mat-icon>badge</mat-icon> <strong>DNI aportado:</strong>
+                  {{ existingRequest()?.dni }}
+                </li>
+                <li>
+                  <mat-icon>home</mat-icon> <strong>Vivienda:</strong>
+                  {{ existingRequest()?.tipoVivienda }} ({{
+                    existingRequest()?.alquilerOCompra
+                  }})
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      }
     </div>
-  </mat-tab>
-
-  <mat-tab label="Adopción">
-    <div>
-      <h1>Asociación Protectora Lara</h1>
-      <p>Calle Eraso</p>
-      <img
-        src="../../../assets/imagenesAdopcion/Captura de pantalla 2024-02-16 112638.png"
-        alt="Ubicación"
-      />
-
-      <mat-form-field>
-        <mat-label>Elige una fecha</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          [(ngModel)]="fechaSeleccionada"
-        />
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
-      <h1>Hora</h1>
-      <input
-        type="text"
-        [(ngModel)]="inputText"
-        placeholder="¿A qué hora puedes venir?"
-      />
-
-      <button mat-button (click)="abrirModal()">Enviar</button>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+  } @else {
+    <p class="loading-text">Cargando la ficha del animal...</p>
+  }
+</div>
