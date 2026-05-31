@@ -1,12 +1,11 @@
 import { ApiService } from '../../servicios/api.service';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FiltroModalComponent } from '../../filtros/filtros-modal/filtro-modal.component';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-adopcion-estado',
@@ -17,7 +16,6 @@ import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
     FormsModule,
     RouterLink,
     MatIconModule,
-    NavBarComponent,
   ],
   templateUrl: './adopcion-estado.component.html',
   styleUrl: './adopcion-estado.component.scss',
@@ -27,10 +25,8 @@ export class AdopcionEstadoComponent {
   public resultados: any[] = [];
   public textoBusqueda = '';
 
-  constructor(
-    private apiService: ApiService,
-    private dialog: MatDialog,
-  ) {}
+  private readonly apiService = inject(ApiService);
+  private readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.apiService.getAnimales().subscribe((data: any) => {

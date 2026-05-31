@@ -1,0 +1,67 @@
+<div class="global-page-shell">
+  <header class="requests-header">
+    <div class="header-content">
+      <span class="eyebrow">Seguimiento</span>
+      <h1>Mis Solicitudes</h1>
+      <p>
+        Revisa el estado de tus procesos de adopción y mantente al tanto de
+        cualquier novedad.
+      </p>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <p class="loading-text">Cargando tus solicitudes...</p>
+  } @else if (error()) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">error_outline</mat-icon>
+      <h3>¡Vaya!</h3>
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (solicitudes().length > 0) {
+    <div class="requests-grid">
+      @for (form of solicitudes(); track form._id) {
+        <article class="request-card">
+          <div class="card-image-wrapper">
+            <img
+              [src]="animalFoto(form)"
+              [alt]="animalNombre(form)"
+              class="animal-image"
+              loading="lazy"
+            />
+            <div class="status-badge" [ngClass]="estadoCss(form)">
+              {{ estadoSolicitud(form) }}
+            </div>
+          </div>
+          <div class="card-content">
+            <h2>{{ animalNombre(form) }}</h2>
+            <div class="request-details">
+              <span class="detail-item"
+                ><mat-icon>description</mat-icon> ID Solicitud:
+                {{ form._id | slice: -6 | uppercase }}</span
+              >
+            </div>
+            <div class="card-actions">
+              <a
+                [routerLink]="['/home', 'adopcion', form.animal_id]"
+                class="btn-primary"
+              >
+                Ver Estado Detallado
+              </a>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">assignment</mat-icon>
+      <h3>Sin solicitudes activas</h3>
+      <p>
+        Aún no has iniciado ningún proceso de adopción. ¡Anímate a darle un
+        hogar a un peludo en nuestra galería!
+      </p>
+      <a routerLink="/home/galeria" class="btn-primary">Ver Galería</a>
+    </div>
+  }
+</div>

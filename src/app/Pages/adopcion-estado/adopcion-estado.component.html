@@ -28,34 +28,32 @@
 
 <!--  Resultados -->
 @if (resultados.length > 0) {
-<div class="image-container">
-  @for (animal of resultados; track $index) {
-  <div class="animal">
-    <h1>Adopción de {{ animal.nombre }}</h1>
-    <p>{{ animal.adoptionState }}</p>
+  <div class="image-container">
+    @for (animal of resultados; track $index) {
+      <div class="animal">
+        <h1>Adopción de {{ animal.nombre }}</h1>
+        <p>{{ animal.adoptionState }}</p>
 
-    <div class="imagen-container">
-      <img
-        class="imagen"
-        [src]="animal.foto"
-        alt="foto"
-        [routerLink]="['/home', 'adopcion', animal._id]"
-      />
-    </div>
+        <div class="imagen-container">
+          <img
+            class="imagen"
+            [src]="animal.foto"
+            alt="foto"
+            [routerLink]="['/home', 'adopcion', animal._id]"
+          />
+        </div>
 
-    <div>
-      <p>Nombre: {{ animal.nombre }}</p>
-      <p>Ciudad: {{ animal.ciudad }}</p>
-      <p>Sexo: {{ animal.genero }}</p>
-    </div>
+        <div>
+          <p>Nombre: {{ animal.nombre }}</p>
+          <p>Ciudad: {{ animal.ciudad }}</p>
+          <p>Sexo: {{ animal.genero }}</p>
+        </div>
+      </div>
+    }
   </div>
-  }
-</div>
-} @if (resultados.length === 0) {
-<div class="no-result">
-  <p>No se encontraron resultados.</p>
-</div>
 }
-
-<!--  Barra inferior -->
-<app-nav-bar></app-nav-bar>
+@if (resultados.length === 0) {
+  <div class="no-result">
+    <p>No se encontraron resultados.</p>
+  </div>
+}
