@@ -1,66 +1,251 @@
-<div class="botones">
-  <button routerLink="/home">Home</button>
-  <button routerLink="/home/profile">Menu</button>
-  <button mat-icon-button routerLink="/home/favoritos">
-    <mat-icon>favorite</mat-icon>
-  </button>
-</div>
+<div class="global-page-shell gallery-container">
+  <!-- 🔹 CABECERA PROFESIONAL -->
+  <header class="gallery-header">
+    <div class="header-content">
+      <span class="eyebrow">Nuestros Peludos</span>
+      <h1>Animales en Adopción</h1>
+      <p>Encuentra a tu compañero ideal y dale una segunda oportunidad.</p>
+    </div>
 
-<div class="buscador">
-  <input
-    class="input_buscador"
-    type="text"
-    [(ngModel)]="textoBusqueda"
-    (input)="buscar(textoBusqueda)"
-    placeholder="Busca tu Animal..."
-  />
-</div>
+    <div class="gallery-actions">
+      <div class="search-bar">
+        <mat-icon>search</mat-icon>
+        <input
+          type="text"
+          placeholder="Buscar por nombre..."
+          [(ngModel)]="inputValue"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </div>
+      <button
+        class="btn-filter"
+        [class.active]="mostrarFiltros()"
+        (click)="mostrarFiltros.set(!mostrarFiltros())"
+      >
+        <mat-icon>tune</mat-icon>
+        <span>Filtros</span>
+      </button>
+    </div>
 
-<div class="estadoA" routerLink="/home/adopcion-estado">
-  <h1>Ir Estado de Adopción</h1>
-</div>
+    <!-- 🔹 PANEL DE FILTROS EN LÍNEA (INLINE) -->
+    @if (mostrarFiltros()) {
+      <div class="inline-filters-panel">
+        <!-- Grupo: Especie -->
+        <div class="filter-group">
+          <span class="filter-label">Especie</span>
+          <div class="chip-container">
+            <button
+              class="chip"
+              [class.selected]="filtros().especie === 'Perro'"
+              (click)="toggleFiltro('especie', 'Perro')"
+            >
+              <iconify-icon icon="mdi:dog"></iconify-icon> Perro
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().especie === 'Gato'"
+              (click)="toggleFiltro('especie', 'Gato')"
+            >
+              <iconify-icon icon="mdi:cat"></iconify-icon> Gato
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().especie === 'Ave'"
+              (click)="toggleFiltro('especie', 'Ave')"
+            >
+              <iconify-icon icon="mdi:bird"></iconify-icon> Ave
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().especie === 'Tortuga'"
+              (click)="toggleFiltro('especie', 'Tortuga')"
+            >
+              <iconify-icon icon="mdi:turtle"></iconify-icon> Tortuga
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().especie === 'Reptil'"
+              (click)="toggleFiltro('especie', 'Reptil')"
+            >
+              <iconify-icon icon="mdi:snake"></iconify-icon> Reptil
+            </button>
+          </div>
+        </div>
 
-<div class="tituloF">
-  <div>
-    <h1>Animales en Adopción</h1>
-  </div>
-  <div>
-    <button mat-icon-button (click)="abrirModal()" class="modalAbrir">
-      <mat-icon>filter_list</mat-icon>
-    </button>
-  </div>
-</div>
+        <!-- Grupo: Género -->
+        <div class="filter-group">
+          <span class="filter-label">Género</span>
+          <div class="chip-container">
+            <button
+              class="chip"
+              [class.selected]="filtros().genero === 'Hembra'"
+              (click)="toggleFiltro('genero', 'Hembra')"
+            >
+              <iconify-icon icon="mdi:gender-female"></iconify-icon> Hembra
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().genero === 'Macho'"
+              (click)="toggleFiltro('genero', 'Macho')"
+            >
+              <iconify-icon icon="mdi:gender-male"></iconify-icon> Macho
+            </button>
+          </div>
+        </div>
 
-@if (resultados().length > 0) {
-  <div class="image-container">
-    @for (animal of resultados(); track animal._id) {
-      <div class="animal">
-        <div class="imagen-container">
-          <img
-            class="imagen"
-            src="{{ animal.foto }}"
-            alt="foto"
-            [routerLink]="['/home', 'gallery', animal._id]"
-          />
-          <button
-            mat-icon-button
-            class="favorito-button"
-            (click)="marcarFavorito(animal)"
-          >
-            <mat-icon>{{
-              animal.favorito ? "favorite" : "favorite_border"
-            }}</mat-icon>
-          </button>
-          <h1>{{ animal.nombre }}</h1>
+        <!-- Grupo: Tamaño -->
+        <div class="filter-group">
+          <span class="filter-label">Tamaño</span>
+          <div class="chip-container">
+            <button
+              class="chip"
+              [class.selected]="filtros().size === 'Pequeño'"
+              (click)="toggleFiltro('size', 'Pequeño')"
+            >
+              <iconify-icon icon="mdi:size-s"></iconify-icon> Pequeño
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().size === 'Mediano'"
+              (click)="toggleFiltro('size', 'Mediano')"
+            >
+              <iconify-icon icon="mdi:size-m"></iconify-icon> Mediano
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().size === 'Grande'"
+              (click)="toggleFiltro('size', 'Grande')"
+            >
+              <iconify-icon icon="mdi:size-l"></iconify-icon> Grande
+            </button>
+          </div>
+        </div>
+
+        <!-- Grupo: Edad -->
+        <div class="filter-group">
+          <span class="filter-label">Edad</span>
+          <div class="chip-container">
+            <button
+              class="chip"
+              [class.selected]="filtros().rangoEdad === 'Cachorro'"
+              (click)="toggleFiltro('rangoEdad', 'Cachorro')"
+            >
+              <iconify-icon icon="mdi:baby-bottle-outline"></iconify-icon>
+              Cachorro
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().rangoEdad === 'Joven'"
+              (click)="toggleFiltro('rangoEdad', 'Joven')"
+            >
+              <iconify-icon icon="mdi:run"></iconify-icon> Joven
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().rangoEdad === 'Adulto'"
+              (click)="toggleFiltro('rangoEdad', 'Adulto')"
+            >
+              <iconify-icon icon="mdi:account-star"></iconify-icon> Adulto
+            </button>
+          </div>
         </div>
       </div>
     }
-  </div>
-}
-@if (resultados().length === 0) {
-  <div>
-    <p>No se encontraron resultados.</p>
-  </div>
-}
-<app-nav-bar></app-nav-bar>
-<!-- <app-nav-bar></app-nav-bar> -->
+  </header>
+
+  <!-- 🔹 GRID RESPONSIVO (CSS GRID) -->
+  @if (resultadosFiltrados().length > 0) {
+    <div class="gallery-grid">
+      @for (animal of animalesMostrados(); track animal._id) {
+        <article class="animal-card">
+          <!-- IMAGEN Y BADGES -->
+          <div class="card-image-wrapper">
+            <img
+              [src]="animal.foto"
+              [alt]="animal.nombre"
+              class="animal-image"
+              loading="lazy"
+            />
+
+            <!-- Estado dinámico -->
+            <div class="status-badge" [ngClass]="estadoCss(animal)">
+              {{ estadoAdopcion(animal) }}
+            </div>
+
+            <!-- Corazón Favorito -->
+            <button
+              class="favorite-btn"
+              (click)="marcarFavorito(animal)"
+              [attr.aria-label]="
+                animal.favorito ? 'Quitar de favoritos' : 'Añadir a favoritos'
+              "
+            >
+              <mat-icon [class.is-favorite]="animal.favorito">
+                {{ animal.favorito ? "favorite" : "favorite_border" }}
+              </mat-icon>
+            </button>
+          </div>
+
+          <!-- CONTENIDO TARJETA -->
+          <div class="card-content">
+            <div class="card-title-row">
+              <h2 class="animal-name">{{ animal.nombre }}</h2>
+              @if (animal.genero === "Macho") {
+                <mat-icon class="gender-icon male">male</mat-icon>
+              }
+              @if (animal.genero === "Hembra") {
+                <mat-icon class="gender-icon female">female</mat-icon>
+              }
+            </div>
+
+            <div class="animal-details">
+              <span class="detail-item"
+                ><mat-icon>pets</mat-icon>
+                {{ animal.especie || "Desconocida" }}</span
+              >
+              <span class="detail-item"
+                ><mat-icon>location_on</mat-icon>
+                {{ animal.ubicacion || "Ubicación desconocida" }}</span
+              >
+            </div>
+
+            <!-- BOTONES ACCIÓN -->
+            <div class="card-actions">
+              @if (puedeAdoptar(animal)) {
+                <a
+                  [routerLink]="['/home', 'adopcion', animal._id]"
+                  class="btn-primary"
+                >
+                  Adoptar
+                </a>
+              } @else {
+                <button class="btn-primary disabled" type="button" disabled>
+                  {{ estadoAdopcion(animal) }}
+                </button>
+              }
+              <a
+                [routerLink]="['/home', 'galeria', animal._id]"
+                class="btn-outline"
+              >
+                Detalles
+              </a>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <!-- 🔹 ESTADO VACÍO (EMPTY STATE PROFESIONAL) -->
+    <div class="empty-state">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <h3>¡Ups! No encontramos coincidencias</h3>
+      <p>
+        Prueba con otros filtros o un término de búsqueda diferente para
+        encontrar a tu compañero ideal.
+      </p>
+      <button class="btn-outline" (click)="limpiarFiltros()">
+        Limpiar búsqueda
+      </button>
+    </div>
+  }
+</div>
