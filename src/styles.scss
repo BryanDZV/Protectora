@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Tema global de Angular Material requerido para bordes, colores y tipografías de los componentes */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 :root {
   --color-bg-white: rgb(255, 255, 255);
   --color-primary-blue: rgb(0, 133, 153);
