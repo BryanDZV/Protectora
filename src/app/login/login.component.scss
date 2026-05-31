@@ -1,281 +1,128 @@
-﻿:host {
-  display: block;
-  min-height: 100vh;
-  background-color: var(--color-bg-white, #ffffff);
-}
+// Uso de variables locales para la temática.
+// Si tienes un variables.scss global, puedes importarlo en su lugar.
+@use "sass:color";
 
-.login-page {
+$primary-color: rgb(1, 116, 142);
+$bg-color: #f4f7f6; // Ya no lo usaremos de fondo principal, pero se queda como fallback
+$error-bg: #fdecea;
+$error-color: #e91c1c;
+$error-border: #f5c2c7;
+
+.login-wrapper {
   display: flex;
-  min-height: 100vh;
-  width: 100%;
-  flex-direction: column;
-}
-
-.image-panel {
-  display: none; /* Oculto en móvil */
-}
-
-.login-card {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 24px;
-  background-color: var(--color-bg-white, #ffffff);
-  width: 100%;
+  align-items: center;
+  min-height: 100vh; // Ocupa toda la pantalla para centrar el contenido
+  // Degradado suave usando tus variables globales de styles.scss para mantener coherencia
+  background: linear-gradient(135deg, var(--color-primary-lightblue) 0%, var(--color-primary-blue-off) 100%);
+  padding: 1rem;
 }
 
-.login-card-content {
+.login-container {
+  background: #ffffff;
   width: 100%;
-  max-width: 420px;
-  position: relative;
+  max-width: 450px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
+  gap: 1.5rem;
 
-/* Media Query para PC */
-@media (min-width: 768px) {
-  .login-page {
-    flex-direction: row;
-  }
-
-  .login-card {
-    flex: 0 0 500px; /* Ancho fijo para la tarjeta en PC */
-    padding: 48px;
-    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.05);
-    z-index: 10;
-  }
-
-  .image-panel {
-    display: block;
-    flex: 1;
-    background-image: url('../../assets/login_background/fondo@3x.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-  }
-
-  /* Overlay sutil para que el fondo no sea tan agresivo si se desea */
-  .image-panel::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
+  // Media query Mobile First / Responsive design (Adaptabilidad a móviles)
+  @media (max-width: 480px) {
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: none; // Aspecto más integrado y limpio en móvil
+    background: transparent;
   }
 }
 
-/* Botón Volver */
-.btn-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: transparent;
-  color: var(--color-primary-blue, #008599);
-  border: none;
+.top-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: -1rem; // Ajusta el espacio para que el encabezado no baje demasiado
+
+  button {
+    color: $primary-color;
+  }
+}
+
+.login-header {
+  text-align: center;
+  color: $primary-color;
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: #666;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.error-banner {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.5rem;
+  background-color: $error-bg;
+  color: $error-color;
+  padding: 1rem;
+  border-radius: 8px;
   font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 6px;
-  transition: background-color 0.2s;
+  border: 1px solid $error-border;
+}
 
-  &:hover {
-    background-color: rgba(0, 133, 153, 0.1);
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .form-field {
+    width: 100%;
   }
 }
 
-.logo-container {
-  margin-bottom: 24px;
-  margin-top: 40px; /* Espacio para el botón volver */
-  .logo {
-    width: 160px;
-    height: auto;
-    object-fit: contain;
+.login-actions {
+  margin-top: 0.5rem;
+
+  .submit-btn {
+    width: 100%;
+    height: 48px;
+    font-size: 1.1rem;
+    border-radius: 24px; // Siguiendo el estilo redondeado visto en tus inputs de búsqueda
+    background-color: $primary-color;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
   }
 }
 
-.title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--color-primary-blue, #008599);
-  margin-bottom: 8px;
+.login-footer {
+  margin-top: 1rem;
   text-align: center;
-}
-
-.subtitle {
   font-size: 0.95rem;
   color: #555;
-  text-align: center;
-  margin-bottom: 32px;
-}
 
-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.form-group {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
-.form-control {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background-color: #fafafa;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-primary-blue, #008599);
-    box-shadow: 0 0 0 3px rgba(0, 133, 153, 0.2);
-    background-color: #fff;
-  }
-
-  &.is-invalid {
-    border-color: var(--color-stand-out-red, #fa9c93);
-    &:focus {
-      box-shadow: 0 0 0 3px rgba(250, 156, 147, 0.2);
-    }
-  }
-}
-
-.password-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  .input-password {
-    padding-right: 48px;
-  }
-
-  .eye-btn {
-    position: absolute;
-    right: 8px;
-    background: transparent;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    .ojo-icon {
-      width: 24px;
-      height: auto;
-      opacity: 0.6;
-    }
-  }
-}
-
-.forgot-password-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -8px;
-
-  .forgot-password {
-    font-size: 0.85rem;
-    color: var(--color-primary-blue, #008599);
-    font-weight: 500;
+  a {
+    color: $primary-color;
     text-decoration: none;
-    
+    font-weight: 600;
+    transition: color 0.2s ease;
+
     &:hover {
+      color: color.adjust($primary-color, $lightness: -15%);
       text-decoration: underline;
     }
   }
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-  width: 100%;
-}
-
-.btn {
-  width: 100%;
-  padding: 14px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  &:active {
-    transform: scale(0.98);
-  }
-
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-  }
-}
-
-.btn-primary {
-  background-color: var(--color-primary-blue, #008599);
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 133, 153, 0.3);
-
-  &:hover:not(:disabled) {
-    background-color: #007385;
-  }
-}
-
-.btn-outline {
-  background-color: transparent;
-  color: var(--color-primary-blue, #008599);
-  border: 2px solid var(--color-primary-blue, #008599);
-
-  &:hover:not(:disabled) {
-    background-color: rgba(0, 133, 153, 0.05);
-  }
-}
-
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
