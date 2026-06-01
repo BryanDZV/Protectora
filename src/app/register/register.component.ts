@@ -1,14 +1,27 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthServiceService } from '../servicios/auth.service.service';
 import { CommonModule } from '@angular/common';
-import { FormErrorsComponent } from '../shared/atoms/form-errors/form-errors.component';
+import { AuthServiceService } from '../servicios/auth.service.service';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormErrorsComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })

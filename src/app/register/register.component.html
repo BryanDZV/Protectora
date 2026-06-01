@@ -1,59 +1,121 @@
-<div class="container">
-  <img
-    src="../../assets/login_logo/logo@3x.png"
-    alt="Logo pequeño"
-    class="logo"
-  />
+<div class="register-wrapper">
+  <div class="register-container">
+    <div class="top-actions">
+      <button
+        mat-icon-button
+        (click)="volver()"
+        type="button"
+        aria-label="Volver atrás"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
 
-  <h2>¡Hola! Crea una cuenta para comenzar</h2>
+    <header class="register-header">
+      <h1>Crea tu cuenta</h1>
+      <p>Es rápido y fácil. ¡Únete a nuestra comunidad!</p>
+    </header>
 
-  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-    <fieldset>
-      <label>
-        <input type="text" formControlName="name" placeholder="Nombre" />
-      </label>
-
-      @if (contactForm.get("name")?.errors) {
-        <app-form-errors [errors]="contactForm.get('name')?.errors ?? null" />
-      }
-
-      <label>
-        <input type="text" formControlName="email" placeholder="Email" />
-      </label>
-
-      @if (contactForm.get("email")?.errors) {
-        <app-form-errors [errors]="contactForm.get('email')?.errors ?? null" />
-      }
-
-      <label class="label-contraseña">
+    <form
+      [formGroup]="contactForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form"
+    >
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Nombre Completo</mat-label>
         <input
+          matInput
+          type="text"
+          formControlName="name"
+          placeholder="Tu nombre y apellidos"
+        />
+        <mat-icon matPrefix>person_outline</mat-icon>
+        @if (
+          contactForm.get("name")?.invalid && contactForm.get("name")?.touched
+        ) {
+          <mat-error>El nombre es obligatorio.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Correo Electrónico</mat-label>
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="tu.correo@ejemplo.com"
+        />
+        <mat-icon matPrefix>email</mat-icon>
+        @if (
+          contactForm.get("email")?.invalid && contactForm.get("email")?.touched
+        ) {
+          <mat-error>Introduce un correo válido.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
           [type]="show ? 'text' : 'password'"
           formControlName="password"
-          placeholder="Contraseña"
-          class="input-password"
+          placeholder="Mínimo 8 caracteres"
         />
-
-        <button type="button" class="eye-btn" (click)="togglePassword()">
-          <img
-            src="../../assets/primary_icons/little_icons_primary/ojo_little/ojo@3x.png"
-            class="ojo"
-          />
+        <mat-icon matPrefix>lock_outline</mat-icon>
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="togglePassword()"
+          type="button"
+          aria-label="Mostrar/Ocultar contraseña"
+        >
+          <mat-icon>{{ show ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-      </label>
+        @if (
+          contactForm.get("password")?.hasError("required") &&
+          contactForm.get("password")?.touched
+        ) {
+          <mat-error>La contraseña es obligatoria.</mat-error>
+        }
+        @if (
+          contactForm.get("password")?.hasError("minlength") &&
+          contactForm.get("password")?.touched
+        ) {
+          <mat-error>Debe tener al menos 8 caracteres.</mat-error>
+        }
+        @if (
+          contactForm.get("password")?.hasError("pattern") &&
+          contactForm.get("password")?.touched
+        ) {
+          <mat-error
+            >Debe incluir mayúscula, minúscula, número y símbolo.</mat-error
+          >
+        }
+      </mat-form-field>
 
-      @if (contactForm.get("password")?.errors) {
-        <app-form-errors
-          [errors]="contactForm.get('password')?.errors ?? null"
-        />
-      }
-    </fieldset>
+      <button
+        mat-flat-button
+        class="submit-btn"
+        type="submit"
+        [disabled]="isSubmitting"
+      >
+        @if (isSubmitting) {
+          <mat-spinner diameter="24"></mat-spinner>
+        } @else {
+          <span>Crear Cuenta</span>
+        }
+      </button>
+    </form>
+  </div>
+</div>
 
-    <button class="btn-login" type="submit" [disabled]="isSubmitting">
-      {{ isSubmitting ? "Registrando..." : "Registrarse" }}
-    </button>
-  </form>
-  <button class="btn-back" (click)="volver()">Volver</button>
-</div>
-<div class="toast" *ngIf="showToast">
-  {{ toastMessage }}
-</div>
+@if (showToast) {
+  <div
+    class="toast"
+    [class.error]="
+      toastMessage.includes('Error') || toastMessage.includes('inválido')
+    "
+  >
+    {{ toastMessage }}
+  </div>
+}
