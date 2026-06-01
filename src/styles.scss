@@ -41,18 +41,3 @@
   --color-primary-blue: #01748e;
   --color-stand-out-red: #e91c1c;
 }
-
-/* Forzamos a que las cajas de texto y botones base sean visibles de nuevo */
-input,
-select,
-textarea {
-  border: 1px solid #cbd5d8 !important;
-  background-color: #ffffff !important;
-  color: #173648 !important;
-  padding: 0.8rem;
-  border-radius: 8px;
-}
-
-button {
-  cursor: pointer;
-}
