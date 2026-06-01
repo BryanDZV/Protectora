@@ -1,58 +1,97 @@
 ﻿﻿<div class="login-wrapper">
   <div class="login-container">
-
     <!-- Acción Superior: Volver (Átomo visual) -->
     <div class="top-actions">
-      <button mat-icon-button (click)="goBack()" type="button" aria-label="Volver atrás">
-        <mat-icon>arrow_back_ios</mat-icon>
+      <button
+        mat-icon-button
+        (click)="goBack()"
+        type="button"
+        aria-label="Volver atrás"
+      >
+        <mat-icon>arrow_back</mat-icon>
       </button>
     </div>
 
     <!-- Encabezado (Organismo Visual) -->
     <header class="login-header">
-      <h1>¡Bienvenido de nuevo! 🐾</h1>
-      <p>Inicia sesión para continuar en Protectora</p>
+      <img
+        src="assets/login_logo/logo@3x.png"
+        alt="Logo Protectora"
+        class="header-logo"
+      />
+      <h1>¡Bienvenido de nuevo!</h1>
+      <p>Inicia sesión para continuar.</p>
     </header>
 
     <!-- Feedback de Error Global (Manejo Granular de API) -->
-    <div *ngIf="errorMessage()" class="error-banner" role="alert">
-      <mat-icon>error_outline</mat-icon>
-      <span>{{ errorMessage() }}</span>
-    </div>
+    @if (errorMessage()) {
+      <div class="error-banner" role="alert">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage() }}</span>
+      </div>
+    }
 
     <!-- Formulario Reactivo (Molécula) -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-
       <!-- Campo Email -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Correo Electrónico</mat-label>
-        <input matInput type="email" formControlName="email" placeholder="Escribe tu correo...">
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="Escribe tu correo..."
+        />
         <mat-icon matPrefix>email</mat-icon>
-        <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-          {{ emailError }}
-        </mat-error>
+        @if (
+          loginForm.get("email")?.invalid && loginForm.get("email")?.touched
+        ) {
+          <mat-error>{{ emailError }}</mat-error>
+        }
       </mat-form-field>
 
       <!-- Campo Contraseña -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password" placeholder="********">
-        <mat-icon matPrefix>lock</mat-icon>
-        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button" [attr.aria-label]="'Ocultar contraseña'">
-          <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <input
+          matInput
+          [type]="hidePassword() ? 'password' : 'text'"
+          formControlName="password"
+          placeholder="********"
+        />
+        <mat-icon matPrefix>lock_outline</mat-icon>
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="togglePasswordVisibility()"
+          type="button"
+          [attr.aria-label]="'Ocultar contraseña'"
+        >
+          <mat-icon>{{
+            hidePassword() ? "visibility_off" : "visibility"
+          }}</mat-icon>
         </button>
-        <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          {{ passwordError }}
-        </mat-error>
+        @if (
+          loginForm.get("password")?.invalid &&
+          loginForm.get("password")?.touched
+        ) {
+          <mat-error>{{ passwordError }}</mat-error>
+        }
       </mat-form-field>
 
       <!-- Acciones de Formulario (Átomos) -->
-      <div class="login-actions">
-        <button mat-flat-button class="submit-btn" type="submit" [disabled]="isLoading()">
-          <span *ngIf="!isLoading()">Entrar</span>
-          <mat-spinner *ngIf="isLoading()" diameter="24" color="accent"></mat-spinner>
-        </button>
-      </div>
+      <button
+        mat-flat-button
+        class="submit-btn"
+        type="submit"
+        [disabled]="isLoading()"
+      >
+        @if (isLoading()) {
+          <mat-spinner diameter="24"></mat-spinner>
+        } @else {
+          <span>Entrar</span>
+        }
+      </button>
 
       <!-- Pie de página -->
       <footer class="login-footer">

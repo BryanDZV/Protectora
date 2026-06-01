@@ -1,65 +1,79 @@
-// Uso de variables locales para la temática.
-// Si tienes un variables.scss global, puedes importarlo en su lugar.
-@use "sass:color";
-
-$primary-color: rgb(1, 116, 142);
-$bg-color: #f4f7f6; // Ya no lo usaremos de fondo principal, pero se queda como fallback
-$error-bg: #fdecea;
-$error-color: #e91c1c;
-$error-border: #f5c2c7;
+$primary: #01748e;
+$primary-dark: #1d5c74;
+$text-main: #173648;
+$text-muted: #5c7382;
+$error-color: #d32f2f;
+$error-bg: #fce4e4;
+$transition: 0.3s ease;
 
 .login-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; // Ocupa toda la pantalla para centrar el contenido
-  // Degradado suave usando tus variables globales de styles.scss para mantener coherencia
-  background: linear-gradient(135deg, var(--color-primary-lightblue) 0%, var(--color-primary-blue-off) 100%);
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(189, 210, 214, 0.4),
+      transparent 40%
+    ),
+    linear-gradient(180deg, #f7fbfc 0%, #edf4f5 100%);
   padding: 1rem;
+  box-sizing: border-box;
 }
 
 .login-container {
   background: #ffffff;
   width: 100%;
   max-width: 450px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(15, 31, 47, 0.1);
   padding: 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  border: 1px solid rgba(34, 67, 102, 0.08);
 
-  // Media query Mobile First / Responsive design (Adaptabilidad a móviles)
   @media (max-width: 480px) {
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: none; // Aspecto más integrado y limpio en móvil
+    padding: 2rem 1.5rem;
+    box-shadow: none;
     background: transparent;
+    border: none;
   }
 }
 
 .top-actions {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: -1rem; // Ajusta el espacio para que el encabezado no baje demasiado
+  margin: -1rem 0;
 
   button {
-    color: $primary-color;
+    color: $text-muted;
+    transition: color $transition;
+    &:hover {
+      color: $primary;
+    }
   }
 }
 
 .login-header {
   text-align: center;
-  color: $primary-color;
+
+  .header-logo {
+    width: 100%;
+    max-width: 180px;
+    margin: 0 auto 1.5rem;
+  }
 
   h1 {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
     font-weight: 700;
+    color: $text-main;
   }
 
   p {
-    color: #666;
+    color: $text-muted;
     font-size: 1rem;
     margin: 0;
   }
@@ -68,43 +82,46 @@ $error-border: #f5c2c7;
 .error-banner {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
   background-color: $error-bg;
   color: $error-color;
   padding: 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  border: 1px solid $error-border;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid rgba($error-color, 0.2);
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 
   .form-field {
     width: 100%;
   }
 }
 
-.login-actions {
-  margin-top: 0.5rem;
+.submit-btn {
+  width: 100%;
+  height: 52px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 16px;
+  background: linear-gradient(135deg, $primary-dark 0%, $primary 100%);
+  color: white;
+  transition: all $transition;
+  box-shadow: 0 6px 20px rgba($primary, 0.2);
+  margin-top: 1rem;
 
-  .submit-btn {
-    width: 100%;
-    height: 48px;
-    font-size: 1.1rem;
-    border-radius: 24px; // Siguiendo el estilo redondeado visto en tus inputs de búsqueda
-    background-color: $primary-color;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba($primary, 0.3);
+  }
 
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
+  &:disabled {
+    background: #eef5f6;
+    color: #a0b2bd;
+    box-shadow: none;
   }
 }
 
@@ -112,16 +129,16 @@ $error-border: #f5c2c7;
   margin-top: 1rem;
   text-align: center;
   font-size: 0.95rem;
-  color: #555;
+  color: $text-muted;
 
   a {
-    color: $primary-color;
+    color: $primary;
     text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s ease;
+    font-weight: 700;
+    transition: color $transition;
 
     &:hover {
-      color: color.adjust($primary-color, $lightness: -15%);
+      color: $primary-dark;
       text-decoration: underline;
     }
   }

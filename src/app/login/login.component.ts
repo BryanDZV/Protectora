@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 // Material UI (Átomos)
@@ -25,7 +25,7 @@ import { LoginCredentials } from '../types/auth.types';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -42,7 +42,7 @@ export class LoginComponent {
   public hidePassword = signal<boolean>(true);
 
   // Reactive Forms (Manejo estructurado y granular de estados y errores)
-  public loginForm: FormGroup = this.fb.group({
+  public loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
@@ -67,7 +67,8 @@ export class LoginComponent {
   get passwordError(): string {
     const control = this.loginForm.get('password');
     if (control?.hasError('required')) return 'La contraseña es obligatoria';
-    if (control?.hasError('minlength')) return 'Debe tener al menos 6 caracteres';
+    if (control?.hasError('minlength'))
+      return 'Debe tener al menos 6 caracteres';
     return '';
   }
 
@@ -80,10 +81,11 @@ export class LoginComponent {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    const credentials: LoginCredentials = this.loginForm.value;
+    const credentials: LoginCredentials = {
+      email: this.loginForm.value.email || '',
+      password: this.loginForm.value.password || '',
+    };
 
-    // TODO: Ajusta 'login' al método exacto que tengas en AuthServiceService
-    // Simulando subscripción a API delegada al servicio externo
     this.authService.login(credentials).subscribe({
       next: () => {
         this.isLoading.set(false);
@@ -91,7 +93,11 @@ export class LoginComponent {
       },
       error: (err: any) => {
         this.isLoading.set(false);
-        this.errorMessage.set(err?.error?.message || 'Error al iniciar sesión. Verifica tus credenciales.');
+        const message =
+          err?.error?.message ||
+          err?.error?.error ||
+          'Error al iniciar sesión. Verifica tus credenciales.';
+        this.errorMessage.set(message);
       },
     });
   }
