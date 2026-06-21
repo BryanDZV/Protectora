@@ -8,7 +8,7 @@ Aplicación web completa para la gestión de protectoras de animales, desarrolla
 ## 🔗 Enlaces
 
 - **Frontend (Angular)**: [https://protectora-orcin.vercel.app/portada](https://protectora-orcin.vercel.app/portada)  
-- **Backend (Node.js / API)**: [https://servidor-protectora-bice.vercel.app](https://servidor-protectora-bice.vercel.app)  
+- **Backend - Creado con (Node.js / API)-Autoria Propia**: [https://servidor-protectora-bice.vercel.app](https://servidor-protectora-bice.vercel.app)  
 - **Repositorio GitHub**: [https://github.com/BryanDZV/Protectora](https://github.com/BryanDZV/Protectora)
 
 ---
