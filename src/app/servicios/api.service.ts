@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Animal } from '../types/animal.types';
 import { AdoptionForm } from '../types/form.types';
 import { User } from '../types/user.types';
+import { RescueGroupsService } from './rescue-groups.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class ApiService {
   private readonly animalesUrl = `${this.baseUrl}/animales`;
   private readonly formUrl = `${this.baseUrl}/form`;
   private readonly userUrl = `${this.baseUrl}/user`;
+  private readonly rescueGroups = inject(RescueGroupsService);
 
   private readonly animalesFavoritosSignal = signal<Animal[]>(
     this.loadFavoritesFromStorage(),
@@ -81,6 +83,9 @@ export class ApiService {
   }
 
   public getAnimales(): Observable<Animal[]> {
+    if (environment.rescueGroupsEnabled) {
+      return this.rescueGroups.buscarAnimales();
+    }
     return this.http
       .get<any[]>(this.animalesUrl)
       .pipe(
@@ -91,6 +96,9 @@ export class ApiService {
   }
 
   public getAnimalbyId(id: string): Observable<Animal> {
+    if (environment.rescueGroupsEnabled) {
+      return this.rescueGroups.getAnimalbyId(id);
+    }
     return this.http
       .get<any>(`${this.animalesUrl}/${id}`)
       .pipe(map((animal) => this.normalizeAnimal(animal)));
