@@ -22,33 +22,33 @@ Para la protectora, la app permite gestionar todos los animales, revisar solicit
 
 ## Arquitectura del proyecto
 
-El proyecto esta separado en tres partes independientes, cada una desplegada por separado:
+El proyecto sigue el patron **Backend For Frontend (BFF)**: el frontend Angular solo habla con un unico backend, y este backend se encarga de comunicarse con las APIs externas.
+
+```
+Angular App  ──▶  Backend Express  ──▶  MongoDB (usuarios, forms)
+                  │
+                  └──▶  RescueGroups.org (animales reales)
+```
 
 ### 1. Frontend (Angular)
 
-Es la parte visual con la que interactua el usuario. Esta construido con Angular 21 y usa lazy loading para cargar solo lo necesario en cada pagina. Esto mejora el rendimiento: la primera carga es rapida y las paginas internas se cargan bajo demanda.
+Interfaz de usuario construida con Angular 21. Usa lazy loading para cargar paginas bajo demanda, lo que mejora el rendimiento inicial.
 
-La comunicacion con el backend se hace a traves de servicios inyectables que centralizan todas las llamadas HTTP. Hay un interceptor de autenticacion que añade el token JWT automaticamente en cada peticion protegida.
+La comunicacion con el backend se centraliza en servicios inyectables. Un interceptor añade el token JWT automaticamente en cada peticion protegida.
 
-### 2. Backend propio (Node.js + Express + MongoDB)
+### 2. Backend (Node.js + Express + MongoDB)
 
-Este backend gestiona todo lo que es exclusivo de la aplicacion: usuarios, formularios de adopcion, favoritos y autenticacion. Se conecta a MongoDB Atlas (base de datos en la nube).
+El backend gestiona toda la logica de la aplicacion:
 
-Endpoints principales:
-- `/user/register` y `/user/login` para autenticacion con JWT
-- `/form` para crear y consultar solicitudes de adopcion
-- `/user/:id` para obtener datos del perfil
+**Datos propios (MongoDB Atlas):**
+- `/user/register` y `/user/login` — Autenticacion con JWT
+- `/form` — Solicitudes de adopcion
+- `/user/:id` — Perfil del usuario
 
-### 3. Proxy para API externa (RescueGroups)
+**Proxy para API externa:**
+- `/rescuegroups` — Recibe la peticion del frontend, añade la clave API de RescueGroups del lado del servidor, consulta los datos reales de animales en adopcion y devuelve la respuesta al frontend
 
-En lugar de inventar animales de ejemplo, la app consume datos reales de **RescueGroups.org**, una base de datos con miles de animales en adopcion de refugios de Estados Unidos.
-
-Para hacer esto de forma segura, cree un proxy serverless (funcion de Vercel) que:
-- Recibe la peticion del frontend
-- Añade la clave API de RescueGroups del lado del servidor (nunca expuesta al navegador)
-- Devuelve los datos al frontend
-
-Esto evita que cualquier persona pueda inspeccionar el codigo y robar la clave API.
+Esta arquitectura evita exponer la clave API al navegador y permite cachear o filtrar datos antes de enviarlos al cliente.
 
 ---
 
@@ -103,7 +103,7 @@ cd Protectora
 npm install
 ```
 
-3. En otra carpeta (el backend), instalar dependencias:
+3. En otra carpeta, clonar y preparar el backend:
 
 ```bash
 cd ../servidor_protectora
@@ -113,9 +113,10 @@ npm install
 4. Configurar variables de entorno en el backend (crear archivo `.env`):
 
 ```
-PORT=5002
+PORT=5007
 DB_URL=tu_uri_de_mongodb
 JWT_SECRET=tu_secreto_jwt
+RESCUEGROUPS_APIKEY=tu_clave_de_rescuegroups
 ```
 
 5. Levantar el backend:
@@ -124,47 +125,44 @@ JWT_SECRET=tu_secreto_jwt
 npm start
 ```
 
-6. Levantar el proxy local (en otra terminal):
+6. Levantar el frontend Angular (en otra terminal):
 
 ```bash
 cd ../Protectora
-npm run start:api
-```
-
-7. Levantar el frontend Angular:
-
-```bash
 npm start
 ```
 
-La aplicacion estara disponible en `http://localhost:4200`.
+La aplicacion estara disponible en `http://localhost:4200` y se comunicara automaticamente con el backend en `http://localhost:5007`.
 
 ---
 
 ## Despliegue
 
-El proyecto esta pensado para desplegarse en Vercel:
+El proyecto se despliega en Vercel en dos partes:
 
-- El frontend se compila con `ng build` y se sirve como sitio estatico
-- La funcion serverless en `api/rescuegroups.js` se despliega automaticamente como endpoint `/api/rescuegroups`
-- El backend propio se despliega por separado en otro proyecto de Vercel
+- **Frontend**: `ng build` genera el sitio estatico. Vercel lo sirve automaticamente.
+- **Backend**: Desplegado en un proyecto separado de Vercel. Incluye las rutas propias (`/user`, `/form`) y el proxy para RescueGroups (`/rescuegroups`).
 
-Para produccion, asegurate de configurar las variables de entorno en el panel de Vercel y no en el codigo fuente.
+Variables de entorno obligatorias en el backend (Vercel):
+- `DB_URL` — URI de MongoDB Atlas
+- `JWT_SECRET` — Secreto para firmar tokens
+- `RESCUEGROUPS_APIKEY` — Clave de RescueGroups.org
 
 ---
 
 ## Decisiones tecnicas destacadas
 
-### Por que un proxy para la API externa
+### Por que el proxy esta en el backend y no en el frontend
 
-RescueGroups.org requiere una clave API para acceder a sus datos. Si la incluyera directamente en el frontend Angular, cualquier usuario podria abrir las herramientas de desarrollo del navegador, copiar la clave y usarla para otros fines.
+RescueGroups.org requiere una clave API. La regla de oro en seguridad es: **nunca expongas claves API al navegador**. Si la incluyera en el frontend, cualquier usuario podria inspeccionar el codigo, copiar la clave y usarla para otros fines.
 
-La solucion fue crear un endpoint intermedio (`/api/rescuegroups`) que:
-1. Recibe la peticion del frontend sin clave
-2. Añade la clave del lado del servidor (donde no es visible)
-3. Consulta a RescueGroups y devuelve la respuesta
+La solucion fue añadir el proxy directamente en el backend Express (`POST /rescuegroups`). El frontend solo habla con su propio backend, y este backend es el que consulta a RescueGroups con la clave oculta en una variable de entorno.
 
-Asi la clave permanece oculta y el frontend sigue funcionando igual.
+Ventajas de esta arquitectura:
+- La clave API nunca llega al navegador
+- Se puede cachear la respuesta de RescueGroups para reducir peticiones externas
+- Se puede filtrar o transformar los datos antes de enviarlos al cliente
+- Un unico dominio para todo (menos problemas de CORS)
 
 ### Por que lazy loading
 
