@@ -200,8 +200,17 @@ export class RescueGroupsService {
       ? resp.data
       : Object.values(resp.data);
     return records
-      .filter((r) => r && typeof r === 'object')
+      .filter((r) => r && typeof r === 'object' && !this.isPlaceholder(r))
       .map((r) => this.normalizeAnimal(r));
+  }
+
+  private isPlaceholder(raw: any): boolean {
+    const name = String(raw.animalName ?? '').toLowerCase();
+    return (
+      name.includes('adoption-read') ||
+      name.includes('read first') ||
+      name.includes('instructions')
+    );
   }
 
   private extractViewRecord(resp: RescueGroupsResponse): any {
@@ -264,7 +273,9 @@ export class RescueGroupsService {
       tamaño: size,
       peso: undefined,
       personalidad,
-      historia: raw.animalDescription || raw.animalDescriptionPlain || '',
+      historia: this.stripHtml(
+        raw.animalDescription || raw.animalDescriptionPlain || '',
+      ),
       aSaber: '',
       requisitosAdopcion: '',
       tasaAdopcion: this.parseNumber(raw.animalAdoptionFee),
@@ -444,5 +455,24 @@ export class RescueGroupsService {
     if (s === 'coming soon') return 'Próximamente';
     if (s === 'not available') return 'No disponible';
     return String(status ?? 'Disponible');
+  }
+
+  private stripHtml(html: string): string {
+    if (!html) return '';
+    return html
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&ndash;/g, '–')
+      .replace(/&mdash;/g, '—')
+      .replace(/&ldquo;/g, '"')
+      .replace(/&rdquo;/g, '"')
+      .replace(/&rsquo;/g, "'")
+      .replace(/&lsquo;/g, "'")
+      .replace(/&hellip;/g, '...')
+      .trim();
   }
 }
