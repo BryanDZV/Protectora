@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { AdopcionDetalleComponent } from './adopcion-detalle.component';
 
@@ -8,10 +9,10 @@ describe('AdopcionDetalleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdopcionDetalleComponent]
-    })
-    .compileComponents();
-    
+      imports: [AdopcionDetalleComponent],
+      providers: [provideRouter([])],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AdopcionDetalleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

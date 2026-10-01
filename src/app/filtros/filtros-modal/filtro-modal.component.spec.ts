@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { FiltroModalComponent } from './filtro-modal.component';
 
@@ -8,10 +9,19 @@ describe('FiltroModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FiltroModalComponent]
-    })
-    .compileComponents();
-    
+      imports: [FiltroModalComponent],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: { updateSize: jasmine.createSpy('updateSize') },
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: { contexto: 'galeria', animales: [] },
+        },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(FiltroModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
