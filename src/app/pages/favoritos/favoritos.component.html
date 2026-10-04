@@ -2,15 +2,15 @@
   <!-- 🔹 CABECERA -->
   <header class="favorites-header">
     <div class="header-content">
-      <span class="eyebrow">Tu Selección</span>
-      <h1>Mis Favoritos</h1>
-      <p>Aquí están los peludos que te han robado el corazón.</p>
+      <span class="eyebrow">{{ "FAVORITES.EYEBROW" | translate }}</span>
+      <h1>{{ "FAVORITES.TITLE" | translate }}</h1>
+      <p>{{ "FAVORITES.SUBTITLE" | translate }}</p>
     </div>
 
     @if (totalFavoritos() > 0) {
       <button class="btn-clear-all" (click)="limpiarFavoritos()">
         <mat-icon>delete_sweep</mat-icon>
-        <span>Limpiar todos</span>
+        <span>{{ "FAVORITES.CLEAR_ALL" | translate }}</span>
       </button>
     }
   </header>
@@ -18,37 +18,47 @@
   <!-- 🔹 GRID DE FAVORITOS -->
   @if (totalFavoritos() > 0) {
     <div class="gallery-grid">
-      @for (animal of animalesFavoritos(); track animal._id) {
+      @for (animal of animalesFavoritos(); track animal.id) {
         <article class="animal-card">
           <!-- IMAGEN Y BADGES -->
           <div class="card-image-wrapper">
-            <img
-              [src]="animal.foto"
-              [alt]="animal.nombre"
-              class="animal-image"
-              loading="lazy"
-            />
+            @if (animal.foto) {
+              <img
+                [src]="animal.foto"
+                [alt]="animal.nombre"
+                class="animal-image"
+                loading="lazy"
+                (error)="animal.foto = ''"
+              />
+            } @else {
+              <div class="photo-placeholder">
+                <mat-icon>hide_image</mat-icon>
+                <span>{{ "COMMON.PHOTO_SOON" | translate }}</span>
+              </div>
+            }
 
             <div
               class="status-badge"
               [ngClass]="
                 (
+                  animal.localAdoptionStatus ||
                   animal.estadoAdopcion ||
-                  animal.adoptionState ||
                   'disponible'
                 ).toLowerCase()
               "
             >
               {{
-                animal.estadoAdopcion || animal.adoptionState || "Disponible"
+                animal.localAdoptionStatus ||
+                  animal.estadoAdopcion ||
+                  "Disponible"
               }}
             </div>
 
             <button
               class="favorite-btn active"
               (click)="quitarFavorito(animal)"
-              aria-label="Quitar de favoritos"
-              title="Quitar de favoritos"
+              [attr.aria-label]="'COMMON.REMOVE_FAVORITE' | translate"
+              [title]="'COMMON.REMOVE_FAVORITE' | translate"
             >
               <mat-icon class="is-favorite">favorite</mat-icon>
             </button>
@@ -80,16 +90,16 @@
             <!-- BOTONES ACCIÓN -->
             <div class="card-actions">
               <a
-                [routerLink]="['/home', 'adopcion', animal._id]"
+                [routerLink]="['/home', 'adopcion', animal.id]"
                 class="btn-primary"
               >
-                Adoptar
+                {{ "COMMON.ADOPT" | translate }}
               </a>
               <a
-                [routerLink]="['/home', 'galeria', animal._id]"
+                [routerLink]="['/home', 'galeria', animal.id]"
                 class="btn-outline"
               >
-                Detalles
+                {{ "HOME.SEE_DETAILS" | translate }}
               </a>
             </div>
           </div>
@@ -100,12 +110,11 @@
     <!-- 🔹 ESTADO VACÍO (EMPTY STATE) -->
     <div class="empty-state">
       <mat-icon class="empty-icon">favorite_border</mat-icon>
-      <h3>Aún no tienes favoritos</h3>
-      <p>
-        Explora nuestra galería y dale "Me gusta" a los peludos para guardarlos
-        aquí.
-      </p>
-      <a routerLink="/home/galeria" class="btn-primary">Ir a la Galería</a>
+      <h3>{{ "FAVORITES.EMPTY_TITLE" | translate }}</h3>
+      <p>{{ "FAVORITES.EMPTY_TEXT" | translate }}</p>
+      <a routerLink="/home/galeria" class="btn-primary">{{
+        "FAVORITES.GO_TO_GALLERY" | translate
+      }}</a>
     </div>
   }
 </div>

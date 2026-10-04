@@ -7,8 +7,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, map, switchMap } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Animal } from '../../types/animal.types';
 import { ApiService } from '../../servicios/api.service';
+import { AuthServiceService } from '../../servicios/auth.service.service';
 
 @Component({
   selector: 'app-detalle',
@@ -20,12 +22,15 @@ import { ApiService } from '../../servicios/api.service';
     MatCardModule,
     MatChipsModule,
     MatIconModule,
+    TranslatePipe,
   ],
   templateUrl: './detalle.component.html',
   styleUrl: './detalle.component.scss',
 })
 export class DetalleComponent {
   private readonly servicio = inject(ApiService);
+  private readonly authService = inject(AuthServiceService);
+  private readonly translate = inject(TranslateService);
   private readonly rutaActivada = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
@@ -34,7 +39,6 @@ export class DetalleComponent {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly actionMessage = signal<string | null>(null);
-  private id = '';
 
   ngOnInit(): void {
     this.rutaActivada.paramMap
@@ -42,9 +46,8 @@ export class DetalleComponent {
         map((params) => params.get('id')),
         filter((id): id is string => !!id),
         switchMap((id) => {
-          this.id = id;
           this.loading.set(true);
-          return this.servicio.getAnimalbyId(id);
+          return this.servicio.getAnimalById(id);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -54,19 +57,19 @@ export class DetalleComponent {
           this.loading.set(false);
         },
         error: () => {
-          this.error.set('No se ha podido cargar la ficha del animal.');
+          this.error.set(this.translate.instant('DETAIL.ERROR'));
           this.loading.set(false);
         },
       });
   }
 
   esFavorito(): boolean {
-    return this.id ? this.servicio.esAnimalFavorito(this.id) : false;
+    return this.animal()?.isFavorite ?? false;
   }
 
   estadoAdopcion(): string {
     const animal = this.animal();
-    return animal?.estadoAdopcion || animal?.adoptionState || 'Disponible';
+    return animal?.localAdoptionStatus || animal?.estadoAdopcion || 'Disponible';
   }
 
   puedeAdoptar(): boolean {
@@ -81,18 +84,18 @@ export class DetalleComponent {
     }
 
     const shareUrl = this.router.serializeUrl(
-      this.router.createUrlTree(['/home/gallery', animal._id]),
+      this.router.createUrlTree(['/home/galeria', animal.id]),
     );
 
     if (navigator.share) {
       navigator.share({
         title: animal.nombre,
-        text: `Ficha de ${animal.nombre}`,
+        text: `${this.translate.instant('DETAIL.SHARE_TITLE')} ${animal.nombre}`,
         url: shareUrl,
       });
     }
 
-    this.actionMessage.set('Ficha lista para compartir.');
+    this.actionMessage.set(this.translate.instant('DETAIL.SHARE_READY'));
   }
 
   handleLikeClick(): void {
@@ -102,14 +105,23 @@ export class DetalleComponent {
       return;
     }
 
-    if (this.esFavorito()) {
-      this.servicio.eliminarAnimalFavorito(animal);
-      this.actionMessage.set('Se ha quitado de favoritos.');
+    if (!this.authService.isAuthenticated()) {
+      this.actionMessage.set(
+        this.translate.instant('DETAIL.LOGIN_FOR_FAVORITES'),
+      );
       return;
     }
 
-    this.servicio.agregarAnimalFavorito(animal);
-    this.actionMessage.set('Se ha añadido a favoritos.');
+    this.authService.toggleFavorite(animal.id).subscribe(() => {
+      this.animal.update((current) =>
+        current ? { ...current, isFavorite: !current.isFavorite } : current,
+      );
+      this.actionMessage.set(
+        this.translate.instant(
+          this.esFavorito() ? 'DETAIL.FAVORITE_ADDED' : 'DETAIL.FAVORITE_REMOVED',
+        ),
+      );
+    });
   }
 
   abrirVentanaEmergente(): void {
@@ -119,8 +131,8 @@ export class DetalleComponent {
       return;
     }
 
-    localStorage.setItem('selectedAnimalId', animal._id);
-    this.router.navigate(['/home/adopcion', animal._id]);
+    localStorage.setItem('selectedAnimalId', animal.id);
+    this.router.navigate(['/home/adopcion', animal.id]);
   }
 
   iniciarFormulario(): void {
@@ -130,7 +142,7 @@ export class DetalleComponent {
       return;
     }
 
-    localStorage.setItem('selectedAnimalId', animal._id);
-    this.router.navigate(['/home/formAd']);
+    localStorage.setItem('selectedAnimalId', animal.id);
+    this.router.navigate(['/home/adopcion', animal.id]);
   }
 }

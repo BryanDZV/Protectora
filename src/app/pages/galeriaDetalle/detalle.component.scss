@@ -48,6 +48,30 @@
   object-fit: cover;
 }
 
+.hero-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem;
+  text-align: center;
+  color: #6b8794;
+  background: linear-gradient(180deg, #eef5f6 0%, #e2edee 100%);
+
+  mat-icon {
+    font-size: 2.6rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    color: #9db6bf;
+  }
+
+  span {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+}
+
 .hero-content {
   padding: 1.25rem;
 
@@ -139,8 +163,9 @@
 
 .detail-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  align-items: stretch;
 }
 
 .info-card {
@@ -194,6 +219,10 @@
 
   .hero-actions {
     flex-direction: column;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
   }
 }
 .popup-background {

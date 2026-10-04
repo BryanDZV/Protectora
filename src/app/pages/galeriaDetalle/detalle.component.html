@@ -1,8 +1,10 @@
 <section class="detail-shell">
-  <a class="back-link" routerLink="/home/gallery">Volver a galería</a>
+  <a class="back-link" routerLink="/home/galeria">{{
+    "COMMON.BACK_TO_GALLERY" | translate
+  }}</a>
 
   @if (loading()) {
-    <div class="feedback-card">Cargando detalle del animal...</div>
+    <div class="feedback-card">{{ "DETAIL.LOADING" | translate }}</div>
   }
 
   @if (error()) {
@@ -11,18 +13,26 @@
 
   @if (animal(); as currentAnimal) {
     <mat-card class="hero-card">
-      <img
-        class="hero-image"
-        [src]="currentAnimal.foto"
-        [alt]="currentAnimal.nombre"
-      />
+      @if (currentAnimal.foto) {
+        <img
+          class="hero-image"
+          [src]="currentAnimal.foto"
+          [alt]="currentAnimal.nombre"
+          (error)="currentAnimal.foto = ''"
+        />
+      } @else {
+        <div class="hero-image hero-placeholder">
+          <mat-icon>hide_image</mat-icon>
+          <span>{{ "COMMON.PHOTO_SOON" | translate }}</span>
+        </div>
+      }
 
       <mat-card-content class="hero-content">
-        <span class="eyebrow">Ficha destacada</span>
+        <span class="eyebrow">{{ "DETAIL.EYEBROW" | translate }}</span>
         <h1>{{ currentAnimal.nombre }}</h1>
         <p>
-          {{ currentAnimal.especie }} · {{ currentAnimal.ciudad }} ·
-          {{ currentAnimal.estadoAdopcion || currentAnimal.adoptionState }}
+          {{ currentAnimal.especie }} · {{ currentAnimal.ubicacion }} ·
+          {{ currentAnimal.localAdoptionStatus || currentAnimal.estadoAdopcion }}
         </p>
 
         <div class="status-pill" [ngClass]="estadoAdopcion().toLowerCase()">
@@ -36,7 +46,7 @@
               color="primary"
               (click)="abrirVentanaEmergente()"
             >
-              Adoptar
+              {{ "COMMON.ADOPT" | translate }}
             </button>
           } @else {
             <button mat-raised-button color="primary" disabled>
@@ -44,10 +54,13 @@
             </button>
           }
           <button mat-stroked-button (click)="handleShareClick()">
-            Compartir
+            {{ "COMMON.SHARE" | translate }}
           </button>
           <button mat-button (click)="handleLikeClick()">
-            {{ esFavorito() ? "Quitar favorito" : "Añadir favorito" }}
+            {{
+              (esFavorito() ? "COMMON.REMOVE_FAVORITE" : "COMMON.ADD_FAVORITE")
+                | translate
+            }}
           </button>
         </div>
 
@@ -59,20 +72,21 @@
 
     <div class="chips-row">
       <span>{{ currentAnimal.genero }}</span>
-      <span>{{ currentAnimal.rangoEdad || currentAnimal.edad }}</span>
+      <span>{{ currentAnimal.rangoEdad }}</span>
       <span>{{ currentAnimal.size }}</span>
       <span>{{
-        currentAnimal.permiteEnvio ? "Envío disponible" : "Sin envío"
+        (currentAnimal.permiteEnvio ? "COMMON.SHIPPING_YES" : "COMMON.SHIPPING_NO")
+          | translate
       }}</span>
     </div>
 
     <div class="detail-grid">
-      <mat-card class="info-card">
+      <mat-card class="info-card wide">
         <mat-card-content>
-          <h2>Resumen</h2>
+          <h2>{{ "DETAIL.SUMMARY" | translate }}</h2>
           <p>
             {{
-              currentAnimal.historia || "Sin descripción adicional por ahora."
+              currentAnimal.historia || ("DETAIL.NO_DESCRIPTION" | translate)
             }}
           </p>
         </mat-card-content>
@@ -80,44 +94,54 @@
 
       <mat-card class="info-card">
         <mat-card-content>
-          <h2>Salud</h2>
+          <h2>{{ "DETAIL.HEALTH" | translate }}</h2>
           <ul class="check-list">
-            <li>Vacunado: {{ currentAnimal.vacunado ? "Sí" : "No" }}</li>
             <li>
-              Desparasitado: {{ currentAnimal.desparasitado ? "Sí" : "No" }}
-            </li>
-            <li>Sano: {{ currentAnimal.sano ? "Sí" : "No" }}</li>
-            <li>
-              Esterilizado: {{ currentAnimal.esterilizado ? "Sí" : "No" }}
+              {{ "DETAIL.VACCINATED" | translate }}:
+              {{ (currentAnimal.salud.vacunado ? "COMMON.YES" : "COMMON.NO") | translate }}
             </li>
             <li>
-              Identificado: {{ currentAnimal.identificado ? "Sí" : "No" }}
+              {{ "DETAIL.DEWORMED" | translate }}:
+              {{ (currentAnimal.salud.desparasitado ? "COMMON.YES" : "COMMON.NO") | translate }}
             </li>
-            <li>Microchip: {{ currentAnimal.microchip ? "Sí" : "No" }}</li>
+            <li>
+              {{ "DETAIL.HEALTHY" | translate }}:
+              {{ (currentAnimal.salud.sano ? "COMMON.YES" : "COMMON.NO") | translate }}
+            </li>
+            <li>
+              {{ "DETAIL.STERILIZED" | translate }}:
+              {{ (currentAnimal.salud.esterilizado ? "COMMON.YES" : "COMMON.NO") | translate }}
+            </li>
+            <li>
+              {{ "DETAIL.IDENTIFIED" | translate }}:
+              {{ (currentAnimal.salud.identificado ? "COMMON.YES" : "COMMON.NO") | translate }}
+            </li>
+            <li>
+              {{ "DETAIL.MICROCHIP" | translate }}:
+              {{ (currentAnimal.salud.microchip ? "COMMON.YES" : "COMMON.NO") | translate }}
+            </li>
           </ul>
         </mat-card-content>
       </mat-card>
 
-      <mat-card class="info-card wide">
+      <mat-card class="info-card">
         <mat-card-content>
-          <h2>Adopción</h2>
+          <h2>{{ "DETAIL.ADOPTION" | translate }}</h2>
           <p>
-            {{
-              currentAnimal.aSaber ||
-                "Revisa los requisitos antes de continuar."
-            }}
+            {{ currentAnimal.aSaber || ("DETAIL.ADOPTION_HINT" | translate) }}
           </p>
           <div class="details-line">
             <span
-              ><strong>Requisitos:</strong>
+              ><strong>{{ "DETAIL.REQUIREMENTS" | translate }}:</strong>
               {{ currentAnimal.requisitosAdopcion }}</span
             >
             <span
-              ><strong>Tasa:</strong> {{ currentAnimal.tasaAdopcion }} €</span
+              ><strong>{{ "DETAIL.FEE" | translate }}:</strong>
+              {{ currentAnimal.tasaAdopcion }} €</span
             >
           </div>
           <button mat-flat-button color="primary" (click)="iniciarFormulario()">
-            Ir al formulario
+            {{ "COMMON.GO_TO_FORM" | translate }}
           </button>
         </mat-card-content>
       </mat-card>
