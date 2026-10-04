@@ -2,16 +2,13 @@
   <!-- 🔹 SECCIÓN HERO (Bienvenida) -->
   <section class="hero-section fade-in">
     <div class="hero-content">
-      <span class="eyebrow">Bienvenido a la Protectora</span>
-      <h1>Cambia una vida,<br />encuentra a tu mejor amigo.</h1>
-      <p>
-        Únete a nuestra misión de darles una segunda oportunidad a los peludos
-        que más lo necesitan. Explora, enamórate y dales un hogar.
-      </p>
+      <span class="eyebrow">{{ "HOME.HERO_EYEBROW" | translate }}</span>
+      <h1>{{ "HOME.HERO_TITLE" | translate }}</h1>
+      <p>{{ "HOME.HERO_TEXT" | translate }}</p>
       <div class="hero-actions">
-        <a routerLink="/home/galeria" class="btn-primary"
-          >Ver animales en adopción</a
-        >
+        <a routerLink="/home/galeria" class="btn-primary">{{
+          "HOME.HERO_CTA" | translate
+        }}</a>
       </div>
     </div>
   </section>
@@ -19,14 +16,14 @@
   <!-- 🔹 SECCIÓN DESTACADOS -->
   <section class="featured-section fade-in">
     <div class="section-header">
-      <h2>Peludos Destacados</h2>
+      <h2>{{ "HOME.FEATURED_TITLE" | translate }}</h2>
       <a routerLink="/home/galeria" class="view-all"
-        >Ver todos <mat-icon>arrow_forward</mat-icon></a
+        >{{ "HOME.VIEW_ALL" | translate }} <mat-icon>arrow_forward</mat-icon></a
       >
     </div>
 
     @if (loading()) {
-      <p class="loading-text">Cargando nuestras novedades...</p>
+      <p class="loading-text">{{ "HOME.LOADING" | translate }}</p>
     }
 
     @if (!loading() && error()) {
@@ -38,27 +35,37 @@
 
     @if (!loading() && !error() && animalesDestacados().length > 0) {
       <div class="gallery-grid">
-        @for (animal of animalesDestacados(); track animal._id) {
+        @for (animal of animalesDestacados(); track animal.id) {
           <article class="animal-card">
             <div class="card-image-wrapper">
-              <img
-                [src]="animal.foto"
-                [alt]="animal.nombre"
-                class="animal-image"
-                loading="lazy"
-              />
+              @if (animal.foto) {
+                <img
+                  [src]="animal.foto"
+                  [alt]="animal.nombre"
+                  class="animal-image"
+                  loading="lazy"
+                  (error)="animal.foto = ''"
+                />
+              } @else {
+                <div class="photo-placeholder">
+                  <mat-icon>hide_image</mat-icon>
+                  <span>{{ "COMMON.PHOTO_SOON" | translate }}</span>
+                </div>
+              }
               <div
                 class="status-badge"
                 [ngClass]="
                   (
+                    animal.localAdoptionStatus ||
                     animal.estadoAdopcion ||
-                    animal.adoptionState ||
                     'disponible'
                   ).toLowerCase()
                 "
               >
                 {{
-                  animal.estadoAdopcion || animal.adoptionState || "Disponible"
+                  animal.localAdoptionStatus ||
+                    animal.estadoAdopcion ||
+                    "Disponible"
                 }}
               </div>
             </div>
@@ -83,7 +90,7 @@
               </div>
               <div class="card-actions">
                 <button class="btn-outline" (click)="verDetalle(animal)">
-                  Ver Ficha
+                  {{ "HOME.SEE_DETAILS" | translate }}
                 </button>
               </div>
             </div>
@@ -95,29 +102,22 @@
 
   <!-- 🔹 SECCIÓN CÓMO FUNCIONA -->
   <section class="info-section fade-in">
-    <h2>¿Cómo adoptar?</h2>
+    <h2>{{ "HOME.HOW_TITLE" | translate }}</h2>
     <div class="steps-grid">
       <div class="step-box">
         <div class="icon-circle"><mat-icon>search</mat-icon></div>
-        <h3>1. Busca</h3>
-        <p>
-          Encuentra a tu peludo ideal en nuestra galería según tu estilo de
-          vida.
-        </p>
+        <h3>{{ "HOME.STEP1_TITLE" | translate }}</h3>
+        <p>{{ "HOME.STEP1_TEXT" | translate }}</p>
       </div>
       <div class="step-box">
         <div class="icon-circle"><mat-icon>edit_document</mat-icon></div>
-        <h3>2. Solicita</h3>
-        <p>
-          Rellena el formulario de adopción oficial con tus datos de contacto.
-        </p>
+        <h3>{{ "HOME.STEP2_TITLE" | translate }}</h3>
+        <p>{{ "HOME.STEP2_TEXT" | translate }}</p>
       </div>
       <div class="step-box">
         <div class="icon-circle"><mat-icon>home</mat-icon></div>
-        <h3>3. Adopta</h3>
-        <p>
-          Tras una breve entrevista de seguimiento, dale la bienvenida a casa.
-        </p>
+        <h3>{{ "HOME.STEP3_TITLE" | translate }}</h3>
+        <p>{{ "HOME.STEP3_TEXT" | translate }}</p>
       </div>
     </div>
   </section>
