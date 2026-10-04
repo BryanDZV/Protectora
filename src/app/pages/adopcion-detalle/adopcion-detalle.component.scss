@@ -46,6 +46,30 @@ $transition: 0.3s ease;
   object-fit: cover;
 }
 
+.hero-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem;
+  text-align: center;
+  color: #6b8794;
+  background: linear-gradient(180deg, #eef5f6 0%, #e2edee 100%);
+
+  mat-icon {
+    font-size: 2.6rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    color: #9db6bf;
+  }
+
+  span {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+}
+
 .hero-copy {
   padding: 1.2rem;
 

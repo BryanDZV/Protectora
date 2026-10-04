@@ -4,15 +4,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../servicios/api.service';
 import { AuthServiceService } from '../../servicios/auth.service.service';
 import { Animal } from '../../types/animal.types';
-import { AdoptionForm } from '../../types/form.types';
+import { AdoptionForm, AdoptionFormInput } from '../../types/form.types';
 
 @Component({
   selector: 'app-adopcion-detalle',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule, FormsModule],
+  imports: [CommonModule, RouterLink, MatIconModule, FormsModule, TranslatePipe],
   templateUrl: './adopcion-detalle.component.html',
   styleUrl: './adopcion-detalle.component.scss',
 })
@@ -21,6 +22,7 @@ export class AdopcionDetalleComponent implements OnInit {
   private readonly authService = inject(AuthServiceService);
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly translate = inject(TranslateService);
 
   public animal = signal<Animal | null>(null);
   public adoptionStatus = signal<string>('Disponible');
@@ -53,12 +55,12 @@ export class AdopcionDetalleComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.apiService
-        .getAnimalbyId(id)
+        .getAnimalById(id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((data) => {
           this.animal.set(data);
           this.adoptionStatus.set(
-            data.estadoAdopcion || data.adoptionState || 'Disponible',
+            data.localAdoptionStatus || data.estadoAdopcion || 'Disponible',
           );
         });
 
@@ -69,9 +71,8 @@ export class AdopcionDetalleComponent implements OnInit {
           .getForm()
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((forms) => {
-            const req = forms.find(
-              (f) => f.user_id === currentUser._id && f.animal_id === id,
-            );
+            // El backend ya devuelve solo los formularios del usuario.
+            const req = forms.find((f) => f.animalExternalId === id);
             if (req) {
               // Si ya hay solicitud, guardamos los datos y lo enviamos directo al estado de seguimiento (Paso 4)
               this.existingRequest.set(req);
@@ -92,25 +93,28 @@ export class AdopcionDetalleComponent implements OnInit {
   }
 
   enviarFormulario(): void {
-    const animalId = this.animal()?._id;
+    const animalId = this.animal()?.id;
     const currentUser = this.authService.getCurrentUser();
 
     if (!currentUser?._id) {
-      this.statusMessage.set('Debes iniciar sesión para enviar una solicitud.');
+      this.statusMessage.set(
+        this.translate.instant('ADOPTION.LOGIN_REQUIRED'),
+      );
       return;
     }
 
     if (!this.puedeAdoptar()) {
       this.statusMessage.set(
-        `Este animal ya está ${this.adoptionStatus().toLowerCase()}.`,
+        this.translate.instant('ADOPTION.ALREADY_STATUS', {
+          status: this.adoptionStatus().toLowerCase(),
+        }),
       );
       return;
     }
 
     if (animalId) {
-      const payload: AdoptionForm = {
-        user_id: currentUser._id,
-        animal_id: animalId,
+      const payload: AdoptionFormInput = {
+        animalExternalId: animalId,
         ...this.formData,
         postal: Number(this.formData.postal), // 🔹 Convertimos a número
       };
@@ -123,7 +127,7 @@ export class AdopcionDetalleComponent implements OnInit {
         error: (err) => {
           console.error('Error al enviar solicitud', err);
           this.statusMessage.set(
-            'No se ha podido enviar la solicitud. Revisa los datos e inténtalo de nuevo.',
+            this.translate.instant('ADOPTION.SEND_ERROR'),
           );
           this.isSubmitting.set(false);
         },

@@ -1,19 +1,31 @@
 <div class="global-page-shell">
   <a routerLink="/home/galeria" class="back-link">
-    <mat-icon>arrow_back</mat-icon> Volver a la galería
+    <mat-icon>arrow_back</mat-icon> {{ "ADOPTION.BACK" | translate }}
   </a>
 
   @if (animal()) {
     <div class="adoption-content">
       <div class="hero-card">
-        <img
-          [src]="animal()?.foto"
-          [alt]="animal()?.nombre"
-          class="hero-image"
-        />
+        @if (animal()?.foto) {
+          <img
+            [src]="animal()?.foto"
+            [alt]="animal()?.nombre"
+            class="hero-image"
+          />
+        } @else {
+          <div class="hero-image hero-placeholder">
+            <mat-icon>hide_image</mat-icon>
+            <span>{{ "COMMON.PHOTO_SOON" | translate }}</span>
+          </div>
+        }
         <div class="hero-copy">
-          <span class="eyebrow">Paso 1: Conocer al animal</span>
-          <h1>Adopta a {{ animal()?.nombre }}</h1>
+          <span class="eyebrow">{{ "ADOPTION.STEP1_EYEBROW" | translate }}</span>
+          <h1>
+            {{
+              "ADOPTION.HERO_TITLE"
+                | translate: { name: animal()?.nombre }
+            }}
+          </h1>
 
           <div class="status-pill" [ngClass]="adoptionStatus().toLowerCase()">
             {{ adoptionStatus() }}
@@ -21,15 +33,16 @@
 
           @if (!puedeAdoptar()) {
             <p class="status-warning">
-              Este animal ya está {{ adoptionStatus().toLowerCase() }}. Puedes
-              ver su ficha, pero no enviar una nueva solicitud.
+              {{
+                "ADOPTION.NOT_AVAILABLE"
+                  | translate: { status: adoptionStatus().toLowerCase() }
+              }}
             </p>
           }
 
           <p class="history-text">
             {{
-              animal()?.historia ||
-                "Este pequeño está esperando una familia que le dé una segunda oportunidad."
+              animal()?.historia || ("ADOPTION.DEFAULT_HISTORY" | translate)
             }}
           </p>
 
@@ -51,7 +64,7 @@
       </div>
 
       <div class="process-section">
-        <h2 class="section-title">Tu proceso de adopción</h2>
+        <h2 class="section-title">{{ "ADOPTION.PROCESS_TITLE" | translate }}</h2>
         <div class="timeline-grid">
           <div
             class="step-card"
@@ -65,13 +78,11 @@
                 <span>1</span>
               }
             </span>
-            <h2>1. Revisar Ficha</h2>
-            <p>
-              Estás aquí. Lee atentamente sus necesidades de salud y requisitos.
-            </p>
+            <h2>{{ "ADOPTION.STEP_FICHA_TITLE" | translate }}</h2>
+            <p>{{ "ADOPTION.STEP_FICHA_TEXT" | translate }}</p>
             @if (currentStep() === 4) {
               <button class="btn-outline step-action mt-2" (click)="irAPaso(1)">
-                Ver Ficha
+                {{ "ADOPTION.VIEW_FICHA" | translate }}
               </button>
             }
           </div>
@@ -89,20 +100,20 @@
                 <span>2</span>
               }
             </span>
-            <h2>2. Enviar Solicitud</h2>
-            <p>Rellena el formulario oficial con tus datos.</p>
+            <h2>{{ "ADOPTION.STEP_FORM_TITLE" | translate }}</h2>
+            <p>{{ "ADOPTION.STEP_FORM_TEXT" | translate }}</p>
             @if (currentStep() === 1 && puedeAdoptar() && !existingRequest()) {
               <button
                 class="primary-button step-action mt-2"
                 (click)="irAPaso(2)"
               >
-                Rellenar Formulario
+                {{ "ADOPTION.FILL_FORM" | translate }}
               </button>
             } @else if (
               currentStep() === 1 && !puedeAdoptar() && !existingRequest()
             ) {
               <button class="primary-button step-action" disabled>
-                Solicitud no disponible
+                {{ "ADOPTION.REQUEST_UNAVAILABLE" | translate }}
               </button>
             }
           </div>
@@ -119,11 +130,11 @@
                 <span>3</span>
               }
             </span>
-            <h2>3. Seguimiento</h2>
-            <p>Evaluaremos tu perfil y nos pondremos en contacto.</p>
+            <h2>{{ "ADOPTION.STEP_TRACK_TITLE" | translate }}</h2>
+            <p>{{ "ADOPTION.STEP_TRACK_TEXT" | translate }}</p>
             @if (currentStep() === 1 && existingRequest()) {
               <button class="btn-outline step-action mt-2" (click)="irAPaso(4)">
-                Ver Seguimiento
+                {{ "ADOPTION.VIEW_TRACKING" | translate }}
               </button>
             }
           </div>
@@ -134,28 +145,40 @@
         <div class="details-grid fade-in">
           <div class="info-card">
             <h2>
-              <mat-icon class="icon-health">medical_services</mat-icon> Estado
-              de Salud
+              <mat-icon class="icon-health">medical_services</mat-icon>
+              {{ "ADOPTION.HEALTH_TITLE" | translate }}
             </h2>
             <div class="detail-list">
               <div [class.checked]="animal()?.salud?.vacunado">
-                <strong>Vacunas:</strong>
+                <strong>{{ "ADOPTION.VACCINES" | translate }}</strong>
                 <span>{{
-                  animal()?.salud?.vacunado ? "Al día" : "Pendientes"
+                  (animal()?.salud?.vacunado
+                    ? "ADOPTION.UP_TO_DATE"
+                    : "ADOPTION.PENDING"
+                  ) | translate
                 }}</span>
               </div>
               <div [class.checked]="animal()?.salud?.desparasitado">
-                <strong>Desparasitado:</strong>
-                <span>{{ animal()?.salud?.desparasitado ? "Sí" : "No" }}</span>
+                <strong>{{ "ADOPTION.DEWORMED" | translate }}</strong>
+                <span>{{
+                  (animal()?.salud?.desparasitado ? "COMMON.YES" : "COMMON.NO")
+                    | translate
+                }}</span>
               </div>
               <div [class.checked]="animal()?.salud?.esterilizado">
-                <strong>Esterilizado:</strong>
-                <span>{{ animal()?.salud?.esterilizado ? "Sí" : "No" }}</span>
+                <strong>{{ "ADOPTION.STERILIZED" | translate }}</strong>
+                <span>{{
+                  (animal()?.salud?.esterilizado ? "COMMON.YES" : "COMMON.NO")
+                    | translate
+                }}</span>
               </div>
               <div [class.checked]="animal()?.salud?.microchip">
-                <strong>Microchip:</strong>
+                <strong>{{ "ADOPTION.MICROCHIP" | translate }}</strong>
                 <span>{{
-                  animal()?.salud?.microchip ? "Asignado" : "No asignado"
+                  (animal()?.salud?.microchip
+                    ? "ADOPTION.ASSIGNED"
+                    : "ADOPTION.NOT_ASSIGNED"
+                  ) | translate
                 }}</span>
               </div>
             </div>
@@ -163,27 +186,28 @@
 
           <div class="info-card">
             <h2>
-              <mat-icon class="icon-info">info</mat-icon> A tener en cuenta
+              <mat-icon class="icon-info">info</mat-icon>
+              {{ "ADOPTION.CONSIDER_TITLE" | translate }}
             </h2>
             <div class="text-blocks">
               <p>
-                <strong>Personalidad:</strong>
+                <strong>{{ "ADOPTION.PERSONALITY" | translate }}</strong>
                 {{
-                  animal()?.personalidad?.join(", ") || "Sociable y amigable."
+                  animal()?.personalidad?.join(", ") ||
+                    ("ADOPTION.DEFAULT_PERSONALITY" | translate)
                 }}
               </p>
               <p>
-                <strong>Cosas a saber:</strong>
+                <strong>{{ "ADOPTION.THINGS_TO_KNOW" | translate }}</strong>
                 {{
-                  animal()?.aSaber ||
-                    "Necesitará tiempo y paciencia para adaptarse a su nuevo hogar."
+                  animal()?.aSaber || ("ADOPTION.DEFAULT_THINGS" | translate)
                 }}
               </p>
               <p>
-                <strong>Requisitos de la Protectora:</strong>
+                <strong>{{ "ADOPTION.REQUIREMENTS" | translate }}</strong>
                 {{
                   animal()?.requisitosAdopcion ||
-                    "Entrevista telefónica y firma de contrato de adopción obligatoria."
+                    ("ADOPTION.DEFAULT_REQUIREMENTS" | translate)
                 }}
               </p>
             </div>
@@ -195,12 +219,10 @@
         <div class="form-container fade-in info-card">
           <div class="form-header">
             <h2>
-              <mat-icon>edit_document</mat-icon> Formulario Oficial de Adopción
+              <mat-icon>edit_document</mat-icon>
+              {{ "ADOPTION.FORM_TITLE" | translate }}
             </h2>
-            <p>
-              Por favor, completa tus datos para enviar la solicitud. Esta
-              información es confidencial.
-            </p>
+            <p>{{ "ADOPTION.FORM_SUBTITLE" | translate }}</p>
           </div>
 
           <form
@@ -208,60 +230,62 @@
             #adoptForm="ngForm"
             class="adoption-form"
           >
-            <h3 class="form-section-title">Datos Personales</h3>
+            <h3 class="form-section-title">
+              {{ "ADOPTION.PERSONAL_DATA" | translate }}
+            </h3>
             <div class="form-grid">
               <div class="form-group">
-                <label>DNI / NIE *</label>
+                <label>{{ "ADOPTION.DNI" | translate }}</label>
                 <input
                   type="text"
                   name="dni"
                   [(ngModel)]="formData.dni"
                   required
-                  placeholder="Ej: 12345678X"
+                  [placeholder]="'ADOPTION.DNI_PLACEHOLDER' | translate"
                   class="form-control"
                 />
               </div>
               <div class="form-group">
-                <label>Teléfono de Contacto *</label>
+                <label>{{ "ADOPTION.PHONE" | translate }}</label>
                 <input
                   type="tel"
                   name="telf"
                   [(ngModel)]="formData.telf"
                   required
-                  placeholder="Ej: 600 000 000"
+                  [placeholder]="'ADOPTION.PHONE_PLACEHOLDER' | translate"
                   class="form-control"
                 />
               </div>
               <div class="form-group full-width">
-                <label>Dirección Completa *</label>
+                <label>{{ "ADOPTION.ADDRESS" | translate }}</label>
                 <input
                   type="text"
                   name="direccion"
                   [(ngModel)]="formData.direccion"
                   required
-                  placeholder="Calle, Número, Piso..."
+                  [placeholder]="'ADOPTION.ADDRESS_PLACEHOLDER' | translate"
                   class="form-control"
                 />
               </div>
               <div class="form-group">
-                <label>Ciudad *</label>
+                <label>{{ "ADOPTION.CITY" | translate }}</label>
                 <input
                   type="text"
                   name="city"
                   [(ngModel)]="formData.city"
                   required
-                  placeholder="Tu ciudad"
+                  [placeholder]="'ADOPTION.CITY_PLACEHOLDER' | translate"
                   class="form-control"
                 />
               </div>
               <div class="form-group">
-                <label>Código Postal *</label>
+                <label>{{ "ADOPTION.POSTAL" | translate }}</label>
                 <input
                   type="number"
                   name="postal"
                   [(ngModel)]="formData.postal"
                   required
-                  placeholder="Ej: 28001"
+                  [placeholder]="'ADOPTION.POSTAL_PLACEHOLDER' | translate"
                   class="form-control"
                 />
               </div>
@@ -273,35 +297,47 @@
                   required
                 />
                 <div class="toggle-slider"></div>
-                <span class="toggle-label">Soy pet friendly *</span>
+                <span class="toggle-label">{{
+                  "ADOPTION.PET_FRIENDLY" | translate
+                }}</span>
               </label>
             </div>
 
             <h3 class="form-section-title mt-4">
-              Detalles de la Vivienda y Estilo de Vida
+              {{ "ADOPTION.HOME_DETAILS" | translate }}
             </h3>
             <div class="form-grid">
               <div class="form-group">
-                <label>Tipo de Vivienda</label>
+                <label>{{ "ADOPTION.HOME_TYPE" | translate }}</label>
                 <select
                   name="tipoVivienda"
                   [(ngModel)]="formData.tipoVivienda"
                   class="form-control"
                 >
-                  <option value="Piso">Piso / Apartamento</option>
-                  <option value="Casa">Casa</option>
-                  <option value="Chalet">Chalet / Finca</option>
+                  <option value="Piso">
+                    {{ "ADOPTION.HOME_FLAT" | translate }}
+                  </option>
+                  <option value="Casa">
+                    {{ "ADOPTION.HOME_HOUSE" | translate }}
+                  </option>
+                  <option value="Finca">
+                    {{ "ADOPTION.HOME_CHALET" | translate }}
+                  </option>
                 </select>
               </div>
               <div class="form-group">
-                <label>Régimen de la vivienda</label>
+                <label>{{ "ADOPTION.TENURE" | translate }}</label>
                 <select
                   name="alquilerOCompra"
                   [(ngModel)]="formData.alquilerOCompra"
                   class="form-control"
                 >
-                  <option value="Alquiler">Alquiler</option>
-                  <option value="Propiedad">Propiedad</option>
+                  <option value="Alquiler">
+                    {{ "ADOPTION.RENT" | translate }}
+                  </option>
+                  <option value="Propiedad">
+                    {{ "ADOPTION.OWN" | translate }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -315,7 +351,9 @@
                   required
                 />
                 <div class="toggle-slider"></div>
-                <span class="toggle-label">Tengo permiso del casero *</span>
+                <span class="toggle-label">{{
+                  "ADOPTION.LANDLORD_PERMISSION" | translate
+                }}</span>
               </label>
 
               <label class="modern-toggle">
@@ -325,9 +363,9 @@
                   [(ngModel)]="formData.tieneJardin"
                 />
                 <div class="toggle-slider"></div>
-                <span class="toggle-label"
-                  >¿Tienes jardín o terraza vallada?</span
-                >
+                <span class="toggle-label">{{
+                  "ADOPTION.GARDEN" | translate
+                }}</span>
               </label>
 
               <label class="modern-toggle">
@@ -337,9 +375,9 @@
                   [(ngModel)]="formData.tieneMascotas"
                 />
                 <div class="toggle-slider"></div>
-                <span class="toggle-label">
-                  ¿Convives con otras mascotas actualmente?
-                </span>
+                <span class="toggle-label">{{
+                  "ADOPTION.OTHER_PETS" | translate
+                }}</span>
               </label>
 
               <label class="modern-toggle">
@@ -349,15 +387,15 @@
                   [(ngModel)]="formData.acuerdoVisitas"
                 />
                 <div class="toggle-slider"></div>
-                <span class="toggle-label">
-                  ¿Estás de acuerdo con visitas de seguimiento?
-                </span>
+                <span class="toggle-label">{{
+                  "ADOPTION.FOLLOW_UP_VISITS" | translate
+                }}</span>
               </label>
             </div>
 
             <div class="form-actions">
               <button type="button" class="btn-outline" (click)="irAPaso(1)">
-                Cancelar
+                {{ "ADOPTION.CANCEL" | translate }}
               </button>
               <button
                 type="submit"
@@ -367,9 +405,10 @@
                 "
               >
                 {{
-                  isSubmitting()
-                    ? "Enviando..."
-                    : "Enviar Solicitud de Adopción"
+                  (isSubmitting()
+                    ? "ADOPTION.SENDING"
+                    : "ADOPTION.SEND_REQUEST"
+                  ) | translate
                 }}
               </button>
             </div>
@@ -384,21 +423,17 @@
       @if (currentStep() === 3) {
         <div class="success-state fade-in info-card">
           <mat-icon class="success-icon">check_circle</mat-icon>
-          <h2>¡Solicitud enviada con éxito!</h2>
+          <h2>{{ "ADOPTION.SUCCESS_TITLE" | translate }}</h2>
           <p>
-            Hemos recibido tu formulario para adoptar a
-            <strong>{{ animal()?.nombre }}</strong
-            >.
+            {{
+              "ADOPTION.SUCCESS_TEXT" | translate: { name: animal()?.nombre }
+            }}
           </p>
           <div class="success-details">
-            <p>
-              Nuestro equipo revisará tu perfil en las próximas 48 horas. Si
-              encaja con las necesidades del animal, nos pondremos en contacto
-              contigo vía telefónica para agendar la entrevista de seguimiento.
-            </p>
+            <p>{{ "ADOPTION.SUCCESS_DETAILS" | translate }}</p>
           </div>
           <button routerLink="/home/galeria" class="primary-button mt-4">
-            Seguir explorando la Galería
+            {{ "ADOPTION.KEEP_EXPLORING" | translate }}
           </button>
         </div>
       }
@@ -413,7 +448,7 @@
               >assignment_turned_in</mat-icon
             >
             <div class="tracking-title">
-              <h2>Estado de tu Solicitud</h2>
+              <h2>{{ "ADOPTION.TRACKING_TITLE" | translate }}</h2>
               <div
                 class="status-badge"
                 [ngClass]="adoptionStatus().toLowerCase()"
@@ -426,50 +461,51 @@
           <div class="tracking-content">
             <div class="status-message">
               @if (adoptionStatus().toLowerCase() === "disponible") {
-                <h3>Solicitud en revisión inicial</h3>
+                <h3>{{ "ADOPTION.TRACKING_REVIEW_TITLE" | translate }}</h3>
                 <p>
-                  Hemos recibido tu formulario correctamente. Nuestro equipo
-                  está evaluando tu perfil para asegurarse de que es el hogar
-                  ideal para {{ animal()?.nombre }}. Te contactaremos pronto por
-                  teléfono o correo para comunicarte si avanzas en el proceso.
+                  {{
+                    "ADOPTION.TRACKING_REVIEW_TEXT"
+                      | translate: { name: animal()?.nombre }
+                  }}
                 </p>
               } @else if (
                 adoptionStatus().toLowerCase() === "reservado" ||
                 adoptionStatus().toLowerCase() === "proceso"
               ) {
-                <h3>Proceso de entrevista / Reserva</h3>
+                <h3>{{ "ADOPTION.TRACKING_RESERVED_TITLE" | translate }}</h3>
                 <p>
-                  ¡Tú solicitud ha avanzado o el animal se encuentra en fase de
-                  pre-adopción! El estado del animal es
-                  <strong>{{ adoptionStatus() }}</strong
-                  >. Permanece atento a tu correo electrónico, nuestro equipo
-                  está tomando decisiones en esta fase.
+                  {{
+                    "ADOPTION.TRACKING_RESERVED_TEXT"
+                      | translate: { status: adoptionStatus() }
+                  }}
                 </p>
               } @else if (adoptionStatus().toLowerCase() === "adoptado") {
-                <h3>Proceso finalizado</h3>
+                <h3>{{ "ADOPTION.TRACKING_DONE_TITLE" | translate }}</h3>
                 <p>
-                  El proceso de adopción para {{ animal()?.nombre }} ha
-                  concluido oficialmente y ya tiene un hogar. Si has sido tú el
-                  afortunado, ¡muchas felicidades! Si no ha podido ser en esta
-                  ocasión, te animamos de corazón a seguir explorando la
-                  galería. ¡Hay muchísimos peludos que te necesitan!
+                  {{
+                    "ADOPTION.TRACKING_DONE_TEXT"
+                      | translate: { name: animal()?.nombre }
+                  }}
                 </p>
               }
             </div>
 
             <div class="request-summary">
-              <h4>Resumen de tu envío</h4>
+              <h4>{{ "ADOPTION.SUBMISSION_SUMMARY" | translate }}</h4>
               <ul>
                 <li>
-                  <mat-icon>tag</mat-icon> <strong>ID Solicitud:</strong>
+                  <mat-icon>tag</mat-icon>
+                  <strong>{{ "ADOPTION.REQUEST_ID" | translate }}</strong>
                   {{ existingRequest()?._id | slice: -8 | uppercase }}
                 </li>
                 <li>
-                  <mat-icon>badge</mat-icon> <strong>DNI aportado:</strong>
+                  <mat-icon>badge</mat-icon>
+                  <strong>{{ "ADOPTION.DNI_PROVIDED" | translate }}</strong>
                   {{ existingRequest()?.dni }}
                 </li>
                 <li>
-                  <mat-icon>home</mat-icon> <strong>Vivienda:</strong>
+                  <mat-icon>home</mat-icon>
+                  <strong>{{ "ADOPTION.HOUSING" | translate }}</strong>
                   {{ existingRequest()?.tipoVivienda }} ({{
                     existingRequest()?.alquilerOCompra
                   }})
@@ -481,6 +517,6 @@
       }
     </div>
   } @else {
-    <p class="loading-text">Cargando la ficha del animal...</p>
+    <p class="loading-text">{{ "ADOPTION.LOADING" | translate }}</p>
   }
 </div>
