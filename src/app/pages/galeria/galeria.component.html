@@ -2,9 +2,9 @@
   <!-- 🔹 CABECERA PROFESIONAL -->
   <header class="gallery-header">
     <div class="header-content">
-      <span class="eyebrow">Nuestros Peludos</span>
-      <h1>Animales en Adopción</h1>
-      <p>Encuentra a tu compañero ideal y dale una segunda oportunidad.</p>
+      <span class="eyebrow">{{ "GALLERY.EYEBROW" | translate }}</span>
+      <h1>{{ "GALLERY.TITLE" | translate }}</h1>
+      <p>{{ "GALLERY.SUBTITLE" | translate }}</p>
     </div>
 
     <div class="gallery-actions">
@@ -12,7 +12,7 @@
         <mat-icon>search</mat-icon>
         <input
           type="text"
-          placeholder="Buscar por nombre..."
+          [placeholder]="'GALLERY.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="inputValue"
           (ngModelChange)="onSearchChange($event)"
         />
@@ -23,7 +23,7 @@
         (click)="mostrarFiltros.set(!mostrarFiltros())"
       >
         <mat-icon>tune</mat-icon>
-        <span>Filtros</span>
+        <span>{{ "GALLERY.FILTERS" | translate }}</span>
       </button>
     </div>
 
@@ -32,98 +32,116 @@
       <div class="inline-filters-panel">
         <!-- Grupo: Especie -->
         <div class="filter-group">
-          <span class="filter-label">Especie</span>
+          <span class="filter-label">{{ "GALLERY.GROUP_SPECIES" | translate }}</span>
           <div class="chip-container">
             <button
               class="chip"
               [class.selected]="filtros().especie === 'Perro'"
               (click)="toggleFiltro('especie', 'Perro')"
             >
-              <iconify-icon icon="mdi:dog"></iconify-icon> Perro
+              <iconify-icon icon="mdi:dog"></iconify-icon>
+              {{ "SPECIES.DOG" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().especie === 'Gato'"
               (click)="toggleFiltro('especie', 'Gato')"
             >
-              <iconify-icon icon="mdi:cat"></iconify-icon> Gato
+              <iconify-icon icon="mdi:cat"></iconify-icon>
+              {{ "SPECIES.CAT" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().especie === 'Ave'"
               (click)="toggleFiltro('especie', 'Ave')"
             >
-              <iconify-icon icon="mdi:bird"></iconify-icon> Ave
+              <iconify-icon icon="mdi:bird"></iconify-icon>
+              {{ "SPECIES.BIRD" | translate }}
             </button>
             <button
               class="chip"
-              [class.selected]="filtros().especie === 'Tortuga'"
-              (click)="toggleFiltro('especie', 'Tortuga')"
+              [class.selected]="filtros().especie === 'Conejo'"
+              (click)="toggleFiltro('especie', 'Conejo')"
             >
-              <iconify-icon icon="mdi:turtle"></iconify-icon> Tortuga
+              <iconify-icon icon="mdi:rabbit"></iconify-icon>
+              {{ "SPECIES.RABBIT" | translate }}
+            </button>
+            <button
+              class="chip"
+              [class.selected]="filtros().especie === 'Caballo'"
+              (click)="toggleFiltro('especie', 'Caballo')"
+            >
+              <iconify-icon icon="mdi:horse"></iconify-icon>
+              {{ "SPECIES.HORSE" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().especie === 'Reptil'"
               (click)="toggleFiltro('especie', 'Reptil')"
             >
-              <iconify-icon icon="mdi:snake"></iconify-icon> Reptil
+              <iconify-icon icon="mdi:snake"></iconify-icon>
+              {{ "SPECIES.REPTILE" | translate }}
             </button>
           </div>
         </div>
 
         <!-- Grupo: Género -->
         <div class="filter-group">
-          <span class="filter-label">Género</span>
+          <span class="filter-label">{{ "GALLERY.GROUP_GENDER" | translate }}</span>
           <div class="chip-container">
             <button
               class="chip"
               [class.selected]="filtros().genero === 'Hembra'"
               (click)="toggleFiltro('genero', 'Hembra')"
             >
-              <iconify-icon icon="mdi:gender-female"></iconify-icon> Hembra
+              <iconify-icon icon="mdi:gender-female"></iconify-icon>
+              {{ "GENDER.FEMALE" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().genero === 'Macho'"
               (click)="toggleFiltro('genero', 'Macho')"
             >
-              <iconify-icon icon="mdi:gender-male"></iconify-icon> Macho
+              <iconify-icon icon="mdi:gender-male"></iconify-icon>
+              {{ "GENDER.MALE" | translate }}
             </button>
           </div>
         </div>
 
         <!-- Grupo: Tamaño -->
         <div class="filter-group">
-          <span class="filter-label">Tamaño</span>
+          <span class="filter-label">{{ "GALLERY.GROUP_SIZE" | translate }}</span>
           <div class="chip-container">
             <button
               class="chip"
               [class.selected]="filtros().size === 'Pequeño'"
               (click)="toggleFiltro('size', 'Pequeño')"
             >
-              <iconify-icon icon="mdi:size-s"></iconify-icon> Pequeño
+              <iconify-icon icon="mdi:size-s"></iconify-icon>
+              {{ "SIZE.SMALL" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().size === 'Mediano'"
               (click)="toggleFiltro('size', 'Mediano')"
             >
-              <iconify-icon icon="mdi:size-m"></iconify-icon> Mediano
+              <iconify-icon icon="mdi:size-m"></iconify-icon>
+              {{ "SIZE.MEDIUM" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().size === 'Grande'"
               (click)="toggleFiltro('size', 'Grande')"
             >
-              <iconify-icon icon="mdi:size-l"></iconify-icon> Grande
+              <iconify-icon icon="mdi:size-l"></iconify-icon>
+              {{ "SIZE.LARGE" | translate }}
             </button>
           </div>
         </div>
 
         <!-- Grupo: Edad -->
         <div class="filter-group">
-          <span class="filter-label">Edad</span>
+          <span class="filter-label">{{ "GALLERY.GROUP_AGE" | translate }}</span>
           <div class="chip-container">
             <button
               class="chip"
@@ -131,41 +149,69 @@
               (click)="toggleFiltro('rangoEdad', 'Cachorro')"
             >
               <iconify-icon icon="mdi:baby-bottle-outline"></iconify-icon>
-              Cachorro
+              {{ "AGE.BABY" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().rangoEdad === 'Joven'"
               (click)="toggleFiltro('rangoEdad', 'Joven')"
             >
-              <iconify-icon icon="mdi:run"></iconify-icon> Joven
+              <iconify-icon icon="mdi:run"></iconify-icon>
+              {{ "AGE.YOUNG" | translate }}
             </button>
             <button
               class="chip"
               [class.selected]="filtros().rangoEdad === 'Adulto'"
               (click)="toggleFiltro('rangoEdad', 'Adulto')"
             >
-              <iconify-icon icon="mdi:account-star"></iconify-icon> Adulto
+              <iconify-icon icon="mdi:account-star"></iconify-icon>
+              {{ "AGE.ADULT" | translate }}
             </button>
           </div>
         </div>
+
+        <button class="btn-clear-filters" (click)="limpiarFiltros()">
+          <mat-icon>filter_alt_off</mat-icon>
+          {{ "GALLERY.CLEAR_FILTERS" | translate }}
+        </button>
       </div>
     }
   </header>
 
   <!-- 🔹 GRID RESPONSIVO (CSS GRID) -->
-  @if (resultadosFiltrados().length > 0) {
+  @if (loading() && animales().length === 0) {
     <div class="gallery-grid">
-      @for (animal of animalesMostrados(); track animal._id) {
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+        <article class="animal-card skeleton-card">
+          <div class="skeleton skeleton-image"></div>
+          <div class="card-content">
+            <div class="skeleton skeleton-line skeleton-title"></div>
+            <div class="skeleton skeleton-line"></div>
+            <div class="skeleton skeleton-line skeleton-short"></div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else if (animalesFiltrados().length > 0) {
+    <div class="gallery-grid">
+      @for (animal of animalesFiltrados(); track animal.id) {
         <article class="animal-card">
           <!-- IMAGEN Y BADGES -->
           <div class="card-image-wrapper">
-            <img
-              [src]="animal.foto"
-              [alt]="animal.nombre"
-              class="animal-image"
-              loading="lazy"
-            />
+            @if (animal.foto) {
+              <img
+                [src]="animal.foto"
+                [alt]="animal.nombre"
+                class="animal-image"
+                loading="lazy"
+                (error)="animal.foto = ''"
+              />
+            } @else {
+              <div class="photo-placeholder">
+                <mat-icon>hide_image</mat-icon>
+                <span>{{ "COMMON.PHOTO_SOON" | translate }}</span>
+              </div>
+            }
 
             <!-- Estado dinámico -->
             <div class="status-badge" [ngClass]="estadoCss(animal)">
@@ -177,11 +223,14 @@
               class="favorite-btn"
               (click)="marcarFavorito(animal)"
               [attr.aria-label]="
-                animal.favorito ? 'Quitar de favoritos' : 'Añadir a favoritos'
+                (animal.isFavorite
+                  ? 'COMMON.REMOVE_FAVORITE'
+                  : 'COMMON.ADD_FAVORITE'
+                ) | translate
               "
             >
-              <mat-icon [class.is-favorite]="animal.favorito">
-                {{ animal.favorito ? "favorite" : "favorite_border" }}
+              <mat-icon [class.is-favorite]="animal.isFavorite">
+                {{ animal.isFavorite ? "favorite" : "favorite_border" }}
               </mat-icon>
             </button>
           </div>
@@ -201,11 +250,11 @@
             <div class="animal-details">
               <span class="detail-item"
                 ><mat-icon>pets</mat-icon>
-                {{ animal.especie || "Desconocida" }}</span
+                {{ animal.especie || ("COMMON.UNKNOWN_SPECIES" | translate) }}</span
               >
               <span class="detail-item"
                 ><mat-icon>location_on</mat-icon>
-                {{ animal.ubicacion || "Ubicación desconocida" }}</span
+                {{ animal.ubicacion || ("COMMON.UNKNOWN_LOCATION" | translate) }}</span
               >
             </div>
 
@@ -213,10 +262,10 @@
             <div class="card-actions">
               @if (puedeAdoptar(animal)) {
                 <a
-                  [routerLink]="['/home', 'adopcion', animal._id]"
+                  [routerLink]="['/home', 'adopcion', animal.id]"
                   class="btn-primary"
                 >
-                  Adoptar
+                  {{ "COMMON.ADOPT" | translate }}
                 </a>
               } @else {
                 <button class="btn-primary disabled" type="button" disabled>
@@ -224,28 +273,41 @@
                 </button>
               }
               <a
-                [routerLink]="['/home', 'galeria', animal._id]"
+                [routerLink]="['/home', 'galeria', animal.id]"
                 class="btn-outline"
               >
-                Detalles
+                {{ "HOME.SEE_DETAILS" | translate }}
               </a>
             </div>
           </div>
         </article>
       }
     </div>
+
+    @if (page() < totalPages()) {
+      <div class="load-more">
+        <button class="btn-outline" (click)="cargarMas()" [disabled]="loading()">
+          {{ (loading() ? "COMMON.LOADING" : "GALLERY.LOAD_MORE") | translate }}
+        </button>
+      </div>
+    }
   } @else {
     <!-- 🔹 ESTADO VACÍO (EMPTY STATE PROFESIONAL) -->
     <div class="empty-state">
       <mat-icon class="empty-icon">search_off</mat-icon>
-      <h3>¡Ups! No encontramos coincidencias</h3>
-      <p>
-        Prueba con otros filtros o un término de búsqueda diferente para
-        encontrar a tu compañero ideal.
-      </p>
+      <h3>{{ "GALLERY.EMPTY_TITLE" | translate }}</h3>
+      <p>{{ "GALLERY.EMPTY_TEXT" | translate }}</p>
       <button class="btn-outline" (click)="limpiarFiltros()">
-        Limpiar búsqueda
+        {{ "GALLERY.CLEAR_SEARCH" | translate }}
       </button>
     </div>
+
+    @if (page() < totalPages()) {
+      <div class="load-more">
+        <button class="btn-outline" (click)="cargarMas()" [disabled]="loading()">
+          {{ (loading() ? "COMMON.LOADING" : "GALLERY.LOAD_MORE") | translate }}
+        </button>
+      </div>
+    }
   }
 </div>

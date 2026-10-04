@@ -6,6 +6,112 @@
   --nav-desktop-height: 64px;
 }
 
+/* ==========================================================================
+   IMÁGENES DE ANIMALES
+   - .animal-image fuerza un recorte limpio (sin deformar).
+   - .photo-placeholder se muestra cuando el animal no tiene foto o falla.
+   ========================================================================== */
+.animal-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1rem;
+  text-align: center;
+  color: #6b8794;
+  background: linear-gradient(180deg, #eef5f6 0%, #e2edee 100%);
+}
+
+.photo-placeholder mat-icon {
+  font-size: 2.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: #9db6bf;
+}
+
+.photo-placeholder span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Galería: botón borrar filtros y "cargar más" */
+.btn-clear-filters {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(34, 67, 102, 0.2);
+  border-radius: 999px;
+  background: #fff;
+  color: #1d5c74;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Skeleton de carga (mientras llegan los datos) */
+.skeleton {
+  background: linear-gradient(90deg, #eef2f4 25%, #dfe8eb 37%, #eef2f4 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  border-radius: 8px;
+}
+
+.skeleton-image {
+  width: 100%;
+  padding-top: 75%;
+  border-radius: 0;
+}
+
+.skeleton-line {
+  height: 14px;
+  margin-bottom: 0.6rem;
+  border-radius: 6px;
+}
+
+.skeleton-title {
+  width: 60%;
+  height: 22px;
+}
+
+.skeleton-short {
+  width: 40%;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* Responsive: botón borrar filtros a ancho completo en móvil */
+@media (max-width: 600px) {
+  .btn-clear-filters {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /*
   🐚 .global-page-shell:
   Úsalo como contenedor principal en TODAS tus páginas (Home, Galería, Detalles, etc.)
