@@ -3,11 +3,12 @@ import { RouterLink, Router } from '@angular/router';
 import { AuthServiceService } from '../../servicios/auth.service.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink, CommonModule, MatIconModule],
+  imports: [RouterLink, CommonModule, MatIconModule, TranslatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -24,7 +25,9 @@ export class ProfileComponent {
   }
 
   logout(): void {
-    this.authService.clearCurrentUser();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/login']),
+    });
   }
 }

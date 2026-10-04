@@ -5,8 +5,8 @@ export interface LoginCredentials {
   password: string;
 }
 
+// El backend ya no devuelve el token: viaja en una cookie httpOnly.
 export interface AuthResponse {
-  token: string;
   user: User;
 }
 

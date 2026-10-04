@@ -1,5 +1,6 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, tap, finalize } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../types/user.types';
 import {
@@ -8,88 +9,91 @@ import {
   RegisterUserPayload,
   SessionResponse,
 } from '../types/auth.types';
-import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServiceService {
-  private apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.apiUrl;
 
-  // señal del usuario
+  // undefined = cargando, null = invitado, User = autenticado
   currentUserSig: WritableSignal<User | null | undefined> = signal<
     User | null | undefined
   >(undefined);
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   // ================================
-  // LOGIN
+  // LOGIN  (el JWT llega en cookie httpOnly)
   // ================================
-  login(user: LoginCredentials) {
+  login(user: LoginCredentials): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(`${this.apiUrl}/user/login`, { user })
-      .pipe(
-        tap((response) => {
-          localStorage.setItem('token', response.token);
-          this.currentUserSig.set(response.user);
-        }),
-      );
+      .pipe(tap((response) => this.currentUserSig.set(response.user)));
   }
 
   // ================================
-  // REGISTER
+  // REGISTER  (registra y abre sesión)
   // ================================
-  register(user: RegisterUserPayload) {
-    return this.http.post<User>(`${this.apiUrl}/user/register`, { user });
+  register(user: RegisterUserPayload): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>(`${this.apiUrl}/user/register`, { user })
+      .pipe(tap((response) => this.currentUserSig.set(response.user)));
   }
 
   // ================================
-  // CARGAR USUARIO DESDE TOKEN
+  // RESTAURAR SESIÓN DESDE LA COOKIE
   // ================================
-  loadUserFromToken(): void {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      this.currentUserSig.set(null);
-      return;
-    }
-
+  loadCurrentUser(): void {
     this.http
       .post<SessionResponse>(`${this.apiUrl}/user/checksession`, {})
       .subscribe({
-        next: (response) => {
-          this.currentUserSig.set(response);
-        },
-        error: () => {
-          localStorage.removeItem('token');
-          this.currentUserSig.set(null);
-        },
+        next: (user) => this.currentUserSig.set(user),
+        error: () => this.currentUserSig.set(null),
       });
   }
 
   // ================================
-  // SET USER
+  // LOGOUT (borra la cookie en el backend)
   // ================================
+  logout(): Observable<unknown> {
+    return this.http
+      .post(`${this.apiUrl}/user/logout`, {})
+      .pipe(finalize(() => this.clearCurrentUser()));
+  }
+
+  // ================================
+  // FAVORITOS (persistidos en el backend)
+  // ================================
+  toggleFavorite(animalId: string): Observable<User> {
+    const current = this.currentUserSig()?.favPets ?? [];
+    const favPets = current.includes(animalId)
+      ? current.filter((id) => id !== animalId)
+      : [...current, animalId];
+
+    return this.http
+      .post<User>(`${this.apiUrl}/user/addfav`, { favPets })
+      .pipe(tap((user) => this.currentUserSig.set(user)));
+  }
+
+  clearFavorites(): Observable<User> {
+    return this.http
+      .post<User>(`${this.apiUrl}/user/addfav`, { favPets: [] })
+      .pipe(tap((user) => this.currentUserSig.set(user)));
+  }
+
   setCurrentUser(user: User): void {
     this.currentUserSig.set(user);
   }
 
-  // ================================
-  // LOGOUT
-  // ================================
   clearCurrentUser(): void {
     this.currentUserSig.set(null);
-    localStorage.removeItem('token');
   }
 
   getCurrentUser(): User | null | undefined {
     return this.currentUserSig();
   }
 
-  // ================================
-  // COMPROBAR SI ESTÁ AUTENTICADO
-  // ================================
   isAuthenticated(): boolean {
     const user = this.currentUserSig();
     return user !== null && user !== undefined;

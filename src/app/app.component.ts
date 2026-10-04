@@ -16,7 +16,7 @@ export class AppComponent {
   authService = inject(AuthServiceService);
 
   ngOnInit(): void {
-    // Recuperar usuario desde token al arrancar la app
-    this.authService.loadUserFromToken();
+    // Restaurar la sesión desde la cookie al arrancar la app
+    this.authService.loadCurrentUser();
   }
 }
