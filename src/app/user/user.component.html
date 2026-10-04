@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="profile-info">
-        <span class="eyebrow">Información Personal</span>
+        <span class="eyebrow">{{ "USER.EYEBROW" | translate }}</span>
         <h1>{{ currentUser.name }}</h1>
         <p class="email-text">
           <mat-icon>email</mat-icon> {{ currentUser.email }}
@@ -19,47 +19,51 @@
     <!-- Sección de Información -->
     <div class="profile-sections">
       <div class="section-card data-card">
-        <h2><mat-icon>badge</mat-icon> Identidad de la cuenta</h2>
+        <h2>
+          <mat-icon>badge</mat-icon> {{ "USER.ACCOUNT_ID" | translate }}
+        </h2>
         <div class="data-list">
           <div class="data-item">
-            <span class="label">Nombre completo en sistema</span>
+            <span class="label">{{ "USER.FULL_NAME" | translate }}</span>
             <span class="value">{{ currentUser.name }}</span>
           </div>
           <div class="data-item">
-            <span class="label">Correo de contacto</span>
+            <span class="label">{{ "USER.CONTACT_EMAIL" | translate }}</span>
             <span class="value">{{ currentUser.email }}</span>
           </div>
           <div class="data-item">
-            <span class="label">ID de usuario</span>
+            <span class="label">{{ "USER.USER_ID" | translate }}</span>
             <span class="value uid">{{ currentUser._id || "N/A" }}</span>
           </div>
         </div>
         <button class="btn-outline mt-4" disabled>
-          Editar mis datos (Próximamente)
+          {{ "USER.EDIT_SOON" | translate }}
         </button>
       </div>
 
       <div class="section-card actions-card">
-        <h2><mat-icon>explore</mat-icon> Accesos Rápidos</h2>
+        <h2>
+          <mat-icon>explore</mat-icon> {{ "USER.QUICK_LINKS" | translate }}
+        </h2>
         <div class="quick-links">
           <a routerLink="/home/favoritos" class="quick-link">
             <div class="link-left">
-              <mat-icon class="accent-red">favorite_border</mat-icon> Mis
-              Favoritos guardados
+              <mat-icon class="accent-red">favorite_border</mat-icon>
+              {{ "USER.SAVED_FAVORITES" | translate }}
             </div>
             <mat-icon class="arrow">chevron_right</mat-icon>
           </a>
           <a routerLink="/home/mis-solicitudes" class="quick-link">
             <div class="link-left">
-              <mat-icon class="accent-orange">assignment</mat-icon> Historial de
-              Solicitudes
+              <mat-icon class="accent-orange">assignment</mat-icon>
+              {{ "USER.REQUEST_HISTORY" | translate }}
             </div>
             <mat-icon class="arrow">chevron_right</mat-icon>
           </a>
           <a routerLink="/home/galeria" class="quick-link highlight">
             <div class="link-left">
               <mat-icon class="accent-green">pets</mat-icon>
-              <strong>Adoptar un nuevo amigo</strong>
+              <strong>{{ "USER.ADOPT_NEW" | translate }}</strong>
             </div>
             <mat-icon class="arrow">chevron_right</mat-icon>
           </a>
@@ -69,12 +73,11 @@
   } @else {
     <div class="empty-state">
       <mat-icon class="empty-icon">account_circle</mat-icon>
-      <h3>No hay sesión activa</h3>
-      <p>
-        Inicia sesión o regístrate para acceder a tu perfil y gestionar tus
-        adopciones.
-      </p>
-      <a routerLink="/login" class="btn-primary mt-3">Ir a Iniciar Sesión</a>
+      <h3>{{ "USER.NO_SESSION" | translate }}</h3>
+      <p>{{ "USER.NO_SESSION_TEXT" | translate }}</p>
+      <a routerLink="/login" class="btn-primary mt-3">{{
+        "USER.GO_LOGIN" | translate
+      }}</a>
     </div>
   }
 </div>

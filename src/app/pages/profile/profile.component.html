@@ -1,8 +1,8 @@
 <div class="global-page-shell profile-menu-container">
   <header class="menu-header">
     <div class="header-content">
-      <span class="eyebrow">Ajustes</span>
-      <h1>Menú Principal</h1>
+      <span class="eyebrow">{{ "PROFILE.EYEBROW" | translate }}</span>
+      <h1>{{ "PROFILE.TITLE" | translate }}</h1>
     </div>
   </header>
 
@@ -10,7 +10,7 @@
     <a routerLink="/home/user" class="menu-item">
       <div class="item-left">
         <div class="icon-box blue"><mat-icon>person</mat-icon></div>
-        <span>Mi perfil</span>
+        <span>{{ "PROFILE.MY_PROFILE" | translate }}</span>
       </div>
       <mat-icon class="arrow">chevron_right</mat-icon>
     </a>
@@ -18,7 +18,7 @@
     <a routerLink="/home/map" class="menu-item">
       <div class="item-left">
         <div class="icon-box green"><mat-icon>location_on</mat-icon></div>
-        <span>Direcciones</span>
+        <span>{{ "PROFILE.ADDRESSES" | translate }}</span>
       </div>
       <mat-icon class="arrow">chevron_right</mat-icon>
     </a>
@@ -26,7 +26,7 @@
     <a routerLink="/home/favoritos" class="menu-item">
       <div class="item-left">
         <div class="icon-box red"><mat-icon>favorite</mat-icon></div>
-        <span>Favoritos</span>
+        <span>{{ "PROFILE.FAVORITES" | translate }}</span>
       </div>
       <mat-icon class="arrow">chevron_right</mat-icon>
     </a>
@@ -34,7 +34,7 @@
     <button class="menu-item" (click)="toggleNotificaciones()">
       <div class="item-left">
         <div class="icon-box yellow"><mat-icon>notifications</mat-icon></div>
-        <span>Notificaciones</span>
+        <span>{{ "PROFILE.NOTIFICATIONS" | translate }}</span>
       </div>
       <div class="modern-toggle mini">
         <input type="checkbox" [checked]="notificacionesActivas" />
@@ -45,13 +45,13 @@
     <a routerLink="/home/mis-solicitudes" class="menu-item">
       <div class="item-left">
         <div class="icon-box orange"><mat-icon>assignment</mat-icon></div>
-        <span>Estado de la adopción</span>
+        <span>{{ "PROFILE.ADOPTION_STATUS" | translate }}</span>
       </div>
       <mat-icon class="arrow">chevron_right</mat-icon>
     </a>
   </div>
 
   <button class="btn-logout" (click)="logout()">
-    <mat-icon>logout</mat-icon> Cerrar Sesión
+    <mat-icon>logout</mat-icon> {{ "COMMON.LOGOUT" | translate }}
   </button>
 </div>

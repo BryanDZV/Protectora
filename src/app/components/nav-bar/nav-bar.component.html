@@ -15,12 +15,12 @@
         class="nav-item"
       >
         <mat-icon>home</mat-icon>
-        <span class="nav-label">Inicio</span>
+        <span class="nav-label">{{ "NAV.HOME" | translate }}</span>
       </a>
 
       <a routerLink="/home/galeria" routerLinkActive="active" class="nav-item">
         <mat-icon>grid_view</mat-icon>
-        <span class="nav-label">Galería</span>
+        <span class="nav-label">{{ "NAV.GALLERY" | translate }}</span>
       </a>
 
       <a
@@ -29,13 +29,26 @@
         class="nav-item"
       >
         <mat-icon>favorite</mat-icon>
-        <span class="nav-label">Favoritos</span>
+        <span class="nav-label">{{ "NAV.FAVORITES" | translate }}</span>
       </a>
 
       <a routerLink="/home/profile" routerLinkActive="active" class="nav-item">
         <mat-icon>person</mat-icon>
-        <span class="nav-label">Perfil</span>
+        <span class="nav-label">{{ "NAV.PROFILE" | translate }}</span>
       </a>
+
+      <button
+        type="button"
+        class="nav-item lang-toggle"
+        (click)="language.toggle()"
+        [attr.aria-label]="'NAV.LANGUAGE' | translate"
+        [title]="'NAV.LANGUAGE' | translate"
+      >
+        <mat-icon>translate</mat-icon>
+        <span class="nav-label">
+          {{ language.currentLang() === "es" ? "EN" : "ES" }}
+        </span>
+      </button>
     </div>
   </div>
 </nav>

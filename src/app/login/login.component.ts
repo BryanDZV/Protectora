@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Lógica y Tipos (SoC)
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AuthServiceService } from '../servicios/auth.service.service';
 import { LoginCredentials } from '../types/auth.types';
 
@@ -26,6 +27,7 @@ import { LoginCredentials } from '../types/auth.types';
     MatFormFieldModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    TranslatePipe,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -35,6 +37,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthServiceService);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
 
   // UI State usando Signals (Mejora de rendimiento sobre ChangeDetection tradicional)
   public isLoading = signal<boolean>(false);
@@ -59,16 +62,19 @@ export class LoginComponent {
   // Getters para manejo granular de mensajes de error de UI (Principio DRY)
   get emailError(): string {
     const control = this.loginForm.get('email');
-    if (control?.hasError('required')) return 'El correo es obligatorio';
-    if (control?.hasError('email')) return 'Formato de correo inválido';
+    if (control?.hasError('required'))
+      return this.translate.instant('LOGIN.EMAIL_REQUIRED');
+    if (control?.hasError('email'))
+      return this.translate.instant('LOGIN.EMAIL_INVALID');
     return '';
   }
 
   get passwordError(): string {
     const control = this.loginForm.get('password');
-    if (control?.hasError('required')) return 'La contraseña es obligatoria';
+    if (control?.hasError('required'))
+      return this.translate.instant('LOGIN.PASSWORD_REQUIRED');
     if (control?.hasError('minlength'))
-      return 'Debe tener al menos 6 caracteres';
+      return this.translate.instant('LOGIN.PASSWORD_MIN');
     return '';
   }
 
@@ -96,7 +102,7 @@ export class LoginComponent {
         const message =
           err?.error?.message ||
           err?.error?.error ||
-          'Error al iniciar sesión. Verifica tus credenciales.';
+          this.translate.instant('LOGIN.ERROR_GENERIC');
         this.errorMessage.set(message);
       },
     });

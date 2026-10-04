@@ -1,13 +1,15 @@
 <!-- Muestra este bloque solo si el contexto es 'galeria' -->
 <div *ngIf="contexto === 'galeria'">
   <div class="modal-content">
-    <h2>Filtro de animales</h2>
+    <h2>{{ "FILTERS.TITLE" | translate }}</h2>
 
     <!-- Filtro por ciudad -->
     <div class="input-field">
-      <label for="ciudad">Ciudad:</label>
+      <label for="ciudad">{{ "FILTERS.CITY" | translate }}</label>
       <select id="ciudad" [(ngModel)]="ciudad">
-        <option value="" disabled selected>Selecciona la ciudad</option>
+        <option value="" disabled selected>
+          {{ "FILTERS.SELECT_CITY" | translate }}
+        </option>
         <!--  Recorre el array de ciudades -->
         <option *ngFor="let ciudad of ciudades">{{ ciudad }}</option>
       </select>
@@ -15,7 +17,7 @@
 
     <!--  Filtro por especie -->
     <div class="input-field">
-      <label>Especie:</label>
+      <label>{{ "FILTERS.SPECIES" | translate }}</label>
       <!--  Recorre lista de especies -->
       <ng-container
         *ngFor="
@@ -43,9 +45,9 @@
 
     <!--  Filtro por edad -->
     <div class="input-field">
-      <label for="edad">Edad:</label>
+      <label for="edad">{{ "FILTERS.AGE" | translate }}</label>
       <select id="edad" [(ngModel)]="edad">
-        <option value="">Selecciona la edad</option>
+        <option value="">{{ "FILTERS.SELECT_AGE" | translate }}</option>
         <!-- 🔁 Recorre el array de edades -->
         <option *ngFor="let edad of edades" [value]="edad">{{ edad }}</option>
       </select>
@@ -53,7 +55,7 @@
 
     <!--  Filtro por género -->
     <div class="input-field">
-      <label>Género:</label>
+      <label>{{ "FILTERS.GENDER" | translate }}</label>
       <button
         mat-icon-button
         (click)="selectGenero('Hembra')"
@@ -78,7 +80,7 @@
 
     <!--Filtro por tamaño -->
     <div class="input-field">
-      <label>Tamaño:</label>
+      <label>{{ "FILTERS.SIZE" | translate }}</label>
       <ng-container *ngFor="let tam of ['Pequeño', 'Mediano', 'Grande']">
         <button
           mat-icon-button
@@ -100,25 +102,31 @@
 
     <!--  Mensaje si no hay resultados -->
     <div class="no-results" *ngIf="noResultados">
-      <p>No hay animales con esos filtros.</p>
+      <p>{{ "FILTERS.NO_RESULTS" | translate }}</p>
     </div>
 
     <!--  Botones de acción -->
     <div class="buttons">
-      <button mat-button (click)="aplicarFiltros()">Aplicar Filtros</button>
-      <button mat-button (click)="borrarFiltros()">Borrar Filtros</button>
-      <button mat-button (click)="cerrarModal()">Cerrar</button>
+      <button mat-button (click)="aplicarFiltros()">
+        {{ "FILTERS.APPLY" | translate }}
+      </button>
+      <button mat-button (click)="borrarFiltros()">
+        {{ "FILTERS.CLEAR" | translate }}
+      </button>
+      <button mat-button (click)="cerrarModal()">
+        {{ "FILTERS.CLOSE" | translate }}
+      </button>
     </div>
   </div>
 </div>
 <!-- Muestra este bloque solo si el contexto es 'adopcion' -->
 <div *ngIf="contexto === 'adopcion'">
   <div class="modal-content">
-    <h2>Filtrar por estado de adopción</h2>
+    <h2>{{ "FILTERS.ADOPTION_TITLE" | translate }}</h2>
 
     <!-- Filtro por estado -->
     <div class="input-field">
-      <label>Estado:</label>
+      <label>{{ "FILTERS.STATUS" | translate }}</label>
       <ng-container *ngFor="let estado of estadosAdopcion">
         <button
           mat-button
@@ -132,14 +140,20 @@
 
     <!-- Mensaje si no hay resultados -->
     <div class="no-results" *ngIf="noResultados">
-      <p>No hay animales con ese estado.</p>
+      <p>{{ "FILTERS.NO_RESULTS_STATUS" | translate }}</p>
     </div>
 
     <!-- Botones de acción -->
     <div class="buttons">
-      <button mat-button (click)="aplicarFiltros()">Aplicar Filtros</button>
-      <button mat-button (click)="borrarFiltros()">Borrar Filtros</button>
-      <button mat-button (click)="cerrarModal()">Cerrar</button>
+      <button mat-button (click)="aplicarFiltros()">
+        {{ "FILTERS.APPLY" | translate }}
+      </button>
+      <button mat-button (click)="borrarFiltros()">
+        {{ "FILTERS.CLEAR" | translate }}
+      </button>
+      <button mat-button (click)="cerrarModal()">
+        {{ "FILTERS.CLOSE" | translate }}
+      </button>
     </div>
   </div>
 </div>

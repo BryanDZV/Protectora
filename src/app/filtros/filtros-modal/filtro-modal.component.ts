@@ -8,11 +8,12 @@ import {
 import { FormsModule } from '@angular/forms'; // Para usar [(ngModel)] en el HTML
 import { CommonModule } from '@angular/common'; // Para directivas como *ngIf y *ngFor
 import { MatIconModule } from '@angular/material/icon'; // Para usar <mat-icon> o botones con íconos
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-filtro-modal',
   standalone: true, // Angular moderno: no necesita NgModule
-  imports: [MatDialogModule, CommonModule, FormsModule, MatIconModule], // Módulos necesarios para el HTML
+  imports: [MatDialogModule, CommonModule, FormsModule, MatIconModule, TranslatePipe], // Módulos necesarios para el HTML
   templateUrl: './filtro-modal.component.html', // Ruta al HTML del modal
   styleUrl: './filtro-modal.component.scss', // Ruta a los estilos del modal
 })
@@ -74,17 +75,17 @@ export class FiltroModalComponent {
           (!this.especie ||
             animal.especie.toLowerCase() === this.especie.toLowerCase()) &&
           (!this.edad ||
-            animal.edad.toLowerCase() === this.edad.toLowerCase()) &&
+            animal.rangoEdad.toLowerCase() === this.edad.toLowerCase()) &&
           (!this.genero ||
             animal.genero.toLowerCase() === this.genero.toLowerCase()) &&
           (!this.ciudad ||
-            animal.ciudad.toLowerCase() === this.ciudad.toLowerCase()) &&
+            animal.ubicacion.toLowerCase() === this.ciudad.toLowerCase()) &&
           (!this.size || animal.size.toLowerCase() === this.size.toLowerCase())
         );
       } else if (this.contexto === 'adopcion') {
         return (
           !this.estadoAdopcion ||
-          animal.adoptionState.toLowerCase() ===
+          animal.estadoAdopcion.toLowerCase() ===
             this.estadoAdopcion.toLowerCase()
         );
       }

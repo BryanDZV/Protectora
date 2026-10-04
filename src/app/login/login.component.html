@@ -1,4 +1,4 @@
-﻿﻿<div class="login-wrapper">
+﻿<div class="login-wrapper">
   <div class="login-container">
     <!-- Acción Superior: Volver (Átomo visual) -->
     <div class="top-actions">
@@ -6,7 +6,7 @@
         mat-icon-button
         (click)="goBack()"
         type="button"
-        aria-label="Volver atrás"
+        [attr.aria-label]="'COMMON.BACK' | translate"
       >
         <mat-icon>arrow_back</mat-icon>
       </button>
@@ -19,8 +19,8 @@
         alt="Logo Protectora"
         class="header-logo"
       />
-      <h1>¡Bienvenido de nuevo!</h1>
-      <p>Inicia sesión para continuar.</p>
+      <h1>{{ "LOGIN.TITLE" | translate }}</h1>
+      <p>{{ "LOGIN.SUBTITLE" | translate }}</p>
     </header>
 
     <!-- Feedback de Error Global (Manejo Granular de API) -->
@@ -35,12 +35,12 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <!-- Campo Email -->
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Correo Electrónico</mat-label>
+        <mat-label>{{ "LOGIN.EMAIL_LABEL" | translate }}</mat-label>
         <input
           matInput
           type="email"
           formControlName="email"
-          placeholder="Escribe tu correo..."
+          [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
         />
         <mat-icon matPrefix>email</mat-icon>
         @if (
@@ -52,7 +52,7 @@
 
       <!-- Campo Contraseña -->
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Contraseña</mat-label>
+        <mat-label>{{ "LOGIN.PASSWORD_LABEL" | translate }}</mat-label>
         <input
           matInput
           [type]="hidePassword() ? 'password' : 'text'"
@@ -65,7 +65,7 @@
           matSuffix
           (click)="togglePasswordVisibility()"
           type="button"
-          [attr.aria-label]="'Ocultar contraseña'"
+          [attr.aria-label]="'LOGIN.HIDE_PASSWORD' | translate"
         >
           <mat-icon>{{
             hidePassword() ? "visibility_off" : "visibility"
@@ -89,13 +89,16 @@
         @if (isLoading()) {
           <mat-spinner diameter="24"></mat-spinner>
         } @else {
-          <span>Entrar</span>
+          <span>{{ "LOGIN.SUBMIT" | translate }}</span>
         }
       </button>
 
       <!-- Pie de página -->
       <footer class="login-footer">
-        <p>¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a></p>
+        <p>
+          {{ "LOGIN.NO_ACCOUNT" | translate }}
+          <a routerLink="/register">{{ "LOGIN.REGISTER_LINK" | translate }}</a>
+        </p>
       </footer>
     </form>
   </div>

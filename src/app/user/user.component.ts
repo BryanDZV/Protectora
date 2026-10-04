@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AuthServiceService } from '../servicios/auth.service.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule],
+  imports: [CommonModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
 })

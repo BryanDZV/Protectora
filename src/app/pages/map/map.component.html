@@ -1,13 +1,13 @@
 <div class="global-page-shell map-container">
   <a [routerLink]="['/home/profile']" class="back-link">
-    <mat-icon>arrow_back</mat-icon> Volver a mi menú
+    <mat-icon>arrow_back</mat-icon> {{ "MAP.BACK" | translate }}
   </a>
 
   <header class="map-header">
     <div class="header-content">
-      <span class="eyebrow">Nuestra Ubicación</span>
-      <h1>Direcciones</h1>
-      <p>Ven a visitarnos y conoce a nuestros peludos en persona.</p>
+      <span class="eyebrow">{{ "MAP.EYEBROW" | translate }}</span>
+      <h1>{{ "MAP.TITLE" | translate }}</h1>
+      <p>{{ "MAP.SUBTITLE" | translate }}</p>
     </div>
   </header>
 
@@ -16,15 +16,15 @@
       <div class="info-item">
         <mat-icon>location_on</mat-icon>
         <div>
-          <strong>Dirección Central:</strong>
-          <p>Calle Falsa 123, 28080 Madrid, España</p>
+          <strong>{{ "MAP.ADDRESS_LABEL" | translate }}</strong>
+          <p>{{ "MAP.ADDRESS" | translate }}</p>
         </div>
       </div>
       <div class="info-item">
         <mat-icon>schedule</mat-icon>
         <div>
-          <strong>Horario de visitas:</strong>
-          <p>Lunes a Sábado: 10:00 - 18:00</p>
+          <strong>{{ "MAP.SCHEDULE_LABEL" | translate }}</strong>
+          <p>{{ "MAP.SCHEDULE" | translate }}</p>
         </div>
       </div>
     </div>

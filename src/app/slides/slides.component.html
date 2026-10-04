@@ -1,6 +1,8 @@
 <div class="onboarding-container fade-in">
   <header class="onboarding-header">
-    <button class="btn-skip" (click)="omitir()">Omitir</button>
+    <button class="btn-skip" (click)="omitir()">
+      {{ "ONBOARDING.SKIP" | translate }}
+    </button>
   </header>
 
   <main class="onboarding-content">
@@ -8,15 +10,15 @@
     <div
       class="image-wrapper"
       (click)="irSiguiente()"
-      title="Toca para continuar"
+      [title]="'ONBOARDING.TAP_CONTINUE' | translate"
     >
       <img [src]="slide.img" alt="Ilustración onboarding" class="slide-image" />
     </div>
 
     <div class="text-wrapper">
-      <h2 [innerHTML]="slide.title"></h2>
+      <h2 [innerHTML]="slide.title | translate"></h2>
       @if (slide.text) {
-        <p [innerHTML]="slide.text"></p>
+        <p [innerHTML]="slide.text | translate"></p>
       }
     </div>
   </main>
@@ -36,13 +38,13 @@
         (click)="irAnterior()"
         [disabled]="currentId === 1"
         [class.invisible]="currentId === 1"
-        aria-label="Anterior"
+        [attr.aria-label]="'ONBOARDING.PREV' | translate"
       >
         <mat-icon>arrow_back</mat-icon>
       </button>
 
       <button class="btn-primary" (click)="irSiguiente()">
-        {{ currentId === 3 ? "Comenzar" : "Siguiente" }}
+        {{ (currentId === 3 ? "ONBOARDING.START" : "ONBOARDING.NEXT") | translate }}
       </button>
     </div>
   </footer>

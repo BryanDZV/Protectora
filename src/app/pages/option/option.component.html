@@ -1,12 +1,12 @@
 <div class="global-page-shell options-container">
   <header class="options-header">
     <div class="header-content">
-      <span class="eyebrow">Centro de usuario</span>
-      <h1>{{ authService.currentUserSig()?.name || "Mi cuenta" }}</h1>
+      <span class="eyebrow">{{ "OPTIONS.EYEBROW" | translate }}</span>
+      <h1>{{ authService.currentUserSig()?.name || ("OPTIONS.FALLBACK_NAME" | translate) }}</h1>
       <p>
         {{
           authService.currentUserSig()?.email ||
-            "Gestiona accesos rápidos y soporte"
+            ("OPTIONS.FALLBACK_EMAIL" | translate)
         }}
       </p>
     </div>
@@ -16,8 +16,8 @@
     <a class="option-card" [routerLink]="['/home/user']">
       <div class="icon-wrapper"><mat-icon>person</mat-icon></div>
       <div class="card-text">
-        <h2>Mi perfil</h2>
-        <p>Consulta favoritos y adopciones</p>
+        <h2>{{ "OPTIONS.PROFILE_TITLE" | translate }}</h2>
+        <p>{{ "OPTIONS.PROFILE_TEXT" | translate }}</p>
       </div>
       <mat-icon class="arrow-icon">chevron_right</mat-icon>
     </a>
@@ -25,8 +25,8 @@
     <a class="option-card" [routerLink]="['/home/favoritos']">
       <div class="icon-wrapper accent-red"><mat-icon>favorite</mat-icon></div>
       <div class="card-text">
-        <h2>Favoritos</h2>
-        <p>Revisa los animales que te interesan</p>
+        <h2>{{ "OPTIONS.FAVORITES_TITLE" | translate }}</h2>
+        <p>{{ "OPTIONS.FAVORITES_TEXT" | translate }}</p>
       </div>
       <mat-icon class="arrow-icon">chevron_right</mat-icon>
     </a>
@@ -36,8 +36,8 @@
         <mat-icon>assignment_turned_in</mat-icon>
       </div>
       <div class="card-text">
-        <h2>Mis solicitudes</h2>
-        <p>Consulta cada solicitud y su estado actual</p>
+        <h2>{{ "OPTIONS.REQUESTS_TITLE" | translate }}</h2>
+        <p>{{ "OPTIONS.REQUESTS_TEXT" | translate }}</p>
       </div>
       <mat-icon class="arrow-icon">chevron_right</mat-icon>
     </a>
@@ -45,8 +45,8 @@
     <a class="option-card" [routerLink]="['/home/galeria']">
       <div class="icon-wrapper"><mat-icon>grid_view</mat-icon></div>
       <div class="card-text">
-        <h2>Seguir adoptando</h2>
-        <p>Explora nuevos animales disponibles</p>
+        <h2>{{ "OPTIONS.ADOPT_MORE_TITLE" | translate }}</h2>
+        <p>{{ "OPTIONS.ADOPT_MORE_TEXT" | translate }}</p>
       </div>
       <mat-icon class="arrow-icon">chevron_right</mat-icon>
     </a>
@@ -62,7 +62,7 @@
       >
         <div class="trigger-left">
           <mat-icon class="panel-icon">support_agent</mat-icon>
-          <span>Ayuda y contacto</span>
+          <span>{{ "OPTIONS.HELP" | translate }}</span>
         </div>
         <mat-icon class="expand-icon">{{
           showHelp() ? "expand_less" : "expand_more"
@@ -71,10 +71,7 @@
 
       @if (showHelp()) {
         <div class="panel-body fade-in">
-          <p>
-            Si necesitas soporte, puedes escribir a la protectora o revisar el
-            estado de tus adopciones.
-          </p>
+          <p>{{ "OPTIONS.HELP_TEXT" | translate }}</p>
           <div class="contact-links">
             <a href="mailto:info@protectora.local" class="btn-outline"
               ><mat-icon>email</mat-icon> info@protectora.local</a
@@ -96,7 +93,7 @@
       >
         <div class="trigger-left">
           <mat-icon class="panel-icon">settings</mat-icon>
-          <span>Configuración rápida</span>
+          <span>{{ "OPTIONS.CONFIG" | translate }}</span>
         </div>
         <mat-icon class="expand-icon">{{
           showConfig() ? "expand_less" : "expand_more"
@@ -110,10 +107,11 @@
             class="btn-outline"
             (click)="clearLocalFavorites()"
           >
-            <mat-icon>cleaning_services</mat-icon> Limpiar favoritos locales
+            <mat-icon>cleaning_services</mat-icon>
+            {{ "OPTIONS.CLEAR_FAVORITES" | translate }}
           </button>
           <button type="button" class="btn-primary danger" (click)="logout()">
-            <mat-icon>logout</mat-icon> Cerrar sesión
+            <mat-icon>logout</mat-icon> {{ "OPTIONS.LOGOUT" | translate }}
           </button>
         </div>
       }

@@ -5,15 +5,15 @@
         mat-icon-button
         (click)="volver()"
         type="button"
-        aria-label="Volver atrás"
+        [attr.aria-label]="'COMMON.BACK' | translate"
       >
         <mat-icon>arrow_back</mat-icon>
       </button>
     </div>
 
     <header class="register-header">
-      <h1>Crea tu cuenta</h1>
-      <p>Es rápido y fácil. ¡Únete a nuestra comunidad!</p>
+      <h1>{{ "REGISTER.TITLE" | translate }}</h1>
+      <p>{{ "REGISTER.SUBTITLE" | translate }}</p>
     </header>
 
     <form
@@ -22,44 +22,44 @@
       class="register-form"
     >
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Nombre Completo</mat-label>
+        <mat-label>{{ "REGISTER.NAME_LABEL" | translate }}</mat-label>
         <input
           matInput
           type="text"
           formControlName="name"
-          placeholder="Tu nombre y apellidos"
+          [placeholder]="'REGISTER.NAME_PLACEHOLDER' | translate"
         />
         <mat-icon matPrefix>person_outline</mat-icon>
         @if (
           contactForm.get("name")?.invalid && contactForm.get("name")?.touched
         ) {
-          <mat-error>El nombre es obligatorio.</mat-error>
+          <mat-error>{{ "REGISTER.NAME_REQUIRED" | translate }}</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Correo Electrónico</mat-label>
+        <mat-label>{{ "REGISTER.EMAIL_LABEL" | translate }}</mat-label>
         <input
           matInput
           type="email"
           formControlName="email"
-          placeholder="tu.correo@ejemplo.com"
+          [placeholder]="'REGISTER.EMAIL_PLACEHOLDER' | translate"
         />
         <mat-icon matPrefix>email</mat-icon>
         @if (
           contactForm.get("email")?.invalid && contactForm.get("email")?.touched
         ) {
-          <mat-error>Introduce un correo válido.</mat-error>
+          <mat-error>{{ "REGISTER.EMAIL_INVALID" | translate }}</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Contraseña</mat-label>
+        <mat-label>{{ "REGISTER.PASSWORD_LABEL" | translate }}</mat-label>
         <input
           matInput
           [type]="show ? 'text' : 'password'"
           formControlName="password"
-          placeholder="Mínimo 8 caracteres"
+          [placeholder]="'REGISTER.PASSWORD_PLACEHOLDER' | translate"
         />
         <mat-icon matPrefix>lock_outline</mat-icon>
         <button
@@ -67,7 +67,7 @@
           matSuffix
           (click)="togglePassword()"
           type="button"
-          aria-label="Mostrar/Ocultar contraseña"
+          [attr.aria-label]="'LOGIN.HIDE_PASSWORD' | translate"
         >
           <mat-icon>{{ show ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
@@ -75,21 +75,19 @@
           contactForm.get("password")?.hasError("required") &&
           contactForm.get("password")?.touched
         ) {
-          <mat-error>La contraseña es obligatoria.</mat-error>
+          <mat-error>{{ "REGISTER.PASSWORD_REQUIRED" | translate }}</mat-error>
         }
         @if (
           contactForm.get("password")?.hasError("minlength") &&
           contactForm.get("password")?.touched
         ) {
-          <mat-error>Debe tener al menos 8 caracteres.</mat-error>
+          <mat-error>{{ "REGISTER.PASSWORD_MIN" | translate }}</mat-error>
         }
         @if (
           contactForm.get("password")?.hasError("pattern") &&
           contactForm.get("password")?.touched
         ) {
-          <mat-error
-            >Debe incluir mayúscula, minúscula, número y símbolo.</mat-error
-          >
+          <mat-error>{{ "REGISTER.PASSWORD_PATTERN" | translate }}</mat-error>
         }
       </mat-form-field>
 
@@ -102,7 +100,7 @@
         @if (isSubmitting) {
           <mat-spinner diameter="24"></mat-spinner>
         } @else {
-          <span>Crear Cuenta</span>
+          <span>{{ "REGISTER.SUBMIT" | translate }}</span>
         }
       </button>
     </form>
@@ -110,12 +108,7 @@
 </div>
 
 @if (showToast) {
-  <div
-    class="toast"
-    [class.error]="
-      toastMessage.includes('Error') || toastMessage.includes('inválido')
-    "
-  >
+  <div class="toast" [class.error]="toastIsError">
     {{ toastMessage }}
   </div>
 }

@@ -2,12 +2,13 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SlideData } from '../types/slide.types';
 
 @Component({
   selector: 'app-slides',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, TranslatePipe],
   templateUrl: './slides.component.html',
   styleUrls: ['./slides.component.scss'],
 })
@@ -20,17 +21,16 @@ export class SlidesComponent {
   slides: SlideData[] = [
     {
       img: '../../assets/onboarding/undrawGoodDoggy4Wfq@3x.png',
-      title: 'Encuentra todo tipo de servicios cerca de ti',
+      title: 'ONBOARDING.SLIDE1_TITLE',
     },
     {
       img: '../../assets/onboarding/imagen2@3x.png',
-      title: 'Adopta desde tu móvil',
-      text: 'Puedes acceder al perfil de muchos animales en adopción y filtrarlos para encontrar el que mejor se adapte a ti',
+      title: 'ONBOARDING.SLIDE2_TITLE',
+      text: 'ONBOARDING.SLIDE2_TEXT',
     },
     {
       img: '../../assets/onboarding/undrawPetAdoption2Qkw@3x.png',
-      title:
-        'Si eres una asociación, sube a tus peludos para darles más difusión',
+      title: 'ONBOARDING.SLIDE3_TITLE',
     },
   ];
 

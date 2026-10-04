@@ -1,13 +1,15 @@
 <div class="adoption-request">
-  <h1>Solicitud de adopción</h1>
-  <p>Adoptar es un acto de amor, pero sobre todo una responsabilidad de por vida.</p>
-  <p>Por éste motivo es importante que veas el siguiente video donde te explicamos como va a ser todo el proceso de adopción.</p>
+  <h1>{{ "POPUP.TITLE" | translate }}</h1>
+  <p>{{ "POPUP.TEXT1" | translate }}</p>
+  <p>{{ "POPUP.TEXT2" | translate }}</p>
   <div class="video-container">
-    <img src="../../assets/popUp/videoPopup.png" alt="">
+    <img src="../../assets/popUp/videoPopup.png" alt="" />
   </div>
-  <p>¿Quieres continuar con el proceso de adopción?</p>
+  <p>{{ "POPUP.QUESTION" | translate }}</p>
   <div class="button-container">
-    <button class="cancel-button">Cancelar</button>
-    <button class="continue-button">Continuar</button>
+    <button class="cancel-button">{{ "POPUP.CANCEL" | translate }}</button>
+    <button class="continue-button">
+      {{ "POPUP.CONTINUE" | translate }}
+    </button>
   </div>
 </div>

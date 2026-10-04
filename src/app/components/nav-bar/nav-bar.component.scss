@@ -138,3 +138,11 @@ $transition: 0.3s ease;
     }
   }
 }
+
+/* Botón de cambio de idioma (reutiliza el estilo de .nav-item) */
+.lang-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
