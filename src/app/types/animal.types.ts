@@ -1,52 +1,45 @@
+export interface AnimalHealth {
+  vacunado: boolean;
+  desparasitado: boolean;
+  sano: boolean;
+  esterilizado: boolean;
+  identificado: boolean;
+  microchip: boolean;
+}
+
+// DTO que devuelve el BFF en /animales (normalizado desde RescueGroups).
 export interface Animal {
-  _id: string;
-  createdAt?: string;
-  updatedAt?: string;
-  especie: string;
-  rangoEdad: string;
-  edad?: string;
-  fechaNacimiento?: string | Date;
-  fechaDeNacimiento?: string | Date;
-  genero: string;
-  foto: string;
-  ubicacion: string;
-  ciudad?: string;
+  id: string;
   nombre: string;
+  especie: string;
+  genero: string;
+  rangoEdad: string;
+  fechaNacimiento?: string | null;
   size: string;
-  tamaño?: string;
-  peso?: number;
-  personalidad?: string[];
-  historia?: string;
-  aSaber?: string;
-  requisitosAdopcion?: string;
-  tasaAdopcion?: number;
-  permiteEnvio?: boolean;
-  seEnvia?: boolean;
+  peso: number;
+  salud: AnimalHealth;
+  personalidad: string[];
+  historia: string;
+  aSaber: string;
+  requisitosAdopcion: string;
+  tasaAdopcion: number;
+  permiteEnvio: boolean;
+  ubicacion: string;
+  foto: string;
+  imagenes: string[];
   estadoAdopcion: string;
-  adoptionState?: string;
-  salud?: {
-    vacunado: boolean;
-    desparasitado: boolean;
-    sano: boolean;
-    esterilizado: boolean;
-    identificado: boolean;
-    microchip: boolean;
-  };
-  vacunado?: boolean;
-  desparasitado?: boolean;
-  sano?: boolean;
-  esterilizado?: boolean;
-  identificado?: boolean;
-  microchip?: boolean;
-  favorito?: boolean;
+  isFavorite: boolean;
+  localAdoptionStatus: string | null;
 }
 
-export interface AnimalResponse {
-  success: boolean;
-  data: Animal;
+export interface Pagination {
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+  limit: number;
 }
 
-export interface AnimalListResponse {
-  success: boolean;
+export interface PaginatedAnimals {
   data: Animal[];
+  pagination: Pagination;
 }
